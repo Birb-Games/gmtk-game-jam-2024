@@ -3,7 +3,7 @@ extends Node2D
 @onready var tile_map: TileMapLayer = $/root/Root/TileMapLayer
 var current_tile_data: TileData
 var current_tile: Vector2i
-@onready var item = get_parent()
+@onready var item: Node2D = get_parent()
 var new_tile: bool = true
 
 const speed = 50
@@ -13,8 +13,8 @@ func _ready():
 	pass
 
 func _process(delta: float) -> void:
-	new_tile = current_tile != tile_map.local_to_map(tile_map.to_local(item.global_position))
 	current_tile = tile_map.local_to_map(tile_map.to_local(item.global_position))
+	new_tile = item.global_position.round() == tile_map.to_global(tile_map.map_to_local(current_tile))
 	
 	if (new_tile):
 		current_tile_data = tile_map.get_cell_tile_data(current_tile)
