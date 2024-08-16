@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://bmlcccsr67y6q"]
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://bfkboupnfd6k6"]
 
 [ext_resource type="Texture2D" uid="uid://buhtc2q7yvi8t" path="res://assets/tiles/tiles.png" id="1_ypr50"]
 
@@ -19,12 +19,52 @@ texture_region_size = Vector2i(32, 32)
 0:2/0/custom_data_0 = "storage"
 3:1/0 = 0
 3:1/0/custom_data_0 = "compressor"
+2:3/next_alternative_id = 8
 2:3/animation_frame_0/duration = 0.2
 2:3/animation_frame_1/duration = 0.2
 2:3/0 = 0
+2:3/0/custom_data_0 = "conveyor"
+2:3/1 = 1
+2:3/1/flip_h = true
+2:3/1/custom_data_0 = "conveyor"
+2:3/2 = 2
+2:3/2/transpose = true
+2:3/2/custom_data_0 = "conveyor"
+2:3/3 = 3
+2:3/3/flip_v = true
+2:3/3/transpose = true
+2:3/3/custom_data_0 = "conveyor"
+2:3/4 = 4
+2:3/4/flip_v = true
+2:3/4/custom_data_0 = "conveyor"
+2:3/5 = 5
+2:3/5/flip_h = true
+2:3/5/flip_v = true
+2:3/5/custom_data_0 = "conveyor"
+2:3/6 = 6
+2:3/6/flip_h = true
+2:3/6/transpose = true
+2:3/6/custom_data_0 = "conveyor"
+2:3/7 = 7
+2:3/7/flip_h = true
+2:3/7/flip_v = true
+2:3/7/transpose = true
+2:3/7/custom_data_0 = "conveyor"
+0:3/next_alternative_id = 4
 0:3/animation_frame_0/duration = 0.2
 0:3/animation_frame_1/duration = 0.2
 0:3/0 = 0
+0:3/0/custom_data_0 = "conveyor"
+0:3/1 = 1
+0:3/1/flip_h = true
+0:3/1/custom_data_0 = "conveyor"
+0:3/2 = 2
+0:3/2/transpose = true
+0:3/2/custom_data_0 = "conveyor"
+0:3/3 = 3
+0:3/3/flip_v = true
+0:3/3/transpose = true
+0:3/3/custom_data_0 = "conveyor"
 
 [resource]
 tile_size = Vector2i(32, 32)
