@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://xs0ne0a078ye"]
+
+[ext_resource type="Script" path="res://scripts/HUD.gd" id="1_mthe5"]
+
+[node name="Hud" type="Node"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("1_mthe5")
+
+[node name="CoinLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -61.0
+offset_bottom = 23.0
+grow_horizontal = 0
+text = "Coins: 0
+"
