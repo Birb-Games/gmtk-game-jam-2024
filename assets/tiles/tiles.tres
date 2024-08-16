@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://bfkboupnfd6k6"]
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://bmlcccsr67y6q"]
 
 [ext_resource type="Texture2D" uid="uid://buhtc2q7yvi8t" path="res://assets/tiles/tiles.png" id="1_ypr50"]
 
@@ -9,21 +9,6 @@ texture_region_size = Vector2i(32, 32)
 0:0/0/custom_data_0 = "input"
 1:0/0 = 0
 1:0/0/custom_data_0 = "output"
-2:0/next_alternative_id = 4
-2:0/0 = 0
-2:0/0/custom_data_0 = "conveyor"
-2:0/1 = 1
-2:0/1/flip_h = true
-2:0/1/custom_data_0 = "conveyor"
-2:0/2 = 2
-2:0/2/transpose = true
-2:0/2/custom_data_0 = "conveyor"
-2:0/3 = 3
-2:0/3/flip_v = true
-2:0/3/transpose = true
-2:0/3/custom_data_0 = "conveyor"
-3:0/0 = 0
-3:0/0/custom_data_0 = "curved_conveyor"
 0:1/0 = 0
 0:1/0/custom_data_0 = "splitter"
 1:1/0 = 0
@@ -34,6 +19,12 @@ texture_region_size = Vector2i(32, 32)
 0:2/0/custom_data_0 = "storage"
 3:1/0 = 0
 3:1/0/custom_data_0 = "compressor"
+2:3/animation_frame_0/duration = 0.2
+2:3/animation_frame_1/duration = 0.2
+2:3/0 = 0
+0:3/animation_frame_0/duration = 0.2
+0:3/animation_frame_1/duration = 0.2
+0:3/0 = 0
 
 [resource]
 tile_size = Vector2i(32, 32)
