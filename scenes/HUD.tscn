@@ -1,13 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://xs0ne0a078ye"]
+[gd_scene format=3 uid="uid://df7xjo4ai6vhq"]
 
-[ext_resource type="Script" path="res://scripts/HUD.gd" id="1_mthe5"]
+[node name="CanvasLayer" type="CanvasLayer"]
 
-[node name="Hud" type="Node"]
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-script = ExtResource("1_mthe5")
-
-[node name="CoinLabel" type="Label" parent="CanvasLayer"]
+[node name="CoinLabel" type="Label" parent="."]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
