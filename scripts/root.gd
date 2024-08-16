@@ -2,6 +2,8 @@ extends Node2D
 
 @export var get_request: PackedScene
 
+var coins: int = 0
+
 # keeps track of the number of backed up requests, if any of these
 # exceed a certain threshold then you lose the game
 var spawn_counts = {
@@ -58,3 +60,7 @@ func spawn() -> void:
 func _process(delta: float) -> void:
 	update_timers(delta)
 	spawn()
+
+func add_coins(coinAmt):
+	coins += coinAmt
+	$HUD.publish_coins()

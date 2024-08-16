@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://bvqawkcoycf3e"]
+[gd_scene load_steps=2 format=3 uid="uid://ba6rqya3m166h"]
 
 [ext_resource type="Script" path="res://scripts/moveable_item.gd" id="1_47mli"]
 

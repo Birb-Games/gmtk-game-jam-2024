@@ -6,6 +6,8 @@ var current_tile: Vector2i
 @onready var item: Node2D = get_parent()
 var new_tile: bool = true
 
+signal output
+
 const speed = 50
 var direction: Vector2i
 
@@ -40,8 +42,10 @@ func _process(delta: float) -> void:
 					if tile_map.get_cell_tile_data(tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_RIGHT_SIDE)) and tile_map.get_cell_tile_data(tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_RIGHT_SIDE)).get_custom_data("Type") == "conveyor":
 						possible_directions[3] = true
 					direction = get_random_direction(possible_directions)
+				"output":
+					output.emit()
 				_:
-					pass
+					direction = Vector2i.ZERO
 	
 	item.position += direction * speed * delta
 	if (new_tile):

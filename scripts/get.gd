@@ -1,7 +1,7 @@
 extends Area2D
 
-var ignore: bool = false
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func _on_moveable_item_output() -> void:
+	# NO YOU ARE NOT SUPPOSED TO PUT THIS IN AN OUTPUT
+	# Lose a coin
+	$/root/Root.add_coins(-1)
+	queue_free()
