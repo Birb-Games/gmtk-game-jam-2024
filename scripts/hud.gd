@@ -2,19 +2,19 @@ extends CanvasLayer
 
 var coins: int = 1000
 
-func publishCoins():
+func publish_coins():
 	$CoinLabel.text = "Coins: " + str(coins)
 
-func getCoins():
+func get_coins():
 	return coins
 	
-func addCoins(coinAmt):
+func add_coins(coinAmt):
 	coins += coinAmt
-	publishCoins()
+	publish_coins()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	publishCoins()
+	publish_coins()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
