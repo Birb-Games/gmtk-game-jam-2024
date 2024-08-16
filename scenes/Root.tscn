@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://b37dd5cu6d7et"]
+[gd_scene load_steps=4 format=3 uid="uid://b37dd5cu6d7et"]
 
 [ext_resource type="Script" path="res://scripts/CameraMovement.gd" id="1_00dww"]
 [ext_resource type="TileSet" uid="uid://snnmb8257pw3" path="res://assets/tiles/tiles.tres" id="1_nki4d"]
+[ext_resource type="PackedScene" uid="uid://xs0ne0a078ye" path="res://scenes/HUD.tscn" id="3_kqhvd"]
 
 [node name="Root" type="Node2D"]
 
@@ -13,3 +14,5 @@ tile_set = ExtResource("1_nki4d")
 position = Vector2(240, 135)
 zoom = Vector2(2, 2)
 script = ExtResource("1_00dww")
+
+[node name="Hud" parent="." instance=ExtResource("3_kqhvd")]
