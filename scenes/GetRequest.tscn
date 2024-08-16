@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://blccsqehqxp2u"]
+
+[ext_resource type="Texture2D" uid="uid://bo8ih4apltjfq" path="res://assets/sprites/get.png" id="1_6dffo"]
+[ext_resource type="PackedScene" uid="uid://bvqawkcoycf3e" path="res://scenes/MoveableItem.tscn" id="2_2cde5"]
+
+[node name="GetRequest" type="Node2D"]
+scale = Vector2(0.75, 0.75)
+
+[node name="Get" type="Sprite2D" parent="."]
+texture = ExtResource("1_6dffo")
+
+[node name="MoveableItem" parent="." instance=ExtResource("2_2cde5")]
