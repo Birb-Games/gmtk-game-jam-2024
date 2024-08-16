@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmhvpdgc6o6ll"]
+
+[ext_resource type="Script" path="res://scripts/get.gd" id="1_f0h48"]
+[ext_resource type="Texture2D" uid="uid://bo8ih4apltjfq" path="res://assets/sprites/get.png" id="1_q4pu3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ev6j6"]
+radius = 18.0
+
+[node name="Get" type="Area2D" groups=["requests"]]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_f0h48")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_q4pu3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ev6j6")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
