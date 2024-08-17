@@ -27,6 +27,7 @@ func _ready():
 	pass
 
 func select(option):
+	get_parent().alternative = 0
 	if(selected==option):
 		defocus()
 	else:
