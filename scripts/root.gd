@@ -28,12 +28,15 @@ const tile_atlas_positions = {
 	"filter": Vector2i(1,1),
 	"server": Vector2i(2,1),
 	"compressor": Vector2i(3,1),
-	"storage":Vector2i(0,2),
-	"belt":Vector2i(0,3)
-
+	"storage": Vector2i(0,2),
+	"belt": Vector2i(0,3),
+	"conveyor_corner": Vector2i(2, 3)
 }
 
 func add_tile(id: String, x: int, y: int) -> void:
+	if id == "delete":
+		$TileMapLayer.erase_cell(Vector2i(x, y))
+		return
 	if id == "in":
 		input_pipes.push_back(Vector2i(x, y))
 	$TileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], 0)

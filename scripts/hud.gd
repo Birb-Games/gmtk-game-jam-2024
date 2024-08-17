@@ -16,7 +16,6 @@ func _ready():
 func _process(delta):
 	pass
 
-
 func _on_in_button_pressed():
 	selected="in"
 	print("In pressed")
@@ -55,3 +54,13 @@ func _on_filter_button_pressed():
 func _on_splitter_button_pressed():
 	selected="splitter"
 	print("splitter pressed")
+
+
+func _on_corner_belt_button_pressed() -> void:
+	selected = "conveyor_corner"
+	print("corner belt pressed")
+
+
+func _on_delete_pressed() -> void:
+	selected = "delete"
+	print("delete pressed")

@@ -20,6 +20,13 @@ var directions = [
 # The conveyor belt for each corresponding 
 var should_match = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
 
+const direction_ids = {
+	Vector2i.RIGHT: 0,
+	Vector2i.LEFT: 1,
+	Vector2i.DOWN: 2,
+	Vector2i.UP: 3
+}
+
 # if row, column is 1 then they can connect
 # otherwise, no
 const corner_lookup = [
@@ -60,23 +67,29 @@ func get_conveyor_direction(tiledata):
 
 func move_on_conveyor():
 	var blocked = false
-	var neighbor = get_neighbor(direction)
-	if neighbor == null:
+	var neighbor = get_neighbor(get_conveyor_direction(current_tile_data))
+	if neighbor == null and get_conveyor_direction(current_tile_data) != Vector2i.ZERO:
 		blocked = true
-	if neighbor != null:
+	elif get_conveyor_direction(current_tile_data) != Vector2i.ZERO:
 		var tile = tile_map.get_neighbor_cell(current_tile, neighbor)
 		var tiledata = tile_map.get_cell_tile_data(tile)
 		var conveyor_dir = get_conveyor_direction(tiledata)
+		var current_dir = get_conveyor_direction(current_tile_data)
 		
 		if !tiledata:
 			blocked = true
 		
-		if !blocked and tiledata.get_custom_data("Type") == "conveyor" and conveyor_dir != direction:
+		if !blocked and tiledata.get_custom_data("Type") == "input":
 			blocked = true
 		
-		if !blocked and tiledata.get_custom_data("Type") == "conveyor_corner" and conveyor_dir == -direction:
+		if !blocked and tiledata.get_custom_data("Type") == "conveyor" and conveyor_dir != current_dir:
 			blocked = true
-			
+		
+		var current_id = direction_ids[current_dir]
+		if !blocked and tiledata.get_custom_data("Type") == "conveyor_corner":
+			var id = tiledata.get_custom_data("alternate_id")
+			blocked = corner_lookup[current_id][id] == 0
+	
 	if !blocked:
 		direction = get_conveyor_direction(current_tile_data)
 	else:
@@ -94,6 +107,9 @@ func move_on_conveyor_corner():
 		
 		if !tiledata:
 			blocked = true
+			
+		if !blocked and tiledata.get_custom_data("Type") == "input":
+			blocked = true
 		
 		if !blocked and tiledata.get_custom_data("Type") == "conveyor_corner":
 			var current_id = current_tile_data.get_custom_data("alternate_id")
@@ -101,13 +117,33 @@ func move_on_conveyor_corner():
 			if corner_lookup[current_id][id] == 0:
 				blocked = true
 		
-		if tiledata.get_custom_data("Type") == "conveyor":
+		if !blocked and tiledata.get_custom_data("Type") == "conveyor":
 			blocked = get_conveyor_direction(tiledata) != get_conveyor_direction(current_tile_data)
 			
 	if !blocked:
 		direction = get_conveyor_direction(current_tile_data)
 	else:
 		direction = Vector2i.ZERO
+
+func push_in_random_dir():
+	var possible_directions = [false, false, false, false] #up down left right
+	for i in range(len(directions)):
+		var dir = directions[i]
+		var tile = tile_map.get_neighbor_cell(current_tile, dir)
+		var tiledata = tile_map.get_cell_tile_data(tile)
+		if !tiledata:
+			continue
+		var conveyor_dir = get_conveyor_direction(tiledata)
+		if tiledata.get_custom_data("Type") == "conveyor":
+			possible_directions[i] = conveyor_dir == should_match[i]
+			continue
+		if tiledata.get_custom_data("Type") == "conveyor_corner":
+			var direction_id = direction_ids[should_match[i]]
+			var id = tiledata.get_custom_data("alternate_id")
+			possible_directions[i] = corner_lookup[id][direction_id] == 1
+			continue
+	direction = get_random_direction(possible_directions)
+	
 
 func update_based_on_tile():
 	if !new_tile:
@@ -121,29 +157,7 @@ func update_based_on_tile():
 		"conveyor_corner":
 			move_on_conveyor_corner()
 		"input":
-			var possible_directions = [false, false, false, false] #up down left right
-			for i in range(len(directions)):
-				var dir = directions[i]
-				var tile = tile_map.get_neighbor_cell(current_tile, dir)
-				var tiledata = tile_map.get_cell_tile_data(tile)
-				if !tiledata:
-					continue
-				var conveyor_dir = get_conveyor_direction(tiledata)
-				if tiledata.get_custom_data("Type") == "conveyor":
-					possible_directions[i] = conveyor_dir == should_match[i]
-					continue
-				if tiledata.get_custom_data("Type") == "conveyor_corner":
-					const direction_ids = {
-						Vector2i.RIGHT: 0,
-						Vector2i.LEFT: 1,
-						Vector2i.DOWN: 2,
-						Vector2i.UP: 3
-					}
-					var direction_id = direction_ids[should_match[i]]
-					var id = tiledata.get_custom_data("alternate_id")
-					possible_directions[i] = corner_lookup[id][direction_id] == 1
-					continue
-			direction = get_random_direction(possible_directions)
+			push_in_random_dir()
 		"output":
 			output.emit()
 		_:
