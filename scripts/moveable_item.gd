@@ -98,6 +98,10 @@ func move_on_conveyor():
 		if !blocked and tiledata.get_custom_data("Type") == "conveyor" and conveyor_dir != current_dir:
 			blocked = true
 		
+		#if it's the complete opposite direction
+		if !blocked and tiledata.get_custom_data("Type") == "merger" and conveyor_dir + current_dir == Vector2i.ZERO:
+			blocked = true
+		
 		var current_id = direction_ids[current_dir]
 		if !blocked and tiledata.get_custom_data("Type") == "conveyor_corner":
 			var id = tiledata.get_custom_data("alternate_id")
@@ -132,6 +136,10 @@ func move_on_conveyor_corner():
 		
 		if !blocked and tiledata.get_custom_data("Type") == "conveyor":
 			blocked = get_conveyor_direction(tiledata) != get_conveyor_direction(current_bottom_tile_data)
+		
+		#if it's the complete opposite direction
+		if !blocked and tiledata.get_custom_data("Type") == "merger" and conveyor_dir + get_conveyor_direction(current_bottom_tile_data) == Vector2i.ZERO:
+			blocked = true
 	
 	if !blocked:
 		direction = get_conveyor_direction(current_bottom_tile_data)
@@ -159,7 +167,6 @@ func push_in_random_dir():
 	
 
 func update_based_on_tile():
-	current_bottom_tile_data = bottom_tile_map.get_cell_tile_data(current_tile)
 	if !current_bottom_tile_data and !current_top_tile_data:
 		empty.emit()
 		direction = Vector2i.ZERO
@@ -183,6 +190,8 @@ func update_based_on_tile():
 				server.emit()
 			"splitter":
 				direction = get_random_direction([false, true, false, true])
+			"merger":
+				move_on_conveyor() #acts exactly like a conveyor once the item's on there
 			_:
 				empty.emit()
 				direction = Vector2i.ZERO
@@ -193,9 +202,6 @@ func _process(delta: float) -> void:
 	
 	current_top_tile_data = top_tile_map.get_cell_tile_data(current_tile)
 	current_bottom_tile_data = bottom_tile_map.get_cell_tile_data(current_tile)
-	
-	if (!current_bottom_tile_data and !current_top_tile_data): #stops the item immediately if it leaves the tileset
-		direction = Vector2i.ZERO
 	
 	update_based_on_tile()
 	

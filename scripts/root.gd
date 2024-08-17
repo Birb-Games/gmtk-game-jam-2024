@@ -66,6 +66,7 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 		return
 	if(spend_coins(tile_costs[id])):
 		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
+		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
 		$TopTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
 	else:
 		print("insufficent funds")
