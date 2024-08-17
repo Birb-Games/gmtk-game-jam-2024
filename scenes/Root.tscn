@@ -1,24 +1,35 @@
-[gd_scene load_steps=6 format=4 uid="uid://b37dd5cu6d7et"]
+[gd_scene load_steps=8 format=4 uid="uid://b37dd5cu6d7et"]
 
 [ext_resource type="Script" path="res://scripts/camera_movement.gd" id="1_00dww"]
 [ext_resource type="Script" path="res://scripts/root.gd" id="1_3r0vi"]
 [ext_resource type="TileSet" uid="uid://bfkboupnfd6k6" path="res://assets/tiles/tiles.tres" id="1_nki4d"]
 [ext_resource type="PackedScene" uid="uid://cesjchmp7tfuv" path="res://scenes/Get.tscn" id="2_gmtlf"]
 [ext_resource type="PackedScene" uid="uid://df7xjo4ai6vhq" path="res://scenes/HUD.tscn" id="3_kqhvd"]
+[ext_resource type="Shader" path="res://scripts/preview.gdshader" id="3_kt4p4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nasgy"]
+shader = ExtResource("3_kt4p4")
+shader_parameter/transparency = 0.7
 
 [node name="Root" type="Node2D"]
 script = ExtResource("1_3r0vi")
 get_request = ExtResource("2_gmtlf")
+
+[node name="PreviewTileMapLayer" type="TileMapLayer" parent="."]
+z_index = 2
+material = SubResource("ShaderMaterial_nasgy")
+tile_set = ExtResource("1_nki4d")
+
+[node name="TopTileMapLayer" type="TileMapLayer" parent="."]
+z_index = 1
+tile_map_data = PackedByteArray("AAACAAQAAAABAAAAAAAFAAEAAAAAAAEAAAACAAEAAAAAAAEAAAAAAAEAAAAAAAAAAAA=")
+tile_set = ExtResource("1_nki4d")
 
 [node name="BottomTileMapLayer" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAADAAEAAAAAAAMAAAAEAAEAAAAAAAMAAAAGAAEAAAAAAAMAAAAHAAEAAAACAAMAAgAHAAIAAAAAAAMAAgAHAAMAAAAAAAMAAgAHAAQAAAAAAAMAAgAHAAUAAAACAAMAAQAGAAUAAAAAAAMAAQAFAAUAAAAAAAMAAQAEAAUAAAAAAAMAAQADAAUAAAAAAAMAAQACAAUAAAACAAMABwACAAMAAAAAAAMAAgABAAIAAAAAAAMAAAAFAAIAAAAAAAMAAgAFAAMAAAAAAAMAAgAFAAQAAAAAAAMAAgACAAIAAAAAAAMAAgABAAEAAAAAAAMAAAAAAAIAAAACAAMAAAA=")
 tile_set = ExtResource("1_nki4d")
 
 [node name="Requests" type="Node2D" parent="."]
-
-[node name="TopTileMapLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAACAAQAAAABAAAAAAAFAAEAAAAAAAEAAAACAAEAAAAAAAEAAAAAAAEAAAAAAAAAAAA=")
-tile_set = ExtResource("1_nki4d")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(175, 124)
