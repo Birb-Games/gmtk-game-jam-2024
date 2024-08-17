@@ -4,6 +4,8 @@ extends Node2D
 
 var current_tile = Vector2i.ZERO
 
+var alternative: int = 0
+
 var coins: int = 0
 
 # keeps track of the number of backed up requests, if any of these
@@ -60,8 +62,7 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 	if(coins >= tile_costs[id]):
 		add_coins(-tile_costs[id])
 		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
-		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
-		$TopTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
+		$TopTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
 	else:
 		print("insufficent funds")
 
@@ -71,7 +72,7 @@ func add_bottom_tile(id: String, x: int, y: int) -> void:
 	if(coins >= tile_costs[id]):
 		add_coins(-tile_costs[id])
 		$TopTileMapLayer.erase_cell(Vector2i(x, y))
-		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
+		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
 	else:
 		print("insufficent funds")
 
@@ -109,6 +110,13 @@ func _unhandled_input(event):
 			add_bottom_tile($HUD.get_selected(), pos[0], pos[1])
 		elif ($HUD.get_selected() != ""):
 			add_top_tile($HUD.get_selected(), pos[0], pos[1])
+	if (event.is_action_pressed("right_click")):
+		alternative += 1
+		$PreviewTileMapLayer.set_cell(current_tile, 0, tile_atlas_positions[$HUD.get_selected()], alternative)
+		$PreviewTileMapLayer.fix_invalid_tiles()
+		if $PreviewTileMapLayer.get_cell_alternative_tile(current_tile) == -1:
+			alternative = 0
+			$PreviewTileMapLayer.set_cell(current_tile, 0, tile_atlas_positions[$HUD.get_selected()], alternative)
 
 func display_preview():
 	if current_tile == $PreviewTileMapLayer.local_to_map(get_global_mouse_position()):
@@ -121,7 +129,7 @@ func display_preview():
 			$PreviewTileMapLayer.set_cell(current_tile, 0, Vector2i.ZERO)
 		elif ($HUD.get_selected() != ""):
 			$PreviewTileMapLayer.material.set_shader_parameter("remove", false)
-			$PreviewTileMapLayer.set_cell(current_tile, 0, tile_atlas_positions[$HUD.get_selected()])
+			$PreviewTileMapLayer.set_cell(current_tile, 0, tile_atlas_positions[$HUD.get_selected()], alternative)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
