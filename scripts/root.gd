@@ -2,7 +2,7 @@ extends Node2D
 
 @export var get_request: PackedScene
 
-var coins: int = 0
+var coins: int = 1000
 
 # keeps track of the number of backed up requests, if any of these
 # exceed a certain threshold then you lose the game
@@ -48,15 +48,15 @@ const tile_costs = {
 func add_tile(id: String, x: int, y: int) -> void:
 	if id == "in":
 		input_pipes.push_back(Vector2i(x, y))
-	if($HUD.get_coins()>=tile_costs[id]):
-		$HUD.add_coins(-tile_costs[id])
+	if(coins>=tile_costs[id]):
+		add_coins(-tile_costs[id])
 		$TileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], 0)
 	else:
 		print("insufficent funds")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$HUD.add_coins(100) # Makes sure the user starts with 100 coins
+	add_coins(100) # Makes sure the user starts with 100 coins
 	add_tile("in", 1, 1)
 	
 func update_timers(dt: float) -> void:
