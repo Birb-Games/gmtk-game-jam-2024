@@ -117,7 +117,10 @@ func move_on_conveyor():
 			blocked = corner_lookup[current_id][id] == 0
 		
 		if !blocked and tiledata.get_custom_data("Type") == "splitter":
-			var id = tiledata.get_custom_data("alternate_id")
+			# var id = tiledata.get_custom_data("alternate_id")
+			blocked = tiledata.get_custom_data("alternate_id") != current_id
+
+		if !blocked and (tiledata.get_custom_data("Type") == "green_filter" or tiledata.get_custom_data("Type") == "white_filter" or tiledata.get_custom_data("Type") == "blue_filter"):
 			blocked = tiledata.get_custom_data("alternate_id") != current_id
 	
 	if !blocked:
@@ -165,7 +168,7 @@ enum FilterType {
 	BLUE = 2,
 }
 
-#returns an array of unit `vector2i`s to indicate the direction of the input, colored output, and red output respecively
+#returns an array of unit `vector2i`s to indicate the direction of the input, colored output, and red output respectively
 func get_filter_direction(tileData: TileData) -> Array:
 	var data = [tileData.flip_h, tileData.flip_v, tileData.transpose]
 	match data:
