@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=4 uid="uid://xs0ne0a078ye"]
+[gd_scene load_steps=9 format=4 uid="uid://xs0ne0a078ye"]
 
-[ext_resource type="TileSet" uid="uid://snnmb8257pw3" path="res://assets/tiles/tiles.tres" id="1_5sfmw"]
+[ext_resource type="TileSet" uid="uid://bfkboupnfd6k6" path="res://assets/tiles/tiles.tres" id="1_5sfmw"]
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_o63eh"]
+[ext_resource type="FontFile" uid="uid://b3j21gnxq1jn1" path="res://assets/fonts/8BitOperator/8bitOperatorPlus8-Bold.ttf" id="2_1mr0q"]
+[ext_resource type="Texture2D" uid="uid://bo8ih4apltjfq" path="res://assets/sprites/get.png" id="4_nciv1"]
+[ext_resource type="FontFile" uid="uid://b83lr4reqbm0y" path="res://assets/fonts/8BitOperator/8bitOperatorPlus8-Regular.ttf" id="5_4pesv"]
+[ext_resource type="Texture2D" uid="uid://40u8nw0veh31" path="res://assets/sprites/return.png" id="5_gti8e"]
+[ext_resource type="Texture2D" uid="uid://oryin8ekfal5" path="res://assets/sprites/bad.png" id="7_1x5e4"]
+[ext_resource type="Texture2D" uid="uid://bft8p2ejikb81" path="res://assets/sprites/download.png" id="8_i70hw"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource("1_o63eh")
@@ -10,20 +16,37 @@ script = ExtResource("1_o63eh")
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -61.0
-offset_bottom = 23.0
+offset_left = -157.0
+offset_top = 6.0
+offset_right = -7.0
+offset_bottom = 29.0
 grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_1mr0q")
+theme_override_font_sizes/font_size = 32
 text = "Coins: 0
 "
+horizontal_alignment = 2
 
 [node name="Inventory" type="TileMapLayer" parent="."]
 z_index = 3
 position = Vector2(0, 8)
 scale = Vector2(1.5, 1.5)
-tile_map_data = PackedByteArray("AAAJAAoAAAADAAEAAAAKAAoAAAAAAAIAAAALAAoAAAACAAEAAAAMAAoAAAABAAEAAAANAAoAAAAAAAEAAAAHAAoAAAABAAAAAAAGAAoAAAAAAAAAAAAIAAoAAAAAAAMAAAA=")
+tile_map_data = PackedByteArray("AAAJAAoAAAADAAEAAAAKAAoAAAAAAAIAAAALAAoAAAACAAEAAAAMAAoAAAABAAEAAAANAAoAAAAAAAEAAAAGAAoAAAABAAAAAAAHAAoAAAAAAAMAAAAFAAoAAAAAAAAAAAAIAAoAAAACAAMAAAAOAAoAAAADAAIAAAAPAAoAAAACAAAAAAA=")
 tile_set = ExtResource("1_5sfmw")
 
 [node name="InButton" type="Button" parent="Inventory"]
+z_as_relative = false
+anchors_preset = -1
+anchor_left = 0.317
+anchor_top = 0.586
+anchor_right = 0.317
+anchor_bottom = 0.586
+offset_left = 160.0
+offset_top = 320.0
+offset_right = 192.0
+offset_bottom = 352.0
+
+[node name="OutButton" type="Button" parent="Inventory"]
 z_as_relative = false
 anchors_preset = -1
 anchor_left = 0.317
@@ -35,19 +58,7 @@ offset_top = 320.0
 offset_right = 224.0
 offset_bottom = 352.0
 
-[node name="OutButton" type="Button" parent="Inventory"]
-z_as_relative = false
-anchors_preset = -1
-anchor_left = 0.317
-anchor_top = 0.586
-anchor_right = 0.317
-anchor_bottom = 0.586
-offset_left = 224.0
-offset_top = 320.0
-offset_right = 256.0
-offset_bottom = 352.0
-
-[node name="BeltButton" type="Button" parent="Inventory"]
+[node name="CornerBeltButton" type="Button" parent="Inventory"]
 z_as_relative = false
 anchors_preset = -1
 anchor_left = 0.317
@@ -57,6 +68,18 @@ anchor_bottom = 0.586
 offset_left = 256.0
 offset_top = 320.0
 offset_right = 288.0
+offset_bottom = 352.0
+
+[node name="BeltButton" type="Button" parent="Inventory"]
+z_as_relative = false
+anchors_preset = -1
+anchor_left = 0.317
+anchor_top = 0.586
+anchor_right = 0.317
+anchor_bottom = 0.586
+offset_left = 224.0
+offset_top = 320.0
+offset_right = 256.0
 offset_bottom = 352.0
 
 [node name="CompressorButton" type="Button" parent="Inventory"]
@@ -119,11 +142,106 @@ offset_top = 320.0
 offset_right = 448.0
 offset_bottom = 352.0
 
+[node name="MergerButton" type="Button" parent="Inventory"]
+z_as_relative = false
+anchors_preset = -1
+anchor_left = 0.317
+anchor_top = 0.586
+anchor_right = 0.317
+anchor_bottom = 0.586
+offset_left = 448.0
+offset_top = 320.0
+offset_right = 480.0
+offset_bottom = 352.0
+
+[node name="Delete" type="Button" parent="Inventory"]
+z_as_relative = false
+anchors_preset = -1
+anchor_left = 0.317
+anchor_top = 0.586
+anchor_right = 0.317
+anchor_bottom = 0.586
+offset_left = 480.0
+offset_top = 320.0
+offset_right = 512.0
+offset_bottom = 352.0
+
+[node name="Counts" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Get" type="Sprite2D" parent="Counts"]
+position = Vector2(20, 19)
+texture = ExtResource("4_nciv1")
+
+[node name="GetCount" type="Label" parent="Counts"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 8.0
+offset_right = 96.0
+offset_bottom = 31.0
+theme_override_fonts/font = ExtResource("5_4pesv")
+theme_override_font_sizes/font_size = 24
+text = "0/0 (0s)"
+
+[node name="Ret" type="Sprite2D" parent="Counts"]
+position = Vector2(20, 51)
+texture = ExtResource("5_gti8e")
+
+[node name="RetCount" type="Label" parent="Counts"]
+offset_left = 36.0
+offset_top = 40.0
+offset_right = 96.0
+offset_bottom = 63.0
+theme_override_fonts/font = ExtResource("5_4pesv")
+theme_override_font_sizes/font_size = 24
+text = "0"
+
+[node name="Bad" type="Sprite2D" parent="Counts"]
+position = Vector2(20, 83)
+texture = ExtResource("7_1x5e4")
+
+[node name="BadCount" type="Label" parent="Counts"]
+offset_left = 36.0
+offset_top = 72.0
+offset_right = 96.0
+offset_bottom = 95.0
+theme_override_fonts/font = ExtResource("5_4pesv")
+theme_override_font_sizes/font_size = 24
+text = "0/0 (0s)"
+
+[node name="Download" type="Sprite2D" parent="Counts"]
+position = Vector2(20, 115)
+texture = ExtResource("8_i70hw")
+
+[node name="DownloadCount" type="Label" parent="Counts"]
+offset_left = 36.0
+offset_top = 104.0
+offset_right = 136.0
+offset_bottom = 127.0
+theme_override_fonts/font = ExtResource("5_4pesv")
+theme_override_font_sizes/font_size = 24
+text = "0/0 (0s)"
+
+[node name="Cost" type="Label" parent="."]
+offset_top = 463.0
+offset_right = 960.0
+offset_bottom = 488.0
+theme_override_fonts/font = ExtResource("2_1mr0q")
+theme_override_font_sizes/font_size = 32
+text = "Cost: $0"
+horizontal_alignment = 1
+
 [connection signal="pressed" from="Inventory/InButton" to="." method="_on_in_button_pressed"]
 [connection signal="pressed" from="Inventory/OutButton" to="." method="_on_out_button_pressed"]
+[connection signal="pressed" from="Inventory/CornerBeltButton" to="." method="_on_corner_belt_button_pressed"]
 [connection signal="pressed" from="Inventory/BeltButton" to="." method="_on_belt_button_pressed"]
 [connection signal="pressed" from="Inventory/CompressorButton" to="." method="_on_compressor_button_pressed"]
 [connection signal="pressed" from="Inventory/StorageButton" to="." method="_on_storage_button_pressed"]
 [connection signal="pressed" from="Inventory/ServerButton" to="." method="_on_server_button_pressed"]
 [connection signal="pressed" from="Inventory/FilterButton" to="." method="_on_filter_button_pressed"]
 [connection signal="pressed" from="Inventory/SplitterButton" to="." method="_on_splitter_button_pressed"]
+[connection signal="pressed" from="Inventory/MergerButton" to="." method="_on_merger_button_pressed"]
+[connection signal="pressed" from="Inventory/Delete" to="." method="_on_delete_pressed"]
