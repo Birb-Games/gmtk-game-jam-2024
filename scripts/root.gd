@@ -13,9 +13,13 @@ var spawn_counts = {
 	"return": 0
 }
 
+var max_counts = {
+	"spawn_get": 200,
+}
+
 # once a timer runs out, reset it to these times
 var reset_times = {
-	"spawn_get": 5.0
+	"spawn_get": 2.0
 }
 
 var timers = {
@@ -30,10 +34,11 @@ const tile_atlas_positions = {
 	"splitter": Vector2i(0,1),
 	"filter": Vector2i(1,1),
 	"server": Vector2i(2,1),
-	"compressor": Vector2i(3,1),
+	"deleter": Vector2i(3,1),
 	"storage": Vector2i(0,2),
+	"merger": Vector2i(3, 2),
 	"conveyor": Vector2i(0,3),
-	"conveyor_corner": Vector2i(2, 3)
+	"conveyor_corner": Vector2i(2, 3),
 }
 
 const tile_costs = {
@@ -42,8 +47,9 @@ const tile_costs = {
 	"splitter": 100,
 	"filter": 100,
 	"server": 100,
-	"compressor": 100,
+	"deleter": 100,
 	"storage":100,
+	"merger": 100,
 	"conveyor":10,
 	"conveyor_corner":10,
 }
@@ -128,6 +134,7 @@ func _process(delta: float) -> void:
 	update_timers(delta)
 	display_preview()
 	spawn()
+	$HUD.update_text()
 
 func add_coins(coinAmt):
 	coins += coinAmt

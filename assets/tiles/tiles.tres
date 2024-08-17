@@ -13,11 +13,11 @@ texture_region_size = Vector2i(32, 32)
 0:1/0 = 0
 0:1/0/custom_data_0 = "splitter"
 1:1/0 = 0
-1:1/0/custom_data_0 = "filter"
+1:1/0/custom_data_0 = "green_filter"
 0:2/0 = 0
 0:2/0/custom_data_0 = "storage"
 3:1/0 = 0
-3:1/0/custom_data_0 = "compressor"
+3:1/0/custom_data_0 = "deleter"
 2:3/next_alternative_id = 8
 2:3/animation_frame_0/duration = 0.2
 2:3/animation_frame_1/duration = 0.2
@@ -75,7 +75,11 @@ texture_region_size = Vector2i(32, 32)
 2:1/0/custom_data_0 = "server"
 2:0/0 = 0
 1:2/0 = 0
+1:2/0/custom_data_0 = "white_filter"
 2:2/0 = 0
+2:2/0/custom_data_0 = "blue_filter"
+3:2/0 = 0
+3:2/0/custom_data_0 = "merger"
 
 [resource]
 tile_size = Vector2i(32, 32)
