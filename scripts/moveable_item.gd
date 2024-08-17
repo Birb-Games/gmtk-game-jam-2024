@@ -183,6 +183,28 @@ func get_filter_direction(tileData: TileData) -> Array:
 	return [Vector2i.ZERO, Vector2i.ZERO, Vector2i.ZERO]
 	
 func move_on_filter(type: FilterType):
+	#check which directions are valid
+	var id = current_top_tile_data.get_custom_data("alternate_id")
+	var possible: Array = splitter_directions[id].duplicate()
+	for i in range(len(possible)):
+		if possible[i]:
+			var dir = directions[i]
+			var tile = bottom_tile_map.get_neighbor_cell(current_tile, dir)
+			var tiledata = bottom_tile_map.get_cell_tile_data(tile)
+			if tiledata == null:
+				possible[i] = false
+				continue
+			if tiledata.get_custom_data("Type") == "conveyor":
+				var neighbor_dir = get_conveyor_direction(tiledata)
+				possible[i] = neighbor_dir == should_match[i]
+			elif tiledata.get_custom_data("Type") == "conveyor_corner":
+				var neighbor_id = tiledata.get_custom_data("alternate_id")
+				var dir_id = direction_ids[should_match[i]]
+				possible[i] = corner_lookup[dir_id][neighbor_id] == 1         
+			else:
+				possible[i] = false
+
+	#find which direction is requested based on filter
 	filter_direction = get_filter_direction(current_top_tile_data)
 	for g in item.get_groups():
 		match g:
@@ -196,6 +218,9 @@ func move_on_filter(type: FilterType):
 					direction = filter_direction[1]
 				else:
 					direction = filter_direction[2]
+	
+	if !((possible[0] and direction == Vector2i.UP) or (possible[1] and direction == Vector2i.DOWN) or (possible[2] and direction == Vector2i.LEFT) or (possible[3] and direction == Vector2i.RIGHT)):
+		direction = Vector2i.ZERO
 
 func push_in_random_dir():
 	var possible_directions = [false, false, false, false] #up down left right
