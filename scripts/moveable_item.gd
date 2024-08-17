@@ -5,8 +5,10 @@ var current_tile_data: TileData
 var current_tile: Vector2i
 @onready var item: Node2D = get_parent()
 var new_tile: bool = true
+var stop: bool = false
 
 signal output
+signal server
 
 const speed = 50
 var direction: Vector2i
@@ -160,6 +162,9 @@ func update_based_on_tile():
 			push_in_random_dir()
 		"output":
 			output.emit()
+		"server":
+			push_in_random_dir()
+			server.emit()
 		_:
 			direction = Vector2i.ZERO
 
@@ -169,7 +174,8 @@ func _process(delta: float) -> void:
 	
 	update_based_on_tile()
 	
-	item.position += direction * speed * delta
+	if !stop:
+		item.position += direction * speed * delta
 	if (new_tile):
 		new_tile = false
 

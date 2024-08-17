@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=4 uid="uid://xs0ne0a078ye"]
+[gd_scene load_steps=4 format=4 uid="uid://xs0ne0a078ye"]
 
 [ext_resource type="TileSet" uid="uid://snnmb8257pw3" path="res://assets/tiles/tiles.tres" id="1_5sfmw"]
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_o63eh"]
+[ext_resource type="FontFile" uid="uid://b3j21gnxq1jn1" path="res://assets/fonts/8BitOperator/8bitOperatorPlus8-Bold.ttf" id="2_1mr0q"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource("1_o63eh")
@@ -10,11 +11,16 @@ script = ExtResource("1_o63eh")
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -61.0
-offset_bottom = 23.0
+offset_left = -157.0
+offset_top = 6.0
+offset_right = -7.0
+offset_bottom = 29.0
 grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_1mr0q")
+theme_override_font_sizes/font_size = 32
 text = "Coins: 0
 "
+horizontal_alignment = 2
 
 [node name="Inventory" type="TileMapLayer" parent="."]
 z_index = 3

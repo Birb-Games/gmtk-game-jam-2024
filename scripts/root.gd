@@ -34,33 +34,44 @@ const tile_atlas_positions = {
 }
 
 const tile_costs = {
-	"in": 100,
-	"out": 100,
+	"in": 150,
+	"out": 50,
 	"splitter": 100,
 	"filter": 100,
 	"server": 100,
 	"compressor": 100,
 	"storage":100,
-	"belt":10
-
+	"belt":10,
+	"conveyor_corner":10,
 }
 
-func add_tile(id: String, x: int, y: int) -> void:
+func add_tile_no_cost(id: String, x: int, y: int) -> void:
 	if id == "delete":
 		$TileMapLayer.erase_cell(Vector2i(x, y))
 		return
 	if id == "in":
 		input_pipes.push_back(Vector2i(x, y))
-	if($HUD.get_coins()>=tile_costs[id]):
-		$HUD.add_coins(-tile_costs[id])
+	$TileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], 0)
+
+func add_tile(id: String, x: int, y: int) -> void:
+	if id == "delete":
+		$TileMapLayer.erase_cell(Vector2i(x, y))
+		return
+	if $TileMapLayer.get_cell_tile_data(Vector2i(x, y)) != null:
+		return
+		
+	if id == "in":
+		input_pipes.push_back(Vector2i(x, y))
+	if(coins>=tile_costs[id]):
+		add_coins(-tile_costs[id])
 		$TileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], 0)
 	else:
 		print("insufficent funds")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$HUD.add_coins(100) # Makes sure the user starts with 100 coins
-	add_tile("in", 1, 1)
+	add_coins(100) # Makes sure the user starts with 100 coins
+	add_tile_no_cost("in", 1, 1)
 	
 func update_timers(dt: float) -> void:
 	# iterate through timers to update them
@@ -97,4 +108,4 @@ func _process(delta: float) -> void:
 
 func add_coins(coinAmt):
 	coins += coinAmt
-	$HUD.publish_coins()
+	$HUD.publish_coins(coins)
