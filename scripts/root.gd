@@ -2,7 +2,7 @@ extends Node2D
 
 @export var get_request: PackedScene
 
-var coins: int = 1000
+var coins: int = 0
 var current_tile = Vector2i.ZERO
 
 var alternative: int = 0
@@ -45,7 +45,7 @@ const tile_atlas_positions = {
 const tile_costs = {
 	"in": 500,
 	"out": 50,
-	"splitter": 100,
+	"splitter": 120,
 	"filter": 100,
 	"server": 75,
 	"deleter": 20,
@@ -56,15 +56,20 @@ const tile_costs = {
 }
 
 func add_top_tile(id: String, x: int, y: int) -> void:
+	var tiledata = $TopTileMapLayer.get_cell_tile_data(Vector2i(x, y))
 	if id == "delete":
-		var tiledata = $TopTileMapLayer.get_cell_tile_data(Vector2i(x, y))
 		if tiledata and len(input_pipes) == 1 and tiledata.get_custom_data("Type") == "input":
 			return
 		$TopTileMapLayer.erase_cell(Vector2i(x, y))
 		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
 		input_pipes.erase(Vector2i(x, y))
 		return
-	if(spend_coins(tile_costs[id])):
+	if tiledata != null:
+		return
+	tiledata = $BottomTileMapLayer.get_cell_tile_data(Vector2i(x, y))
+	if tiledata != null:
+		return
+	if spend_coins(tile_costs[id]):
 		if id == "in":
 			input_pipes.push_back(Vector2i(x, y))
 		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
@@ -74,6 +79,12 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 		print("insufficent funds")
 
 func add_bottom_tile(id: String, x: int, y: int) -> void:
+	var tiledata = $TopTileMapLayer.get_cell_tile_data(Vector2i(x, y))
+	if tiledata != null:
+		return
+	tiledata = $BottomTileMapLayer.get_cell_tile_data(Vector2i(x, y))
+	if tiledata != null:
+		return
 	if(coins >= tile_costs[id]):
 		add_coins(-tile_costs[id])
 		$TopTileMapLayer.erase_cell(Vector2i(x, y))

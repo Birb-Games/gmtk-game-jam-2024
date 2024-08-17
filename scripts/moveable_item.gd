@@ -47,6 +47,13 @@ const corner_lookup = [
 	[ 0, 0, 0, 0, 1, 1, 0, 0 ],
 ]
 
+const splitter_directions = [
+	[ true, true, false, false ],
+	[ true, true, false, false ],
+	[ false, false, true, true ],
+	[ false, false, true, true ]
+]
+
 func get_neighbor(dir: Vector2i):
 	if dir == Vector2i.UP:
 		return TileSet.CELL_NEIGHBOR_TOP_SIDE
@@ -107,6 +114,10 @@ func move_on_conveyor():
 		if !blocked and tiledata.get_custom_data("Type") == "conveyor_corner":
 			var id = tiledata.get_custom_data("alternate_id")
 			blocked = corner_lookup[current_id][id] == 0
+		
+		if !blocked and tiledata.get_custom_data("Type") == "splitter":
+			var id = tiledata.get_custom_data("alternate_id")
+			blocked = tiledata.get_custom_data("alternate_id") != current_id
 	
 	if !blocked:
 		direction = get_conveyor_direction(current_bottom_tile_data)
@@ -162,10 +173,31 @@ func push_in_random_dir():
 		if tiledata.get_custom_data("Type") == "conveyor_corner":
 			var direction_id = direction_ids[should_match[i]]
 			var id = tiledata.get_custom_data("alternate_id")
-			possible_directions[i] = corner_lookup[id][direction_id] == 1
+			possible_directions[i] = corner_lookup[direction_id][id] == 1
 			continue
 	direction = get_random_direction(possible_directions)
-	
+
+func move_on_splitter():
+	var id = current_top_tile_data.get_custom_data("alternate_id")
+	var possible = splitter_directions[id].duplicate()
+	for i in range(len(possible)):
+		if possible[i]:
+			var dir = directions[i]
+			var tile = bottom_tile_map.get_neighbor_cell(current_tile, dir)
+			var tiledata = bottom_tile_map.get_cell_tile_data(tile)
+			if tiledata == null:
+				possible[i] = false
+				continue
+			if tiledata.get_custom_data("Type") == "conveyor":
+				var neighbor_dir = get_conveyor_direction(tiledata)
+				possible[i] = neighbor_dir == should_match[i]
+			elif tiledata.get_custom_data("Type") == "conveyor_corner":
+				var neighbor_id = tiledata.get_custom_data("alternate_id")
+				var dir_id = direction_ids[should_match[i]]
+				possible[i] = corner_lookup[dir_id][neighbor_id] == 1         
+			else:
+				possible[i] = false
+	direction = get_random_direction(possible)
 
 func update_based_on_tile():
 	if !current_bottom_tile_data and !current_top_tile_data:
@@ -190,7 +222,7 @@ func update_based_on_tile():
 				push_in_random_dir()
 				server.emit()
 			"splitter":
-				direction = get_random_direction([false, true, false, true])
+				move_on_splitter()
 			"merger":
 				move_on_conveyor() #acts exactly like a conveyor once the item's on there
 			"deleter":
