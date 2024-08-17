@@ -32,7 +32,7 @@ func _on_belt_button_pressed():
 
 
 func _on_compressor_button_pressed():
-	selected="compressor"
+	selected="deleter"
 	print("compressor pressed")
 
 

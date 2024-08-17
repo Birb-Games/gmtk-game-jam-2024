@@ -28,7 +28,7 @@ const tile_atlas_positions = {
 	"splitter": Vector2i(0,1),
 	"filter": Vector2i(1,1),
 	"server": Vector2i(2,1),
-	"compressor": Vector2i(3,1),
+	"deleter": Vector2i(3,1),
 	"storage": Vector2i(0,2),
 	"conveyor": Vector2i(0,3),
 	"conveyor_corner": Vector2i(2, 3)
@@ -40,7 +40,7 @@ const tile_costs = {
 	"splitter": 100,
 	"filter": 100,
 	"server": 100,
-	"compressor": 100,
+	"deleter": 100,
 	"storage":100,
 	"conveyor":10,
 	"conveyor_corner":10,
