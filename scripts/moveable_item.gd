@@ -154,7 +154,7 @@ func push_in_random_dir():
 		if tiledata.get_custom_data("Type") == "conveyor_corner":
 			var direction_id = direction_ids[should_match[i]]
 			var id = tiledata.get_custom_data("alternate_id")
-			possible_directions[i] = corner_lookup[id][direction_id] == 1
+			possible_directions[i] = corner_lookup[direction_id][id] == 1
 			continue
 	direction = get_random_direction(possible_directions)
 	
