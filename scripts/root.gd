@@ -36,11 +36,13 @@ const tile_atlas_positions = {
 func add_top_tile(id: String, x: int, y: int) -> void:
 	if id == "in":
 		input_pipes.push_back(Vector2i(x, y))
+	$BottomTileMapLayer.erase_cell(Vector2i(x, y))
 	$TopTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
 
 func add_bottom_tile(id: String, x: int, y: int) -> void:
 	if id == "in":
 		input_pipes.push_back(Vector2i(x, y))
+	$TopTileMapLayer.erase_cell(Vector2i(x, y))
 	$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
 
 # Called when the node enters the scene tree for the first time.
@@ -69,7 +71,7 @@ func spawn() -> void:
 
 func _unhandled_input(event):
 	if (event.is_action_pressed("left_click")):
-		var pos=$TileMapLayer.local_to_map(get_global_mouse_position())
+		var pos=$TopTileMapLayer.local_to_map(get_global_mouse_position())
 		if ($HUD.get_selected() == "conveyor"):
 			add_bottom_tile($HUD.get_selected(), pos[0], pos[1])
 		elif ($HUD.get_selected() != ""):

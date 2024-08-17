@@ -70,8 +70,12 @@ func move_on_conveyor():
 		var tiledata = bottom_tile_map.get_cell_tile_data(tile)
 		var conveyor_dir = get_conveyor_direction(tiledata)
 		
-		if !tiledata:
-			blocked = true
+		if !tiledata: #check bottom, then top
+			tile = top_tile_map.get_neighbor_cell(current_tile, neighbor)
+			tiledata = top_tile_map.get_cell_tile_data(tile)
+			conveyor_dir = get_conveyor_direction(tiledata)
+			if !tiledata:
+				blocked = true
 		
 		if !blocked and tiledata.get_custom_data("Type") == "conveyor" and conveyor_dir != direction:
 			blocked = true
@@ -94,8 +98,12 @@ func move_on_conveyor_corner():
 		var tiledata = bottom_tile_map.get_cell_tile_data(tile)
 		# var conveyor_dir = get_conveyor_direction(tiledata)
 		
-		if !tiledata:
-			blocked = true
+		if !tiledata: #check bottom, then top
+			tile = top_tile_map.get_neighbor_cell(current_tile, neighbor)
+			tiledata = top_tile_map.get_cell_tile_data(tile)
+			#conveyor_dir = get_conveyor_direction(tiledata)
+			if !tiledata:
+				blocked = true
 		
 		if !blocked and tiledata.get_custom_data("Type") == "conveyor_corner":
 			var current_id = current_bottom_tile_data.get_custom_data("alternate_id")
@@ -114,9 +122,6 @@ func move_on_conveyor_corner():
 func update_based_on_tile(): #TODO: add some sort of collision to items to allow for backups in the system
 	if !is_new_tile:
 		return
-
-	current_top_tile_data = top_tile_map.get_cell_tile_data(current_tile)
-	current_bottom_tile_data = bottom_tile_map.get_cell_tile_data(current_tile)
 
 	if !current_bottom_tile_data and !current_top_tile_data:
 		return
@@ -166,11 +171,14 @@ func _process(delta: float) -> void:
 	current_tile = top_tile_map.local_to_map(top_tile_map.to_local(item.position))
 	is_new_tile = item.position.round() == top_tile_map.to_global(top_tile_map.map_to_local(current_tile))
 	
-	# if (!current_bottom_tile_data and !current_top_tile_data): #stops the item immediately if it leaves the tileset
-	# 	direction = Vector2i.ZERO
+	current_top_tile_data = top_tile_map.get_cell_tile_data(current_tile)
+	current_bottom_tile_data = bottom_tile_map.get_cell_tile_data(current_tile)
+	
+	if (!current_bottom_tile_data and !current_top_tile_data): #stops the item immediately if it leaves the tileset
+		direction = Vector2i.ZERO
 	
 	update_based_on_tile()
-
+	
 	item.position += direction * speed * delta
 	if (is_new_tile):
 		is_new_tile = false
