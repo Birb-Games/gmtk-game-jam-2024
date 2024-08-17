@@ -26,11 +26,12 @@ const tile_atlas_positions = {
 func add_tile(id: String, x: int, y: int) -> void:
 	if id == "in":
 		input_pipes.push_back(Vector2i(x, y))
-	$TileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], 0)
+	$TileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	add_tile("in", 1, 1)
+	for t in $TileMapLayer.get_used_cells_by_id(-1, tile_atlas_positions["in"]):
+		input_pipes.push_back(t)
 	
 func update_timers(dt: float) -> void:
 	# iterate through timers to update them
