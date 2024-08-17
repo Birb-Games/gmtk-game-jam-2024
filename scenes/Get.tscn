@@ -22,5 +22,7 @@ shape = SubResource("CircleShape2D_ev6j6")
 [node name="MoveableItem" parent="." instance=ExtResource("3_vb1lm")]
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
+[connection signal="empty" from="MoveableItem" to="." method="_on_moveable_item_empty"]
 [connection signal="output" from="MoveableItem" to="." method="_on_moveable_item_output"]
 [connection signal="server" from="MoveableItem" to="." method="_on_moveable_item_server"]

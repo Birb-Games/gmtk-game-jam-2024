@@ -9,8 +9,9 @@ var stop: bool = false
 
 signal output
 signal server
+signal empty
 
-const speed = 50
+const speed = 40
 var direction: Vector2i
 
 var directions = [
@@ -152,6 +153,8 @@ func update_based_on_tile():
 		return
 	current_tile_data = tile_map.get_cell_tile_data(current_tile)
 	if !current_tile_data:
+		empty.emit()
+		direction = Vector2i.ZERO
 		return
 	match current_tile_data.get_custom_data("Type"):
 		"conveyor":
@@ -166,6 +169,7 @@ func update_based_on_tile():
 			push_in_random_dir()
 			server.emit()
 		_:
+			empty.emit()
 			direction = Vector2i.ZERO
 
 func _process(delta: float) -> void:

@@ -7,7 +7,8 @@ var coins: int = 0
 # keeps track of the number of backed up requests, if any of these
 # exceed a certain threshold then you lose the game
 var spawn_counts = {
-	"spawn_get": 0
+	"spawn_get": 0,
+	"return": 0
 }
 
 # once a timer runs out, reset it to these times
