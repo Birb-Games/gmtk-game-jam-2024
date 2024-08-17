@@ -2,9 +2,8 @@ extends Node2D
 
 @export var get_request: PackedScene
 
+var coins: int = 1000
 var current_tile = Vector2i.ZERO
-
-var coins: int = 0
 
 # keeps track of the number of backed up requests, if any of these
 # exceed a certain threshold then you lose the game
@@ -63,13 +62,10 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 		input_pipes.erase(Vector2i(x, y))
 		print(len(input_pipes))
 		return
-	if(coins >= tile_costs[id]):
-		add_coins(-tile_costs[id])
+	if(spend_coins(tile_costs[id])):
 		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
 		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
 		$TopTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
-	else:
-		print("insufficent funds")
 
 func add_bottom_tile(id: String, x: int, y: int) -> void:
 	if id == "in":
@@ -135,6 +131,15 @@ func _process(delta: float) -> void:
 	display_preview()
 	spawn()
 	$HUD.update_text()
+	
+func spend_coins(coinAmt):
+	if(coins>=coinAmt):
+		coins-=coinAmt
+		$HUD.publish_coins()
+		return true
+	else:
+		print("insufficent funds")
+		return false
 
 func add_coins(coinAmt):
 	coins += coinAmt
