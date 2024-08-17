@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://40u8nw0veh31" path="res://assets/sprites/return.png" id="1_2bjf0"]
 [ext_resource type="Script" path="res://scripts/return.gd" id="1_yw1gl"]
-[ext_resource type="PackedScene" uid="uid://jr6vijh0l701" path="res://scenes/MoveableItem.tscn" id="2_q58v3"]
+[ext_resource type="PackedScene" uid="uid://bvqawkcoycf3e" path="res://scenes/MoveableItem.tscn" id="2_q58v3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_esm04"]
 radius = 18.0
@@ -19,4 +19,5 @@ shape = SubResource("CircleShape2D_esm04")
 
 [node name="MoveableItem" parent="." instance=ExtResource("2_q58v3")]
 
+[connection signal="empty" from="MoveableItem" to="." method="_on_moveable_item_empty"]
 [connection signal="output" from="MoveableItem" to="." method="_on_moveable_item_output"]

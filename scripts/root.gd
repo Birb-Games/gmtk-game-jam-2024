@@ -30,7 +30,7 @@ const tile_atlas_positions = {
 	"server": Vector2i(2,1),
 	"compressor": Vector2i(3,1),
 	"storage": Vector2i(0,2),
-	"belt": Vector2i(0,3),
+	"conveyor": Vector2i(0,3),
 	"conveyor_corner": Vector2i(2, 3)
 }
 
@@ -42,37 +42,42 @@ const tile_costs = {
 	"server": 100,
 	"compressor": 100,
 	"storage":100,
-	"belt":10,
+	"conveyor":10,
 	"conveyor_corner":10,
 }
 
-func add_tile_no_cost(id: String, x: int, y: int) -> void:
-	if id == "delete":
-		$TileMapLayer.erase_cell(Vector2i(x, y))
-		return
+func add_top_tile(id: String, x: int, y: int) -> void:
 	if id == "in":
 		input_pipes.push_back(Vector2i(x, y))
-	$TileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], 0)
-
-func add_tile(id: String, x: int, y: int) -> void:
 	if id == "delete":
-		$TileMapLayer.erase_cell(Vector2i(x, y))
+		$TopTileMapLayer.erase_cell(Vector2i(x, y))
+		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
+		input_pipes.erase(Vector2i(x, y))
+		print(len(input_pipes))
 		return
-	if $TileMapLayer.get_cell_tile_data(Vector2i(x, y)) != null:
-		return
-		
-	if id == "in":
-		input_pipes.push_back(Vector2i(x, y))
-	if(coins>=tile_costs[id]):
+	if(coins >= tile_costs[id]):
 		add_coins(-tile_costs[id])
-		$TileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], 0)
+		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
+		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
+		$TopTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
+	else:
+		print("insufficent funds")
+
+func add_bottom_tile(id: String, x: int, y: int) -> void:
+	if id == "in":
+		input_pipes.push_back(Vector2i(x, y))
+	if(coins >= tile_costs[id]):
+		add_coins(-tile_costs[id])
+		$TopTileMapLayer.erase_cell(Vector2i(x, y))
+		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
 	else:
 		print("insufficent funds")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	add_coins(100) # Makes sure the user starts with 100 coins
-	add_tile_no_cost("in", 1, 1)
+	add_coins(10000) # Makes sure the user starts with 100 coins
+	for t in $TopTileMapLayer.get_used_cells_by_id(-1, tile_atlas_positions["in"]):
+		input_pipes.push_back(t)
 	
 func update_timers(dt: float) -> void:
 	# iterate through timers to update them
@@ -80,27 +85,28 @@ func update_timers(dt: float) -> void:
 		timers[id] -= dt
 
 func spawn() -> void:
-	var tilemap_sz: float = $TileMapLayer.tile_set.tile_size.x
 	for id in timers:
 		if timers[id] <= 0.0:
+			if len(input_pipes) == 0:
+				continue
 			# Chose a random input pipe
 			var rand_pipe = input_pipes[randi() % len(input_pipes)]
 			var instance
 			if id == "spawn_get":
 				instance = get_request.instantiate()
-			var x: float = tilemap_sz * rand_pipe.x + tilemap_sz / 2.0
-			var y: float = tilemap_sz * rand_pipe.y + tilemap_sz / 2.0
 			# Place the request in the world
-			instance.position = Vector2(x, y)
+			instance.position = $TopTileMapLayer.map_to_local(rand_pipe)
 			$Requests.add_child(instance)
 			timers[id] = reset_times[id]
 			spawn_counts[id] += 1
 
 func _unhandled_input(event):
-	if(event.is_action_pressed("left_click")):
-		var pos=$TileMapLayer.local_to_map(get_global_mouse_position())
-		if($HUD.get_selected()!=""):
-			add_tile($HUD.get_selected(), pos[0], pos[1])
+	if (event.is_action_pressed("left_click")):
+		var pos=$TopTileMapLayer.local_to_map(get_global_mouse_position())
+		if ($HUD.get_selected() == "conveyor" or $HUD.get_selected() == "conveyor_corner"):
+			add_bottom_tile($HUD.get_selected(), pos[0], pos[1])
+		elif ($HUD.get_selected() != ""):
+			add_top_tile($HUD.get_selected(), pos[0], pos[1])
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
