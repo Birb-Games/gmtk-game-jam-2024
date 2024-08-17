@@ -85,9 +85,3 @@ func _process(delta: float) -> void:
 func add_coins(coinAmt):
 	coins += coinAmt
 	$HUD.publish_coins()
-
-#process moveable items entering the output pipe
-func process_output(item: Node2D):
-	for g in item.get_groups():
-		match g:
-			StringName("get"): add_coins(10) #for now, just earn money

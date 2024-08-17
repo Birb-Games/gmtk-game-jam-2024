@@ -1,7 +1,5 @@
 extends Node2D
 
-signal item_outputted
-
 @onready var top_tile_map: TileMapLayer = $/root/Root/TopTileMapLayer
 @onready var bottom_tile_map: TileMapLayer = $/root/Root/BottomTileMapLayer
 var current_top_tile_data: TileData
@@ -159,8 +157,9 @@ func update_based_on_tile(): #TODO: add some sort of collision to items to allow
 						continue
 				direction = get_random_direction(possible_directions)
 			"output":
-				item_outputted.connect($/root/Root.process_output)
-				item_outputted.emit(item)
+				for g in item.get_groups():
+					match g:
+						StringName("get"): $/root/Root.add_coins(10) #for now, just earn money
 				item.queue_free()
 			"splitter":
 				direction = get_random_direction([false, true, false, true])
