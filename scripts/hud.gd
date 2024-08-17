@@ -5,17 +5,16 @@ var selected: String=""
 func get_selected():
 	return selected
   
-func publish_coins():
-	$CoinLabel.text = "Coins: " + str($/root/Root.coins)
+func publish_coins(coins: int):
+	$CoinLabel.text = "$" + str(coins)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	publish_coins()
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
-
 
 func _on_in_button_pressed():
 	selected="in"
@@ -55,3 +54,13 @@ func _on_filter_button_pressed():
 func _on_splitter_button_pressed():
 	selected="splitter"
 	print("splitter pressed")
+
+
+func _on_corner_belt_button_pressed() -> void:
+	selected = "conveyor_corner"
+	print("corner belt pressed")
+
+
+func _on_delete_pressed() -> void:
+	selected = "delete"
+	print("delete pressed")

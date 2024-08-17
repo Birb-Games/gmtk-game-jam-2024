@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=4 uid="uid://xs0ne0a078ye"]
+[gd_scene load_steps=4 format=4 uid="uid://xs0ne0a078ye"]
 
 [ext_resource type="TileSet" uid="uid://snnmb8257pw3" path="res://assets/tiles/tiles.tres" id="1_5sfmw"]
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_o63eh"]
+[ext_resource type="FontFile" uid="uid://b3j21gnxq1jn1" path="res://assets/fonts/8BitOperator/8bitOperatorPlus8-Bold.ttf" id="2_1mr0q"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource("1_o63eh")
@@ -10,20 +11,37 @@ script = ExtResource("1_o63eh")
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -61.0
-offset_bottom = 23.0
+offset_left = -157.0
+offset_top = 6.0
+offset_right = -7.0
+offset_bottom = 29.0
 grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_1mr0q")
+theme_override_font_sizes/font_size = 32
 text = "Coins: 0
 "
+horizontal_alignment = 2
 
 [node name="Inventory" type="TileMapLayer" parent="."]
 z_index = 3
 position = Vector2(0, 8)
 scale = Vector2(1.5, 1.5)
-tile_map_data = PackedByteArray("AAAJAAoAAAADAAEAAAAKAAoAAAAAAAIAAAALAAoAAAACAAEAAAAMAAoAAAABAAEAAAANAAoAAAAAAAEAAAAHAAoAAAABAAAAAAAGAAoAAAAAAAAAAAAIAAoAAAAAAAMAAAA=")
+tile_map_data = PackedByteArray("AAAJAAoAAAADAAEAAAAKAAoAAAAAAAIAAAALAAoAAAACAAEAAAAMAAoAAAABAAEAAAANAAoAAAAAAAEAAAAGAAoAAAABAAAAAAAHAAoAAAAAAAMAAAAFAAoAAAAAAAAAAAAIAAoAAAACAAMAAAAOAAoAAAACAAAAAAA=")
 tile_set = ExtResource("1_5sfmw")
 
 [node name="InButton" type="Button" parent="Inventory"]
+z_as_relative = false
+anchors_preset = -1
+anchor_left = 0.317
+anchor_top = 0.586
+anchor_right = 0.317
+anchor_bottom = 0.586
+offset_left = 160.0
+offset_top = 320.0
+offset_right = 192.0
+offset_bottom = 352.0
+
+[node name="OutButton" type="Button" parent="Inventory"]
 z_as_relative = false
 anchors_preset = -1
 anchor_left = 0.317
@@ -35,19 +53,7 @@ offset_top = 320.0
 offset_right = 224.0
 offset_bottom = 352.0
 
-[node name="OutButton" type="Button" parent="Inventory"]
-z_as_relative = false
-anchors_preset = -1
-anchor_left = 0.317
-anchor_top = 0.586
-anchor_right = 0.317
-anchor_bottom = 0.586
-offset_left = 224.0
-offset_top = 320.0
-offset_right = 256.0
-offset_bottom = 352.0
-
-[node name="BeltButton" type="Button" parent="Inventory"]
+[node name="CornerBeltButton" type="Button" parent="Inventory"]
 z_as_relative = false
 anchors_preset = -1
 anchor_left = 0.317
@@ -57,6 +63,18 @@ anchor_bottom = 0.586
 offset_left = 256.0
 offset_top = 320.0
 offset_right = 288.0
+offset_bottom = 352.0
+
+[node name="BeltButton" type="Button" parent="Inventory"]
+z_as_relative = false
+anchors_preset = -1
+anchor_left = 0.317
+anchor_top = 0.586
+anchor_right = 0.317
+anchor_bottom = 0.586
+offset_left = 224.0
+offset_top = 320.0
+offset_right = 256.0
 offset_bottom = 352.0
 
 [node name="CompressorButton" type="Button" parent="Inventory"]
@@ -119,11 +137,25 @@ offset_top = 320.0
 offset_right = 448.0
 offset_bottom = 352.0
 
+[node name="Delete" type="Button" parent="Inventory"]
+z_as_relative = false
+anchors_preset = -1
+anchor_left = 0.317
+anchor_top = 0.586
+anchor_right = 0.317
+anchor_bottom = 0.586
+offset_left = 448.0
+offset_top = 320.0
+offset_right = 480.0
+offset_bottom = 352.0
+
 [connection signal="pressed" from="Inventory/InButton" to="." method="_on_in_button_pressed"]
 [connection signal="pressed" from="Inventory/OutButton" to="." method="_on_out_button_pressed"]
+[connection signal="pressed" from="Inventory/CornerBeltButton" to="." method="_on_corner_belt_button_pressed"]
 [connection signal="pressed" from="Inventory/BeltButton" to="." method="_on_belt_button_pressed"]
 [connection signal="pressed" from="Inventory/CompressorButton" to="." method="_on_compressor_button_pressed"]
 [connection signal="pressed" from="Inventory/StorageButton" to="." method="_on_storage_button_pressed"]
 [connection signal="pressed" from="Inventory/ServerButton" to="." method="_on_server_button_pressed"]
 [connection signal="pressed" from="Inventory/FilterButton" to="." method="_on_filter_button_pressed"]
 [connection signal="pressed" from="Inventory/SplitterButton" to="." method="_on_splitter_button_pressed"]
+[connection signal="pressed" from="Inventory/Delete" to="." method="_on_delete_pressed"]
