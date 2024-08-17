@@ -23,14 +23,14 @@ const tile_atlas_positions = {
 	"in": Vector2i(0, 0)
 }
 
-func add_tile(id: String, x: int, y: int) -> void:
+func add_top_tile(id: String, x: int, y: int) -> void:
 	if id == "in":
 		input_pipes.push_back(Vector2i(x, y))
-	$TileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
+	$TopTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	for t in $TileMapLayer.get_used_cells_by_id(-1, tile_atlas_positions["in"]):
+	for t in $TopTileMapLayer.get_used_cells_by_id(-1, tile_atlas_positions["in"]):
 		input_pipes.push_back(t)
 	
 func update_timers(dt: float) -> void:
@@ -39,7 +39,6 @@ func update_timers(dt: float) -> void:
 		timers[id] -= dt
 
 func spawn() -> void:
-	var tilemap_sz: float = $TileMapLayer.tile_set.tile_size.x
 	for id in timers:
 		if timers[id] <= 0.0:
 			# Chose a random input pipe
@@ -47,10 +46,8 @@ func spawn() -> void:
 			var instance
 			if id == "spawn_get":
 				instance = get_request.instantiate()
-			var x: float = tilemap_sz * rand_pipe.x + tilemap_sz / 2.0
-			var y: float = tilemap_sz * rand_pipe.y + tilemap_sz / 2.0
 			# Place the request in the world
-			instance.position = Vector2(x, y)
+			instance.position = $TopTileMapLayer.map_to_local(rand_pipe)
 			$Requests.add_child(instance)
 			timers[id] = reset_times[id]
 			spawn_counts[id] += 1

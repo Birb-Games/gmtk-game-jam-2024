@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://buhtc2q7yvi8t" path="res://assets/tiles/tiles.png" id="1_ypr50"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_t6att"]
+resource_name = "tiles"
 texture = ExtResource("1_ypr50")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0

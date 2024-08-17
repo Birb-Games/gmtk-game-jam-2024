@@ -2,11 +2,13 @@ extends Node2D
 
 signal item_outputted
 
-@onready var tile_map: TileMapLayer = $/root/Root/TileMapLayer
-var current_tile_data: TileData
+@onready var top_tile_map: TileMapLayer = $/root/Root/TopTileMapLayer
+@onready var bottom_tile_map: TileMapLayer = $/root/Root/BottomTileMapLayer
+var current_top_tile_data: TileData
+var current_bottom_tile_data: TileData
 var current_tile: Vector2i
 @onready var item: Node2D = get_parent()
-var new_tile: bool = true
+var is_new_tile: bool = true
 
 const speed = 50
 var direction: Vector2i
@@ -15,31 +17,32 @@ func _ready():
 	pass
 
 func _process(delta: float) -> void:
-	current_tile = tile_map.local_to_map(tile_map.to_local(item.global_position))
-	new_tile = item.global_position.round() == tile_map.to_global(tile_map.map_to_local(current_tile))
+	current_tile = top_tile_map.local_to_map(top_tile_map.to_local(item.global_position))
+	is_new_tile = item.global_position.round() == top_tile_map.to_global(top_tile_map.map_to_local(current_tile))
 	
-	if (new_tile):
-		current_tile_data = tile_map.get_cell_tile_data(current_tile)
-		if current_tile_data:
-			match current_tile_data.get_custom_data("Type"):
-				"conveyor":
-					if !current_tile_data.flip_h and !current_tile_data.transpose:
-						direction = Vector2i.RIGHT
-					elif current_tile_data.flip_h and !current_tile_data.transpose:
-						direction = Vector2i.LEFT
-					elif !current_tile_data.flip_v and current_tile_data.transpose:
-						direction = Vector2i.DOWN
-					elif current_tile_data.flip_v and current_tile_data.transpose:
-						direction = Vector2i.UP
+	if (is_new_tile):
+		current_top_tile_data = top_tile_map.get_cell_tile_data(current_tile)
+		current_bottom_tile_data = bottom_tile_map.get_cell_tile_data(current_tile)
+		if current_bottom_tile_data and current_bottom_tile_data.get_custom_data("Type") == "conveyor":
+			if !current_bottom_tile_data.flip_h and !current_bottom_tile_data.transpose:
+				direction = Vector2i.RIGHT
+			elif current_bottom_tile_data.flip_h and !current_bottom_tile_data.transpose:
+				direction = Vector2i.LEFT
+			elif !current_bottom_tile_data.flip_v and current_bottom_tile_data.transpose:
+				direction = Vector2i.DOWN
+			elif current_bottom_tile_data.flip_v and current_bottom_tile_data.transpose:
+				direction = Vector2i.UP
+		if current_top_tile_data:
+			match current_top_tile_data.get_custom_data("Type"):
 				"input":
 					var possible_directions = [false, false, false, false] #up down left right
-					if tile_map.get_cell_tile_data(tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_TOP_SIDE)) and tile_map.get_cell_tile_data(tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_TOP_SIDE)).get_custom_data("Type") == "conveyor":
+					if bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_TOP_SIDE)) and bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_TOP_SIDE)).get_custom_data("Type") == "conveyor":
 						possible_directions[0] = true
-					if tile_map.get_cell_tile_data(tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_BOTTOM_SIDE)) and tile_map.get_cell_tile_data(tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_BOTTOM_SIDE)).get_custom_data("Type") == "conveyor":
+					if bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_BOTTOM_SIDE)) and bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_BOTTOM_SIDE)).get_custom_data("Type") == "conveyor":
 						possible_directions[1] = true
-					if tile_map.get_cell_tile_data(tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_LEFT_SIDE)) and tile_map.get_cell_tile_data(tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_LEFT_SIDE)).get_custom_data("Type") == "conveyor":
+					if bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_LEFT_SIDE)) and bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_LEFT_SIDE)).get_custom_data("Type") == "conveyor":
 						possible_directions[2] = true
-					if tile_map.get_cell_tile_data(tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_RIGHT_SIDE)) and tile_map.get_cell_tile_data(tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_RIGHT_SIDE)).get_custom_data("Type") == "conveyor":
+					if bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_RIGHT_SIDE)) and bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_RIGHT_SIDE)).get_custom_data("Type") == "conveyor":
 						possible_directions[3] = true
 					direction = get_random_direction(possible_directions)
 				"output":
@@ -50,8 +53,8 @@ func _process(delta: float) -> void:
 					direction = Vector2i.ZERO
 	
 	item.position += direction * speed * delta
-	if (new_tile):
-		new_tile = false
+	if (is_new_tile):
+		is_new_tile = false
 
 #return a direction based on an array containing which directions are valid
 func get_random_direction(options: Array) -> Vector2i:
