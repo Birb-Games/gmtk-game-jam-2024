@@ -2,6 +2,8 @@ extends Node2D
 
 @export var get_request: PackedScene
 
+var current_tile = Vector2i.ZERO
+
 var coins: int = 0
 
 # keeps track of the number of backed up requests, if any of these
@@ -108,9 +110,23 @@ func _unhandled_input(event):
 		elif ($HUD.get_selected() != ""):
 			add_top_tile($HUD.get_selected(), pos[0], pos[1])
 
+func display_preview():
+	if current_tile == $PreviewTileMapLayer.local_to_map(get_global_mouse_position()):
+		return
+	else:
+		$PreviewTileMapLayer.erase_cell(current_tile)
+		current_tile = $PreviewTileMapLayer.local_to_map(get_global_mouse_position())
+		if ($HUD.get_selected() == "delete"):
+			$PreviewTileMapLayer.material.set_shader_parameter("remove", true)
+			$PreviewTileMapLayer.set_cell(current_tile, 0, Vector2i.ZERO)
+		elif ($HUD.get_selected() != ""):
+			$PreviewTileMapLayer.material.set_shader_parameter("remove", false)
+			$PreviewTileMapLayer.set_cell(current_tile, 0, tile_atlas_positions[$HUD.get_selected()])
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	update_timers(delta)
+	display_preview()
 	spawn()
 
 func add_coins(coinAmt):

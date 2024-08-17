@@ -10,6 +10,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nasgy"]
 shader = ExtResource("3_kt4p4")
 shader_parameter/transparency = 0.7
+shader_parameter/remove = false
 
 [node name="Root" type="Node2D"]
 script = ExtResource("1_3r0vi")
