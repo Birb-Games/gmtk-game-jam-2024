@@ -62,7 +62,6 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 		$TopTileMapLayer.erase_cell(Vector2i(x, y))
 		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
 		input_pipes.erase(Vector2i(x, y))
-		print(len(input_pipes))
 		return
 	if(coins >= tile_costs[id]):
 		if id == "in":
