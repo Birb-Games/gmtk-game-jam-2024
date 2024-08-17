@@ -1,5 +1,7 @@
 extends Node2D
 
+signal item_outputted
+
 @onready var tile_map: TileMapLayer = $/root/Root/TileMapLayer
 var current_tile_data: TileData
 var current_tile: Vector2i
@@ -40,8 +42,12 @@ func _process(delta: float) -> void:
 					if tile_map.get_cell_tile_data(tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_RIGHT_SIDE)) and tile_map.get_cell_tile_data(tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_RIGHT_SIDE)).get_custom_data("Type") == "conveyor":
 						possible_directions[3] = true
 					direction = get_random_direction(possible_directions)
+				"output":
+					item_outputted.connect($/root/Root.process_output)
+					item_outputted.emit(item)
+					item.queue_free()
 				_:
-					pass
+					direction = Vector2i.ZERO
 	
 	item.position += direction * speed * delta
 	if (new_tile):

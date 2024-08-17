@@ -59,3 +59,9 @@ func spawn() -> void:
 func _process(delta: float) -> void:
 	update_timers(delta)
 	spawn()
+
+#process moveable items entering the output pipe
+func process_output(item: Node2D):
+	for g in item.get_groups():
+		match g:
+			StringName("get"): $HUD.add_coins(10) #for now, just earn money

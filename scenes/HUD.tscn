@@ -1,6 +1,9 @@
-[gd_scene format=3 uid="uid://df7xjo4ai6vhq"]
+[gd_scene load_steps=2 format=3 uid="uid://df7xjo4ai6vhq"]
+
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_alx3w"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource("1_alx3w")
 
 [node name="CoinLabel" type="Label" parent="."]
 anchors_preset = 1
