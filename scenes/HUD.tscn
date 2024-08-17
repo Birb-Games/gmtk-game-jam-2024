@@ -191,6 +191,7 @@ position = Vector2(20, 51)
 texture = ExtResource("5_gti8e")
 
 [node name="RetCount" type="Label" parent="Counts"]
+layout_mode = 0
 offset_left = 36.0
 offset_top = 40.0
 offset_right = 96.0
@@ -204,6 +205,7 @@ position = Vector2(20, 83)
 texture = ExtResource("7_1x5e4")
 
 [node name="BadCount" type="Label" parent="Counts"]
+layout_mode = 0
 offset_left = 36.0
 offset_top = 72.0
 offset_right = 96.0
@@ -217,6 +219,7 @@ position = Vector2(20, 115)
 texture = ExtResource("8_i70hw")
 
 [node name="DownloadCount" type="Label" parent="Counts"]
+layout_mode = 0
 offset_left = 36.0
 offset_top = 104.0
 offset_right = 136.0
@@ -232,6 +235,15 @@ offset_bottom = 488.0
 theme_override_fonts/font = ExtResource("2_1mr0q")
 theme_override_font_sizes/font_size = 32
 text = "Cost: $0"
+horizontal_alignment = 1
+
+[node name="Paused" type="Label" parent="."]
+offset_top = 5.0
+offset_right = 960.0
+offset_bottom = 30.0
+theme_override_fonts/font = ExtResource("2_1mr0q")
+theme_override_font_sizes/font_size = 32
+text = "Paused"
 horizontal_alignment = 1
 
 [connection signal="pressed" from="Inventory/InButton" to="." method="_on_in_button_pressed"]
