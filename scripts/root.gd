@@ -60,6 +60,9 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 	if id == "delete":
 		if tiledata and len(input_pipes) == 1 and tiledata.get_custom_data("Type") == "input":
 			return
+		tiledata = $BottomTileMapLayer.get_cell_tile_data(Vector2i(x, y))
+		if tiledata and tile_costs.has(tiledata.get_custom_data("Type")):
+			add_coins(int(tile_costs[tiledata.get_custom_data("Type")] / 2))
 		$TopTileMapLayer.erase_cell(Vector2i(x, y))
 		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
 		input_pipes.erase(Vector2i(x, y))
