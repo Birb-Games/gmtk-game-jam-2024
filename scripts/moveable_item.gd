@@ -7,6 +7,7 @@ var current_bottom_tile_data: TileData
 var current_tile: Vector2i
 @onready var item: Node2D = get_parent()
 var stop: bool = false
+var filter_direction: Array
 
 signal output
 signal server
@@ -147,6 +148,41 @@ func move_on_conveyor_corner():
 	else:
 		direction = Vector2i.ZERO
 
+enum FilterType {
+	GREEN = 0,
+	WHITE = 1,
+	BLUE = 2,
+}
+
+#returns an array of unit `vector2i`s to indicate the direction of the input, colored output, and red output respecively
+func get_filter_direction(tileData: TileData) -> Array:
+	var data = [tileData.flip_h, tileData.flip_v, tileData.transpose]
+	match data:
+		[false, false, false]: return [Vector2i.LEFT, Vector2i.UP, Vector2i.DOWN]
+		[false, true, false]: return [Vector2i.LEFT, Vector2i.DOWN, Vector2i.UP]
+		[true, false, false]: return [Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]
+		[true, true, false]: return [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.UP]
+		[false, false, true]: return [Vector2i.UP, Vector2i.LEFT, Vector2i.RIGHT]
+		[true, false, true]: return [Vector2i.UP, Vector2i.RIGHT, Vector2i.LEFT]
+		[false, true, true]: return [Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
+		[true, true, true]: return [Vector2i.DOWN, Vector2i.RIGHT, Vector2i.LEFT]
+	return [Vector2i.ZERO, Vector2i.ZERO, Vector2i.ZERO]
+	
+func process_filter(type: FilterType):
+	filter_direction = get_filter_direction(current_top_tile_data)
+	for g in item.get_groups():
+		match g:
+			"get": 
+				if type == FilterType.GREEN:
+					direction = filter_direction[1]
+				else:
+					direction = filter_direction[2]
+			"return":
+				if type == FilterType.WHITE:
+					direction = filter_direction[1]
+				else:
+					direction = filter_direction[2]
+
 func push_in_random_dir():
 	var possible_directions = [false, false, false, false] #up down left right
 	for i in range(len(directions)):
@@ -190,11 +226,17 @@ func update_based_on_tile():
 				push_in_random_dir()
 				server.emit()
 			"splitter":
-				direction = get_random_direction([false, true, false, true])
+				direction = get_random_direction([true, true, false, false])
 			"merger":
 				move_on_conveyor() #acts exactly like a conveyor once the item's on there
 			"deleter":
 				deleter.emit()
+			"green_filter":
+				process_filter(FilterType.GREEN)
+			"white_filter":
+				process_filter(FilterType.WHITE)
+			"blue_filter":
+				process_filter(FilterType.BLUE)
 			_:
 				empty.emit()
 				direction = Vector2i.ZERO
