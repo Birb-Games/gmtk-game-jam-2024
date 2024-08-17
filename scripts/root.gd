@@ -135,7 +135,7 @@ func _process(delta: float) -> void:
 func spend_coins(coinAmt):
 	if(coins>=coinAmt):
 		coins-=coinAmt
-		$HUD.publish_coins()
+		$HUD.publish_coins(coins)
 		return true
 	else:
 		print("insufficent funds")
