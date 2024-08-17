@@ -1,20 +1,12 @@
 extends CanvasLayer
 
-var coins: int = 1000
 var selected: String=""
 
 func get_selected():
 	return selected
-
+  
 func publish_coins():
-	$CoinLabel.text = "Coins: " + str(coins)
-
-func get_coins():
-	return coins
-	
-func add_coins(coinAmt):
-	coins += coinAmt
-	publish_coins()
+	$CoinLabel.text = "Coins: " + str($/root/Root.coins)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
