@@ -5,6 +5,7 @@ var timer: float
 func _ready():
 	timer = 3.0
 	$MoveableItem.stop = true
+	$/root/Root.spawn_counts["return"] += 1
 
 func _process(delta: float) -> void:
 	timer -= delta

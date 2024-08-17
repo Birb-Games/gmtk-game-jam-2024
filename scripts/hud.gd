@@ -17,50 +17,55 @@ func _process(delta):
 	pass
 
 func _on_in_button_pressed():
-	selected="in"
-	print("In pressed")
-
+	selected = "in"
+	get_parent().alternative = 0
 
 func _on_out_button_pressed():
-	selected="out"
-	print("Out pressed")
-
+	selected = "out"
+	get_parent().alternative = 0
 
 func _on_belt_button_pressed():
-	selected="conveyor"
-	print("belt pressed")
-
+	selected = "conveyor"
+	get_parent().alternative = 0
 
 func _on_compressor_button_pressed():
-	selected="compressor"
-	print("compressor pressed")
-
+	selected = "deleter"
+	get_parent().alternative = 0
 
 func _on_storage_button_pressed():
-	selected="storage"
-	print("storage pressed")
-
+	selected = "storage"
+	get_parent().alternative = 0
 
 func _on_server_button_pressed():
-	selected="server"
-	print("server pressed")
-
+	selected = "server"
+	get_parent().alternative = 0
 
 func _on_filter_button_pressed():
-	selected="filter"
-	print("filter pressed")
-
+	selected = "filter"
+	get_parent().alternative = 0
 
 func _on_splitter_button_pressed():
-	selected="splitter"
-	print("splitter pressed")
-
+	selected = "splitter"
+	get_parent().alternative = 0
 
 func _on_corner_belt_button_pressed() -> void:
 	selected = "conveyor_corner"
-	print("corner belt pressed")
-
+	get_parent().alternative = 0
 
 func _on_delete_pressed() -> void:
 	selected = "delete"
-	print("delete pressed")
+	get_parent().alternative = 0
+
+func _on_merger_button_pressed() -> void:
+	selected = "merger"
+	get_parent().alternative = 0
+	
+func update_text():
+	$Counts/GetCount.text = str($/root/Root.spawn_counts["spawn_get"])
+	$Counts/GetCount.text += "/" + str($/root/Root.max_counts["spawn_get"])
+	$Counts/GetCount.text += " (" + str(int(round($/root/Root.timers["spawn_get"]))) + "s)"
+	$Counts/RetCount.text = str($/root/Root.spawn_counts["return"])
+	if $/root/Root.tile_costs.has(selected):
+		$Cost.text = "Cost: $" + str($/root/Root.tile_costs[selected])
+	else:
+		$Cost.text = ""
