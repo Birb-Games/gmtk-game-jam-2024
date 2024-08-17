@@ -23,7 +23,7 @@ var reset_times = {
 }
 
 var timers = {
-	"spawn_get": 1.0
+	"spawn_get": 5.0
 }
 
 var input_pipes = []
@@ -131,10 +131,14 @@ func display_preview():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	update_timers(delta)
+	if !get_tree().paused:
+		update_timers(delta)
 	display_preview()
 	spawn()
 	$HUD.update_text()
+	
+	if Input.is_action_just_pressed("pause"):
+		get_tree().paused = !get_tree().paused
 
 func add_coins(coinAmt):
 	coins += coinAmt

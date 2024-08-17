@@ -13,6 +13,7 @@ shader_parameter/transparency = 0.7
 shader_parameter/remove = false
 
 [node name="Root" type="Node2D"]
+process_mode = 3
 script = ExtResource("1_3r0vi")
 get_request = ExtResource("2_gmtlf")
 

@@ -58,3 +58,8 @@ func update_text():
 		$Cost.text = "Cost: $" + str($/root/Root.tile_costs[selected])
 	else:
 		$Cost.text = ""
+	
+	if get_tree().paused:
+		$Paused.text = "Paused"
+	else:
+		$Paused.text = ""
