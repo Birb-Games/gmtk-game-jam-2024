@@ -127,12 +127,13 @@ func _unhandled_input(event):
 		elif ($HUD.get_selected() != ""):
 			add_top_tile($HUD.get_selected(), pos[0], pos[1])
 	if (event.is_action_pressed("right_click")):
-		alternative += 1
-		$PreviewTileMapLayer.set_cell(current_tile, 0, tile_atlas_positions[$HUD.get_selected()], alternative)
-		$PreviewTileMapLayer.fix_invalid_tiles()
-		if $PreviewTileMapLayer.get_cell_alternative_tile(current_tile) == -1:
-			alternative = 0
+		if $HUD.get_selected() != "" and $HUD.get_selected() != "delete":
+			alternative += 1
 			$PreviewTileMapLayer.set_cell(current_tile, 0, tile_atlas_positions[$HUD.get_selected()], alternative)
+			$PreviewTileMapLayer.fix_invalid_tiles()
+			if $PreviewTileMapLayer.get_cell_alternative_tile(current_tile) == -1:
+				alternative = 0
+				$PreviewTileMapLayer.set_cell(current_tile, 0, tile_atlas_positions[$HUD.get_selected()], alternative)
 
 func display_preview():
 	if current_tile == $PreviewTileMapLayer.local_to_map(get_global_mouse_position()):
