@@ -20,7 +20,15 @@ var timers = {
 var input_pipes = []
 
 const tile_atlas_positions = {
-	"in": Vector2i(0, 0)
+	"in": Vector2i(0, 0),
+	"out": Vector2i(1,0),
+	"splitter": Vector2i(0,1),
+	"filter": Vector2i(1,1),
+	"server": Vector2i(2,1),
+	"compresser": Vector2i(3,1),
+	"storage":Vector2i(0,2),
+	"belt":Vector2i(0,3)
+
 }
 
 func add_tile(id: String, x: int, y: int) -> void:
@@ -53,6 +61,12 @@ func spawn() -> void:
 			$Requests.add_child(instance)
 			timers[id] = reset_times[id]
 			spawn_counts[id] += 1
+
+func _unhandled_input(event):
+	if(event.is_action_pressed("left_click")):
+		var pos=$TileMapLayer.local_to_map(get_global_mouse_position())
+		print(pos)
+		add_tile($HUD.get_selected(), pos[0], pos[1])
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

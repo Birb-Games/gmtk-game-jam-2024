@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://scripts/camera_movement.gd" id="1_00dww"]
 [ext_resource type="Script" path="res://scripts/root.gd" id="1_3r0vi"]
-[ext_resource type="TileSet" uid="uid://bfkboupnfd6k6" path="res://assets/tiles/tiles.tres" id="1_nki4d"]
-[ext_resource type="PackedScene" uid="uid://cesjchmp7tfuv" path="res://scenes/Get.tscn" id="2_gmtlf"]
-[ext_resource type="PackedScene" path="res://scenes/HUD.tscn" id="3_kqhvd"]
+[ext_resource type="TileSet" uid="uid://snnmb8257pw3" path="res://assets/tiles/tiles.tres" id="1_nki4d"]
+[ext_resource type="PackedScene" uid="uid://bhmgf6n8ywrvq" path="res://scenes/Get.tscn" id="2_gmtlf"]
+[ext_resource type="PackedScene" uid="uid://xs0ne0a078ye" path="res://scenes/HUD.tscn" id="3_kqhvd"]
 
 [node name="Root" type="Node2D"]
 script = ExtResource("1_3r0vi")
