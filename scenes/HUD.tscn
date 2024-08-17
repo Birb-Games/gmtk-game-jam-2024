@@ -1,9 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://df7xjo4ai6vhq"]
+[gd_scene load_steps=3 format=4 uid="uid://xs0ne0a078ye"]
 
-[ext_resource type="Script" path="res://scripts/hud.gd" id="1_lpjo3"]
+[ext_resource type="TileSet" uid="uid://snnmb8257pw3" path="res://assets/tiles/tiles.tres" id="1_5sfmw"]
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_o63eh"]
 
-[node name="HUD" type="CanvasLayer"]
-script = ExtResource("1_lpjo3")
+[node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource("1_o63eh")
 
 [node name="CoinLabel" type="Label" parent="."]
 anchors_preset = 1
@@ -14,3 +15,115 @@ offset_bottom = 23.0
 grow_horizontal = 0
 text = "Coins: 0
 "
+
+[node name="Inventory" type="TileMapLayer" parent="."]
+z_index = 3
+position = Vector2(0, 8)
+scale = Vector2(1.5, 1.5)
+tile_map_data = PackedByteArray("AAAJAAoAAAADAAEAAAAKAAoAAAAAAAIAAAALAAoAAAACAAEAAAAMAAoAAAABAAEAAAANAAoAAAAAAAEAAAAHAAoAAAABAAAAAAAGAAoAAAAAAAAAAAAIAAoAAAAAAAMAAAA=")
+tile_set = ExtResource("1_5sfmw")
+
+[node name="InButton" type="Button" parent="Inventory"]
+z_as_relative = false
+anchors_preset = -1
+anchor_left = 0.317
+anchor_top = 0.586
+anchor_right = 0.317
+anchor_bottom = 0.586
+offset_left = 192.0
+offset_top = 320.0
+offset_right = 224.0
+offset_bottom = 352.0
+
+[node name="OutButton" type="Button" parent="Inventory"]
+z_as_relative = false
+anchors_preset = -1
+anchor_left = 0.317
+anchor_top = 0.586
+anchor_right = 0.317
+anchor_bottom = 0.586
+offset_left = 224.0
+offset_top = 320.0
+offset_right = 256.0
+offset_bottom = 352.0
+
+[node name="BeltButton" type="Button" parent="Inventory"]
+z_as_relative = false
+anchors_preset = -1
+anchor_left = 0.317
+anchor_top = 0.586
+anchor_right = 0.317
+anchor_bottom = 0.586
+offset_left = 256.0
+offset_top = 320.0
+offset_right = 288.0
+offset_bottom = 352.0
+
+[node name="CompressorButton" type="Button" parent="Inventory"]
+z_as_relative = false
+anchors_preset = -1
+anchor_left = 0.317
+anchor_top = 0.586
+anchor_right = 0.317
+anchor_bottom = 0.586
+offset_left = 288.0
+offset_top = 320.0
+offset_right = 320.0
+offset_bottom = 352.0
+
+[node name="StorageButton" type="Button" parent="Inventory"]
+z_as_relative = false
+anchors_preset = -1
+anchor_left = 0.317
+anchor_top = 0.586
+anchor_right = 0.317
+anchor_bottom = 0.586
+offset_left = 320.0
+offset_top = 320.0
+offset_right = 352.0
+offset_bottom = 352.0
+
+[node name="ServerButton" type="Button" parent="Inventory"]
+z_as_relative = false
+anchors_preset = -1
+anchor_left = 0.317
+anchor_top = 0.586
+anchor_right = 0.317
+anchor_bottom = 0.586
+offset_left = 352.0
+offset_top = 320.0
+offset_right = 384.0
+offset_bottom = 352.0
+
+[node name="FilterButton" type="Button" parent="Inventory"]
+z_as_relative = false
+anchors_preset = -1
+anchor_left = 0.317
+anchor_top = 0.586
+anchor_right = 0.317
+anchor_bottom = 0.586
+offset_left = 384.0
+offset_top = 320.0
+offset_right = 416.0
+offset_bottom = 352.0
+
+[node name="SplitterButton" type="Button" parent="Inventory"]
+z_as_relative = false
+anchors_preset = -1
+anchor_left = 0.317
+anchor_top = 0.586
+anchor_right = 0.317
+anchor_bottom = 0.586
+offset_left = 416.0
+offset_top = 320.0
+offset_right = 448.0
+offset_bottom = 352.0
+
+[connection signal="pressed" from="Inventory/InButton" to="." method="_on_in_button_pressed"]
+[connection signal="pressed" from="Inventory/OutButton" to="." method="_on_out_button_pressed"]
+[connection signal="pressed" from="Inventory/BeltButton" to="." method="_on_belt_button_pressed"]
+[connection signal="pressed" from="Inventory/CompressorButton" to="." method="_on_compressor_button_pressed"]
+[connection signal="pressed" from="Inventory/StorageButton" to="." method="_on_storage_button_pressed"]
+[connection signal="pressed" from="Inventory/ServerButton" to="." method="_on_server_button_pressed"]
+[connection signal="pressed" from="Inventory/FilterButton" to="." method="_on_filter_button_pressed"]
+[connection signal="pressed" from="Inventory/SplitterButton" to="." method="_on_splitter_button_pressed"]

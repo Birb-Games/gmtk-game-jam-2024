@@ -1,8 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cesjchmp7tfuv"]
+[gd_scene load_steps=5 format=3 uid="uid://bhmgf6n8ywrvq"]
 
 [ext_resource type="Script" path="res://scripts/get.gd" id="1_f0h48"]
 [ext_resource type="Texture2D" uid="uid://bo8ih4apltjfq" path="res://assets/sprites/get.png" id="1_q4pu3"]
-[ext_resource type="PackedScene" uid="uid://ba6rqya3m166h" path="res://scenes/MoveableItem.tscn" id="3_vb1lm"]
+[ext_resource type="PackedScene" uid="uid://jr6vijh0l701" path="res://scenes/MoveableItem.tscn" id="3_vb1lm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ev6j6"]
 radius = 18.0
