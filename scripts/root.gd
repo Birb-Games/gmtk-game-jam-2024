@@ -31,13 +31,30 @@ const tile_atlas_positions = {
 
 }
 
+const tile_costs = {
+	"in": 100,
+	"out": 100,
+	"splitter": 100,
+	"filter": 100,
+	"server": 100,
+	"compressor": 100,
+	"storage":100,
+	"belt":10
+
+}
+
 func add_tile(id: String, x: int, y: int) -> void:
 	if id == "in":
 		input_pipes.push_back(Vector2i(x, y))
-	$TileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], 0)
+	if($HUD.get_coins()>=tile_costs[id]):
+		$HUD.add_coins(-tile_costs[id])
+		$TileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], 0)
+	else:
+		print("insufficent funds")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	$HUD.add_coins(100) # Makes sure the user starts with 100 coins
 	add_tile("in", 1, 1)
 	
 func update_timers(dt: float) -> void:
