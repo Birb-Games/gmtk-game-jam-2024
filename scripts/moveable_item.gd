@@ -20,9 +20,13 @@ func _process(delta: float) -> void:
 	current_tile = top_tile_map.local_to_map(top_tile_map.to_local(item.global_position))
 	is_new_tile = item.global_position.round() == top_tile_map.to_global(top_tile_map.map_to_local(current_tile))
 	
+	current_top_tile_data = top_tile_map.get_cell_tile_data(current_tile)
+	current_bottom_tile_data = bottom_tile_map.get_cell_tile_data(current_tile)
+	
+	if (!current_bottom_tile_data and !current_top_tile_data):
+		direction = Vector2i.ZERO
+	
 	if (is_new_tile):
-		current_top_tile_data = top_tile_map.get_cell_tile_data(current_tile)
-		current_bottom_tile_data = bottom_tile_map.get_cell_tile_data(current_tile)
 		if current_bottom_tile_data and current_bottom_tile_data.get_custom_data("Type") == "conveyor":
 			if !current_bottom_tile_data.flip_h and !current_bottom_tile_data.transpose:
 				direction = Vector2i.RIGHT
@@ -34,21 +38,24 @@ func _process(delta: float) -> void:
 				direction = Vector2i.UP
 		if current_top_tile_data:
 			match current_top_tile_data.get_custom_data("Type"):
-				"input":
-					var possible_directions = [false, false, false, false] #up down left right
-					if bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_TOP_SIDE)) and bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_TOP_SIDE)).get_custom_data("Type") == "conveyor":
-						possible_directions[0] = true
-					if bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_BOTTOM_SIDE)) and bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_BOTTOM_SIDE)).get_custom_data("Type") == "conveyor":
-						possible_directions[1] = true
-					if bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_LEFT_SIDE)) and bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_LEFT_SIDE)).get_custom_data("Type") == "conveyor":
-						possible_directions[2] = true
-					if bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_RIGHT_SIDE)) and bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_RIGHT_SIDE)).get_custom_data("Type") == "conveyor":
-						possible_directions[3] = true
-					direction = get_random_direction(possible_directions)
+				"input": #TODO: add some sort of collision to items so that they choose a new direction if one is blocked
+					#var possible_directions = [false, false, false, false] #up down left right
+					#if bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_TOP_SIDE)) and bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_TOP_SIDE)).get_custom_data("Type") == "conveyor":
+						#possible_directions[0] = true
+					#if bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_BOTTOM_SIDE)) and bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_BOTTOM_SIDE)).get_custom_data("Type") == "conveyor":
+						#possible_directions[1] = true
+					#if bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_LEFT_SIDE)) and bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_LEFT_SIDE)).get_custom_data("Type") == "conveyor":
+						#possible_directions[2] = true
+					#if bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_RIGHT_SIDE)) and bottom_tile_map.get_cell_tile_data(bottom_tile_map.get_neighbor_cell(current_tile, TileSet.CELL_NEIGHBOR_RIGHT_SIDE)).get_custom_data("Type") == "conveyor":
+						#possible_directions[3] = true
+					#direction = get_random_direction(possible_directions)
+					direction = get_random_direction([true, true, true, true])
 				"output":
 					item_outputted.connect($/root/Root.process_output)
 					item_outputted.emit(item)
 					item.queue_free()
+				"splitter":
+					direction = get_random_direction([false, true, false, true])
 				_:
 					direction = Vector2i.ZERO
 	
@@ -57,6 +64,7 @@ func _process(delta: float) -> void:
 		is_new_tile = false
 
 #return a direction based on an array containing which directions are valid
+#the array should have 4 booleans: up, down, left, and right availability
 func get_random_direction(options: Array) -> Vector2i:
 	var true_indices = []
 
