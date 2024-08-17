@@ -4,7 +4,7 @@ extends Node2D
 @export var bad_request: PackedScene
 @export var download_request: PackedScene
 
-var coins: int = 0
+var coins: int = 0 
 var current_tile = Vector2i.ZERO
 
 var alternative: int = 0
@@ -59,7 +59,7 @@ const tile_costs = {
 	"filter": 100,
 	"server": 75,
 	"deleter": 20,
-	"storage":100,
+	"storage": 80,
 	"merger": 100,
 	"conveyor": 1,
 	"conveyor_corner": 1,
@@ -72,7 +72,10 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 			return
 		tiledata = $BottomTileMapLayer.get_cell_tile_data(Vector2i(x, y))
 		if tiledata and tile_costs.has(tiledata.get_custom_data("Type")):
-			add_coins(int(tile_costs[tiledata.get_custom_data("Type")] / 2))
+			var refund = int(tile_costs[tiledata.get_custom_data("Type")] / 2)
+			if tile_costs[tiledata.get_custom_data("Type")] > 0:
+				refund = max(refund, 1)
+			add_coins(refund)
 		$TopTileMapLayer.erase_cell(Vector2i(x, y))
 		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
 		input_pipes.erase(Vector2i(x, y))

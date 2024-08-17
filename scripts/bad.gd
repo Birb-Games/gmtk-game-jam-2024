@@ -11,7 +11,7 @@ func _on_moveable_item_output() -> void:
 
 func _on_moveable_item_server() -> void:
 	$/root/Root.spawn_counts["spawn_bad"] -= 1
-	$/root/Root.add_coins(-15)
+	$/root/Root.add_coins(-20)
 	queue_free()
 
 func _on_moveable_item_empty() -> void:

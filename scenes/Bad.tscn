@@ -17,7 +17,8 @@ texture = ExtResource("1_6sl80")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_2a78c")
 
-[node name="MoveableItem" parent="." instance=ExtResource("2_0fu33")]
+[node name="MoveableItem" parent="." groups=["bad"] instance=ExtResource("2_0fu33")]
+process_mode = 1
 
 [connection signal="deleter" from="MoveableItem" to="." method="_on_moveable_item_deleter"]
 [connection signal="empty" from="MoveableItem" to="." method="_on_moveable_item_empty"]

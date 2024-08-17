@@ -12,6 +12,7 @@ signal output
 signal server
 signal empty
 signal deleter
+signal storage
 
 var new_tile: bool = true
 
@@ -227,6 +228,9 @@ func update_based_on_tile():
 				move_on_conveyor() #acts exactly like a conveyor once the item's on there
 			"deleter":
 				deleter.emit()
+			"storage":
+				push_in_random_dir()
+				storage.emit()
 			_:
 				empty.emit()
 				direction = Vector2i.ZERO
