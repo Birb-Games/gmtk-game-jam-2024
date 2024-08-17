@@ -45,7 +45,7 @@ const tile_atlas_positions = {
 const tile_costs = {
 	"in": 500,
 	"out": 50,
-	"splitter": 100,
+	"splitter": 120,
 	"filter": 100,
 	"server": 75,
 	"deleter": 20,
