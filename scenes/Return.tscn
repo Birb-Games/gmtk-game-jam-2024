@@ -19,5 +19,6 @@ shape = SubResource("CircleShape2D_esm04")
 
 [node name="MoveableItem" parent="." instance=ExtResource("2_q58v3")]
 
+[connection signal="deleter" from="MoveableItem" to="." method="_on_moveable_item_deleter"]
 [connection signal="empty" from="MoveableItem" to="." method="_on_moveable_item_empty"]
 [connection signal="output" from="MoveableItem" to="." method="_on_moveable_item_output"]

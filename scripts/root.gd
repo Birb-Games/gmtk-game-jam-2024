@@ -19,7 +19,7 @@ var max_counts = {
 
 # once a timer runs out, reset it to these times
 var reset_times = {
-	"spawn_get": 2.0
+	"spawn_get": 5.0
 }
 
 var timers = {
@@ -42,28 +42,31 @@ const tile_atlas_positions = {
 }
 
 const tile_costs = {
-	"in": 150,
+	"in": 500,
 	"out": 50,
 	"splitter": 100,
 	"filter": 100,
-	"server": 100,
-	"deleter": 100,
+	"server": 75,
+	"deleter": 20,
 	"storage":100,
 	"merger": 100,
-	"conveyor":10,
-	"conveyor_corner":10,
+	"conveyor": 1,
+	"conveyor_corner": 1,
 }
 
 func add_top_tile(id: String, x: int, y: int) -> void:
-	if id == "in":
-		input_pipes.push_back(Vector2i(x, y))
 	if id == "delete":
+		var tiledata = $TopTileMapLayer.get_cell_tile_data(Vector2i(x, y))
+		if tiledata and len(input_pipes) == 1 and tiledata.get_custom_data("Type") == "input":
+			return
 		$TopTileMapLayer.erase_cell(Vector2i(x, y))
 		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
 		input_pipes.erase(Vector2i(x, y))
 		print(len(input_pipes))
 		return
 	if(coins >= tile_costs[id]):
+		if id == "in":
+			input_pipes.push_back(Vector2i(x, y))
 		add_coins(-tile_costs[id])
 		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
 		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
@@ -72,8 +75,6 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 		print("insufficent funds")
 
 func add_bottom_tile(id: String, x: int, y: int) -> void:
-	if id == "in":
-		input_pipes.push_back(Vector2i(x, y))
 	if(coins >= tile_costs[id]):
 		add_coins(-tile_costs[id])
 		$TopTileMapLayer.erase_cell(Vector2i(x, y))
@@ -83,7 +84,7 @@ func add_bottom_tile(id: String, x: int, y: int) -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	add_coins(10000) # Makes sure the user starts with 100 coins
+	add_coins(100) # Makes sure the user starts with 100 coins
 	for t in $TopTileMapLayer.get_used_cells_by_id(-1, tile_atlas_positions["in"]):
 		input_pipes.push_back(t)
 	

@@ -11,6 +11,7 @@ var stop: bool = false
 signal output
 signal server
 signal empty
+signal deleter
 
 var new_tile: bool = true
 
@@ -183,6 +184,8 @@ func update_based_on_tile():
 				server.emit()
 			"splitter":
 				direction = get_random_direction([false, true, false, true])
+			"deleter":
+				deleter.emit()
 			_:
 				empty.emit()
 				direction = Vector2i.ZERO
