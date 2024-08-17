@@ -11,6 +11,7 @@ var stop: bool = false
 signal output
 signal server
 signal empty
+signal deleter
 
 var new_tile: bool = true
 
@@ -192,6 +193,8 @@ func update_based_on_tile():
 				direction = get_random_direction([false, true, false, true])
 			"merger":
 				move_on_conveyor() #acts exactly like a conveyor once the item's on there
+			"deleter":
+				deleter.emit()
 			_:
 				empty.emit()
 				direction = Vector2i.ZERO
