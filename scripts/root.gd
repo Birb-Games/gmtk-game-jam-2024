@@ -1,6 +1,8 @@
 extends Node2D
 
 @export var get_request: PackedScene
+@export var bad_request: PackedScene
+@export var download_request: PackedScene
 
 var coins: int = 0
 var current_tile = Vector2i.ZERO
@@ -11,20 +13,28 @@ var alternative: int = 0
 # exceed a certain threshold then you lose the game
 var spawn_counts = {
 	"spawn_get": 0,
-	"return": 0
+	"return": 0,
+	"spawn_bad": 0,
+	"spawn_download": 0,
 }
 
 var max_counts = {
 	"spawn_get": 200,
+	"spawn_bad": 100,
+	"spawn_download": 200,
 }
 
 # once a timer runs out, reset it to these times
 var reset_times = {
-	"spawn_get": 5.0
+	"spawn_get": 5.0,
+	"spawn_bad": 10.0,
+	"spawn_download": 15.0,
 }
 
 var timers = {
-	"spawn_get": 5.0
+	"spawn_get": 5.0,
+	"spawn_bad": 120.0,
+	"spawn_download": 240.0,
 }
 
 var input_pipes = []
@@ -116,6 +126,11 @@ func spawn() -> void:
 			var instance
 			if id == "spawn_get":
 				instance = get_request.instantiate()
+			elif id == "spawn_bad":
+				instance = bad_request.instantiate()
+			elif id == "spawn_download":
+				instance = download_request.instantiate()
+				
 			# Place the request in the world
 			instance.position = $TopTileMapLayer.map_to_local(rand_pipe)
 			$Requests.add_child(instance)

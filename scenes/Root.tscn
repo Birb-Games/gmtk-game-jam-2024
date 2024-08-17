@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b37dd5cu6d7et"]
+[gd_scene load_steps=10 format=3 uid="uid://b37dd5cu6d7et"]
 
 [ext_resource type="Script" path="res://scripts/camera_movement.gd" id="1_00dww"]
 [ext_resource type="Script" path="res://scripts/root.gd" id="1_3r0vi"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://bhmgf6n8ywrvq" path="res://scenes/Get.tscn" id="2_gmtlf"]
 [ext_resource type="PackedScene" uid="uid://xs0ne0a078ye" path="res://scenes/HUD.tscn" id="3_kqhvd"]
 [ext_resource type="Shader" path="res://scripts/preview.gdshader" id="3_kt4p4"]
+[ext_resource type="PackedScene" uid="uid://dx8x2wygdl6xn" path="res://scenes/Bad.tscn" id="3_tdf60"]
+[ext_resource type="PackedScene" uid="uid://bc80js0lqq2c" path="res://scenes/Download.tscn" id="4_40qpo"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nasgy"]
 shader = ExtResource("3_kt4p4")
@@ -16,6 +18,8 @@ shader_parameter/remove = false
 process_mode = 3
 script = ExtResource("1_3r0vi")
 get_request = ExtResource("2_gmtlf")
+bad_request = ExtResource("3_tdf60")
+download_request = ExtResource("4_40qpo")
 
 [node name="PreviewTileMapLayer" type="TileMapLayer" parent="."]
 z_index = 2
