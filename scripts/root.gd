@@ -33,20 +33,41 @@ const tile_atlas_positions = {
 
 }
 
+const tile_costs = {
+	"in": 100,
+	"out": 100,
+	"splitter": 100,
+	"filter": 100,
+	"server": 100,
+	"compressor": 100,
+	"storage":100,
+	"conveyor":10
+
+}
+
 func add_top_tile(id: String, x: int, y: int) -> void:
 	if id == "in":
 		input_pipes.push_back(Vector2i(x, y))
-	$BottomTileMapLayer.erase_cell(Vector2i(x, y))
-	$TopTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
+	if(coins >= tile_costs[id]):
+		add_coins(-tile_costs[id])
+		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
+		$TopTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
+	else:
+		print("insufficent funds")
 
 func add_bottom_tile(id: String, x: int, y: int) -> void:
 	if id == "in":
 		input_pipes.push_back(Vector2i(x, y))
-	$TopTileMapLayer.erase_cell(Vector2i(x, y))
-	$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
+	if(coins >= tile_costs[id]):
+		add_coins(-tile_costs[id])
+		$TopTileMapLayer.erase_cell(Vector2i(x, y))
+		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
+	else:
+		print("insufficent funds")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	add_coins(100) # Makes sure the user starts with 100 coins
 	for t in $TopTileMapLayer.get_used_cells_by_id(-1, tile_atlas_positions["in"]):
 		input_pipes.push_back(t)
 	
