@@ -29,7 +29,7 @@ const tile_atlas_positions = {
 	"server": Vector2i(2,1),
 	"compressor": Vector2i(3,1),
 	"storage":Vector2i(0,2),
-	"belt":Vector2i(0,3)
+	"conveyor":Vector2i(0,3)
 
 }
 
@@ -41,23 +41,35 @@ const tile_costs = {
 	"server": 100,
 	"compressor": 100,
 	"storage":100,
-	"belt":10
+	"conveyor":10
 
 }
 
-func add_tile(id: String, x: int, y: int) -> void:
+func add_top_tile(id: String, x: int, y: int) -> void:
 	if id == "in":
 		input_pipes.push_back(Vector2i(x, y))
-	if($HUD.get_coins()>=tile_costs[id]):
-		$HUD.add_coins(-tile_costs[id])
-		$TileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], 0)
+	if(coins >= tile_costs[id]):
+		add_coins(-tile_costs[id])
+		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
+		$TopTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
+	else:
+		print("insufficent funds")
+
+func add_bottom_tile(id: String, x: int, y: int) -> void:
+	if id == "in":
+		input_pipes.push_back(Vector2i(x, y))
+	if(coins >= tile_costs[id]):
+		add_coins(-tile_costs[id])
+		$TopTileMapLayer.erase_cell(Vector2i(x, y))
+		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id])
 	else:
 		print("insufficent funds")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$HUD.add_coins(100) # Makes sure the user starts with 100 coins
-	add_tile("in", 1, 1)
+	add_coins(100) # Makes sure the user starts with 100 coins
+	for t in $TopTileMapLayer.get_used_cells_by_id(-1, tile_atlas_positions["in"]):
+		input_pipes.push_back(t)
 	
 func update_timers(dt: float) -> void:
 	# iterate through timers to update them
@@ -65,7 +77,6 @@ func update_timers(dt: float) -> void:
 		timers[id] -= dt
 
 func spawn() -> void:
-	var tilemap_sz: float = $TileMapLayer.tile_set.tile_size.x
 	for id in timers:
 		if timers[id] <= 0.0:
 			# Chose a random input pipe
@@ -73,19 +84,19 @@ func spawn() -> void:
 			var instance
 			if id == "spawn_get":
 				instance = get_request.instantiate()
-			var x: float = tilemap_sz * rand_pipe.x + tilemap_sz / 2.0
-			var y: float = tilemap_sz * rand_pipe.y + tilemap_sz / 2.0
 			# Place the request in the world
-			instance.position = Vector2(x, y)
+			instance.position = $TopTileMapLayer.map_to_local(rand_pipe)
 			$Requests.add_child(instance)
 			timers[id] = reset_times[id]
 			spawn_counts[id] += 1
 
 func _unhandled_input(event):
-	if(event.is_action_pressed("left_click")):
-		var pos=$TileMapLayer.local_to_map(get_global_mouse_position())
-		if($HUD.get_selected()!=""):
-			add_tile($HUD.get_selected(), pos[0], pos[1])
+	if (event.is_action_pressed("left_click")):
+		var pos=$TopTileMapLayer.local_to_map(get_global_mouse_position())
+		if ($HUD.get_selected() == "conveyor"):
+			add_bottom_tile($HUD.get_selected(), pos[0], pos[1])
+		elif ($HUD.get_selected() != ""):
+			add_top_tile($HUD.get_selected(), pos[0], pos[1])
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

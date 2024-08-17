@@ -28,7 +28,7 @@ func _on_out_button_pressed():
 
 
 func _on_belt_button_pressed():
-	selected="belt"
+	selected="conveyor"
 	print("belt pressed")
 
 
