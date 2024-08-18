@@ -5,6 +5,7 @@ extends Node2D
 @export var download_request: PackedScene
 
 var coins: int = 0 
+const SALE_PERCENT_RECOVERED: float = 0.25 #the amount of value recouped when you sell something
 var current_tile = Vector2i.ZERO
 
 var alternative: int = 0
@@ -77,7 +78,7 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 			return
 		tiledata = $BottomTileMapLayer.get_cell_tile_data(Vector2i(x, y))
 		if tiledata and tile_costs.has(tiledata.get_custom_data("Type")):
-			var refund = int(tile_costs[tiledata.get_custom_data("Type")] / 2)
+			var refund = int(tile_costs[tiledata.get_custom_data("Type")] * SALE_PERCENT_RECOVERED)
 			if tile_costs[tiledata.get_custom_data("Type")] > 0:
 				refund = max(refund, 1)
 			add_coins(refund)
