@@ -20,23 +20,22 @@ var spawn_counts = {
 }
 
 var max_counts = {
-	"get": 50,
-	"return": 50,
-	"bad": 25,
-	"download": 50,
+	"get": 1024,
+	"bad": 128,
+	"download": 512,
 }
 
 # once a timer runs out, reset it to these times
 var reset_times = {
-	"get": 5.0,
+	"get": 3.0,
 	"bad": 10.0,
 	"download": 15.0,
 }
 
 var timers = {
-	"get": 5.0,
-	"bad": 120.0,
-	"download": 240.0,
+	"get": 3.0,
+	"bad": 180.0,
+	"download": 300.0,
 }
 
 var input_pipes = []
@@ -58,15 +57,15 @@ const tile_atlas_positions = {
 
 const tile_costs = {
 	"in": 500,
-	"out": 50,
-	"splitter": 120,
-	"green_filter": 100,
-	"white_filter": 100,
-	"blue_filter": 100,
-	"server": 75,
+	"out": 100,
+	"green_filter": 60,
+	"white_filter": 60,
+	"blue_filter": 60,
+	"server": 40,
+	"splitter": 30,
 	"deleter": 20,
 	"storage": 80,
-	"merger": 100,
+	"merger": 60,
 	"conveyor": 1,
 	"conveyor_corner": 1,
 }
@@ -144,6 +143,7 @@ func spawn() -> void:
 			instance.position = $TopTileMapLayer.map_to_local(rand_pipe)
 			$Requests.add_child(instance)
 			timers[id] = reset_times[id]
+			reset_times[id] = max(reset_times[id] - 0.07, 0.15)  
 			spawn_counts[id] += 1
 
 func _unhandled_input(event):
@@ -177,7 +177,7 @@ func display_preview():
 
 func check_game_over():
 	for item in spawn_counts:
-		if max_counts[item]:
+		if max_counts.has(item) and max_counts[item]:
 			if spawn_counts[item] > max_counts[item]:
 				game_over()
 	if coins < 0:

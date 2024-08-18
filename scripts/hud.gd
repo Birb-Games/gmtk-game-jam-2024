@@ -87,7 +87,6 @@ func update_text():
 	set_count_text($Counts/BadCount, "bad")
 	set_count_text($Counts/DownloadCount, "download")
 	$Counts/RetCount.text = str($/root/Root.spawn_counts["return"])
-	$Counts/RetCount.text += "/" + str($/root/Root.max_counts["return"])
 
 	if $/root/Root.tile_costs.has(selected):
 		$Cost.text = "Cost: $" + str($/root/Root.tile_costs[selected])
