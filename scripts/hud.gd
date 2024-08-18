@@ -73,10 +73,11 @@ func _on_merger_button_pressed() -> void:
 
 	
 func update_text():
-	$Counts/GetCount.text = str($/root/Root.spawn_counts["spawn_get"])
-	$Counts/GetCount.text += "/" + str($/root/Root.max_counts["spawn_get"])
-	$Counts/GetCount.text += " (" + str(int(round($/root/Root.timers["spawn_get"]))) + "s)"
+	$Counts/GetCount.text = str($/root/Root.spawn_counts["get"])
+	$Counts/GetCount.text += "/" + str($/root/Root.max_counts["get"])
+	$Counts/GetCount.text += " (" + str(int(round($/root/Root.timers["get"]))) + "s)"
 	$Counts/RetCount.text = str($/root/Root.spawn_counts["return"])
+	$Counts/RetCount.text += "/" + str($/root/Root.max_counts["return"])
 	if $/root/Root.tile_costs.has(selected):
 		$Cost.text = "Cost: $" + str($/root/Root.tile_costs[selected])
 	else:

@@ -14,7 +14,7 @@ func _on_moveable_item_output() -> void:
 	# NO YOU ARE NOT SUPPOSED TO PUT THIS IN AN OUTPUT
 	# Lose a coin
 	$/root/Root.add_coins(-5)
-	$/root/Root.spawn_counts["spawn_get"] -= 1
+	$/root/Root.spawn_counts["get"] -= 1
 	queue_free()
 
 func _on_moveable_item_server() -> void:
@@ -27,7 +27,7 @@ func _on_moveable_item_server() -> void:
 	var instance = ret.instantiate()
 	instance.position = position
 	$/root/Root/Requests.add_child(instance)
-	$/root/Root.spawn_counts["spawn_get"] -= 1
+	$/root/Root.spawn_counts["get"] -= 1
 	queue_free()
 
 func _on_area_entered(area: Area2D) -> void:
@@ -39,11 +39,11 @@ func _on_area_exited(area: Area2D) -> void:
 		collision_counts -= 1
 
 func _on_moveable_item_empty() -> void:
-	$/root/Root.spawn_counts["spawn_get"] -= 1
+	$/root/Root.spawn_counts["get"] -= 1
 	$/root/Root.add_coins(-5)
 	queue_free()
 
 func _on_moveable_item_deleter() -> void:
-	$/root/Root.spawn_counts["spawn_get"] -= 1
+	$/root/Root.spawn_counts["get"] -= 1
 	$/root/Root.add_coins(-5)
 	queue_free()
