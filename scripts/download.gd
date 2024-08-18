@@ -13,6 +13,8 @@ func _process(delta):
 func _on_moveable_item_empty() -> void:
 	var i = randi() % len($/root/Root.input_pipes)
 	position = $/root/Root/TopTileMapLayer.map_to_local($/root/Root.input_pipes[i])
+	timer = 5.0
+	$MoveableItem.stop = false
 
 func _on_moveable_item_deleter() -> void:
 	$/root/Root.spawn_counts["download"] -= 1

@@ -41,6 +41,8 @@ func _on_area_exited(area: Area2D) -> void:
 func _on_moveable_item_empty() -> void:
 	var i = randi() % len($/root/Root.input_pipes)
 	position = $/root/Root/TopTileMapLayer.map_to_local($/root/Root.input_pipes[i])
+	timer = 1.0
+	$MoveableItem.stop = false
 
 func _on_moveable_item_deleter() -> void:
 	$/root/Root.spawn_counts["get"] -= 1

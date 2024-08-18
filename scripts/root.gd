@@ -143,7 +143,7 @@ func spawn() -> void:
 			instance.position = $TopTileMapLayer.map_to_local(rand_pipe)
 			$Requests.add_child(instance)
 			timers[id] = reset_times[id]
-			reset_times[id] = max(reset_times[id] - 0.07, 0.15)  
+			reset_times[id] = max(reset_times[id] - 0.07, 0.2)  
 			spawn_counts[id] += 1
 
 func _unhandled_input(event):

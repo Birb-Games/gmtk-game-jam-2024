@@ -17,3 +17,4 @@ func _on_moveable_item_server() -> void:
 func _on_moveable_item_empty() -> void:
 	var i = randi() % len($/root/Root.input_pipes)
 	position = $/root/Root/TopTileMapLayer.map_to_local($/root/Root.input_pipes[i])
+	$MoveableItem.stop = false
