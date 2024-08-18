@@ -5,6 +5,7 @@ extends Node2D
 @export var download_request: PackedScene
 
 var coins: int = 0 
+const SALE_PERCENT_RECOVERED: float = 0.25 #the amount of value recouped when you sell something
 var current_tile = Vector2i.ZERO
 
 var alternative: int = 0
@@ -43,7 +44,9 @@ const tile_atlas_positions = {
 	"in": Vector2i(0, 0),
 	"out": Vector2i(1,0),
 	"splitter": Vector2i(0,1),
-	"filter": Vector2i(1,1),
+	"green_filter": Vector2i(1,1),
+	"white_filter": Vector2i(1,2),
+	"blue_filter": Vector2i(2,2),
 	"server": Vector2i(2,1),
 	"deleter": Vector2i(3,1),
 	"storage": Vector2i(0,2),
@@ -55,9 +58,11 @@ const tile_atlas_positions = {
 const tile_costs = {
 	"in": 500,
 	"out": 100,
-	"splitter": 30,
-	"filter": 60,
+	"green_filter": 60,
+	"white_filter": 60,
+	"blue_filter": 60,
 	"server": 40,
+	"splitter": 30,
 	"deleter": 20,
 	"storage": 80,
 	"merger": 60,
@@ -72,7 +77,7 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 			return
 		tiledata = $BottomTileMapLayer.get_cell_tile_data(Vector2i(x, y))
 		if tiledata and tile_costs.has(tiledata.get_custom_data("Type")):
-			var refund = int(tile_costs[tiledata.get_custom_data("Type")] / 2)
+			var refund = int(tile_costs[tiledata.get_custom_data("Type")] * SALE_PERCENT_RECOVERED)
 			if tile_costs[tiledata.get_custom_data("Type")] > 0:
 				refund = max(refund, 1)
 			add_coins(refund)
