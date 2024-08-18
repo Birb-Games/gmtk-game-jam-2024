@@ -7,6 +7,7 @@ extends Node2D
 var coins: int = 0 
 const SALE_PERCENT_RECOVERED: float = 0.25 #the amount of value recouped when you sell something
 var current_tile = Vector2i.ZERO
+var is_game_over: bool = false
 
 var alternative: int = 0
 
@@ -29,7 +30,14 @@ var max_counts = {
 var reset_times = {
 	"get": 3.0,
 	"bad": 7.0,
-	"download": 10.0,
+	"download": 7.0,
+}
+
+# How fast each timer should speed up
+var speed_up = {
+	"get": 0.05,
+	"bad": 0.07,
+	"download": 0.2
 }
 
 var timers = {
@@ -55,8 +63,8 @@ const tile_atlas_positions = {
 	"conveyor_corner": Vector2i(2, 3),
 }
 
-const tile_costs = {
-	"in": 500,
+var tile_costs = {
+	"in": 4000,
 	"out": 100,
 	"green_filter": 60,
 	"white_filter": 60,
@@ -69,6 +77,8 @@ const tile_costs = {
 	"conveyor": 1,
 	"conveyor_corner": 1,
 }
+
+const COST_MULTIPLIER: int = 8
 
 func add_top_tile(id: String, x: int, y: int) -> void:
 	var tiledata = $TopTileMapLayer.get_cell_tile_data(Vector2i(x, y))
@@ -83,15 +93,23 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 			add_coins(refund)
 		$TopTileMapLayer.erase_cell(Vector2i(x, y))
 		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
+		var input_pipes_len = len(input_pipes)
 		input_pipes.erase(Vector2i(x, y))
+		if tiledata:
+			$/root/Root/Audio/Destroy.play()
 		return
 	if tiledata != null:
 		return
 	tiledata = $BottomTileMapLayer.get_cell_tile_data(Vector2i(x, y))
-	if tiledata != null:
+	if tiledata and tiledata.get_custom_data("Type") != "conveyor" and tiledata.get_custom_data("Type") != "conveyor_corner":
 		return
+	# replace conveyor belt
+	if tiledata and (tiledata.get_custom_data("Type") == "conveyor" or tiledata.get_custom_data("Type") == "conveyor_corner"):
+		coins += 1
 	if spend_coins(tile_costs[id]):
+		$/root/Root/Audio/Place.play()
 		if id == "in":
+			tile_costs[id] *= COST_MULTIPLIER
 			input_pipes.push_back(Vector2i(x, y))
 		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
 		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
@@ -107,6 +125,7 @@ func add_bottom_tile(id: String, x: int, y: int) -> void:
 	if tiledata != null:
 		return
 	if(coins >= tile_costs[id]):
+		$/root/Root/Audio/Place.play()
 		add_coins(-tile_costs[id])
 		$TopTileMapLayer.erase_cell(Vector2i(x, y))
 		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
@@ -115,6 +134,7 @@ func add_bottom_tile(id: String, x: int, y: int) -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	get_tree().paused = false
 	add_coins(100) # Makes sure the user starts with 100 coins
 	for t in $TopTileMapLayer.get_used_cells_by_id(-1, tile_atlas_positions["in"]):
 		input_pipes.push_back(t)
@@ -143,23 +163,35 @@ func spawn() -> void:
 			instance.position = $TopTileMapLayer.map_to_local(rand_pipe)
 			$Requests.add_child(instance)
 			timers[id] = reset_times[id]
-			reset_times[id] = max(reset_times[id] - 0.07, 0.15)  
+			reset_times[id] = max(reset_times[id] - speed_up[id], 0.18)  
 			spawn_counts[id] += 1
 
 func _unhandled_input(event):
+	if is_game_over:
+		return
+	
 	if (event.is_action_pressed("left_click")):
 		var pos=$TopTileMapLayer.local_to_map(get_global_mouse_position())
 		if ($HUD.get_selected() == "conveyor" or $HUD.get_selected() == "conveyor_corner"):
 			add_bottom_tile($HUD.get_selected(), pos[0], pos[1])
 		elif ($HUD.get_selected() != ""):
 			add_top_tile($HUD.get_selected(), pos[0], pos[1])
-	if (event.is_action_pressed("right_click")):
+	if (event.is_action_pressed("right_click") and !Input.is_action_pressed("reverse_rotation")):
 		if $HUD.get_selected() != "" and $HUD.get_selected() != "delete":
 			alternative += 1
 			$PreviewTileMapLayer.set_cell(current_tile, 0, tile_atlas_positions[$HUD.get_selected()], alternative)
 			$PreviewTileMapLayer.fix_invalid_tiles()
 			if $PreviewTileMapLayer.get_cell_alternative_tile(current_tile) == -1:
 				alternative = 0
+				$PreviewTileMapLayer.set_cell(current_tile, 0, tile_atlas_positions[$HUD.get_selected()], alternative)
+	elif (event.is_action_pressed("right_click") and Input.is_action_pressed("reverse_rotation")):
+		if $HUD.get_selected() != "" and $HUD.get_selected() != "delete":
+			alternative -= 1
+			$PreviewTileMapLayer.set_cell(current_tile, 0, tile_atlas_positions[$HUD.get_selected()], alternative)
+			if $PreviewTileMapLayer.get_cell_alternative_tile(current_tile) == -1:
+				var atlas_pos = tile_atlas_positions[$HUD.get_selected()]
+				var source = $PreviewTileMapLayer.tile_set.get_source(0)
+				alternative = source.get_alternative_tiles_count(atlas_pos) - 1
 				$PreviewTileMapLayer.set_cell(current_tile, 0, tile_atlas_positions[$HUD.get_selected()], alternative)
 
 func display_preview():
@@ -179,13 +211,17 @@ func check_game_over():
 	for item in spawn_counts:
 		if max_counts.has(item) and max_counts[item]:
 			if spawn_counts[item] > max_counts[item]:
-				game_over()
+				game_over("THE SERVER CRASHED!")
 	if coins < 0:
-		game_over()
+		game_over("YOU WENT BANKRUPT!")
 
-func game_over():
+func game_over(msg: String):
+	if !is_game_over:
+		$HUD/GameOver.show()
+		$/root/Root/Audio/Gameover.play()
+		$HUD/GameOver/GameOverText.text = msg
+	is_game_over = true
 	get_tree().paused = true
-	$HUD/Paused.text = "Game Over"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

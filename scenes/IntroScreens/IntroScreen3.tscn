@@ -1,0 +1,105 @@
+[gd_scene load_steps=12 format=3 uid="uid://4sw2deyhu1xr"]
+
+[ext_resource type="FontFile" uid="uid://b83lr4reqbm0y" path="res://assets/fonts/8BitOperator/8bitOperatorPlus8-Regular.ttf" id="1_b6ljm"]
+[ext_resource type="Script" path="res://scripts/intro_screen.gd" id="1_e3rcx"]
+[ext_resource type="FontFile" uid="uid://b3j21gnxq1jn1" path="res://assets/fonts/8BitOperator/8bitOperatorPlus8-Bold.ttf" id="2_56tdf"]
+[ext_resource type="PackedScene" uid="uid://iyl75fyula6c" path="res://scenes/IntroScreens/IntroScreen4.tscn" id="2_t25th"]
+[ext_resource type="Texture2D" uid="uid://buhtc2q7yvi8t" path="res://assets/tiles/tiles.png" id="3_je0jj"]
+[ext_resource type="Texture2D" uid="uid://bft8p2ejikb81" path="res://assets/sprites/download.png" id="3_m5g1x"]
+[ext_resource type="Texture2D" uid="uid://dsvyyyt3dr7i7" path="res://assets/sprites/arrow.png" id="4_pnece"]
+[ext_resource type="Texture2D" uid="uid://40u8nw0veh31" path="res://assets/sprites/return.png" id="6_gvpki"]
+[ext_resource type="Texture2D" uid="uid://oryin8ekfal5" path="res://assets/sprites/bad.png" id="7_yoqbu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q35sg"]
+atlas = ExtResource("3_je0jj")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nh6t7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q35sg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="IntroScreen3" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 960.0
+offset_bottom = 540.0
+script = ExtResource("1_e3rcx")
+next_screen = ExtResource("2_t25th")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_top = 29.0
+offset_right = 960.0
+offset_bottom = 411.0
+theme_override_fonts/font = ExtResource("1_b6ljm")
+theme_override_font_sizes/font_size = 32
+text = "Your Instructions:
+
+Eventually users will want to download some files
+and you will need to send those requests to
+a file storage device and retrive their data and send
+it to an output pipe.
+
+
+
+
+However, sometimes malware will appear and you must
+delete it.
+
+Make sure the servers can scale upwards to handle
+as many requests without overloading. If too many
+items appear on screen, the server will crash!"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 430.0
+offset_top = 464.0
+offset_right = 530.0
+offset_bottom = 495.0
+theme_override_fonts/font = ExtResource("2_56tdf")
+theme_override_font_sizes/font_size = 32
+text = "OK"
+flat = true
+
+[node name="Instruction1" type="Node" parent="."]
+
+[node name="Get" type="Sprite2D" parent="Instruction1"]
+position = Vector2(320, 233)
+scale = Vector2(2, 2)
+texture = ExtResource("3_m5g1x")
+
+[node name="Arrow2" type="Sprite2D" parent="Instruction1"]
+position = Vector2(393, 233)
+scale = Vector2(2, 2)
+texture = ExtResource("4_pnece")
+
+[node name="Server" type="AnimatedSprite2D" parent="Instruction1"]
+position = Vector2(472, 233)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_nh6t7")
+
+[node name="Arrow3" type="Sprite2D" parent="Instruction1"]
+position = Vector2(553, 233)
+scale = Vector2(2, 2)
+texture = ExtResource("4_pnece")
+
+[node name="Return" type="Sprite2D" parent="Instruction1"]
+modulate = Color(0.8, 0.8, 0.8, 1)
+position = Vector2(619, 233)
+scale = Vector2(2, 2)
+texture = ExtResource("6_gvpki")
+
+[node name="Bad" type="Sprite2D" parent="Instruction1"]
+position = Vector2(675, 233)
+scale = Vector2(2, 2)
+texture = ExtResource("7_yoqbu")
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

@@ -29,6 +29,7 @@ func _ready():
 	pass
 
 func select(option):
+	$/root/Root/Audio/Click.play()
 	get_parent().alternative = 0
 	if(selected==option):
 		defocus()
@@ -39,6 +40,13 @@ func select(option):
 func _process(delta):
 	if(Input.is_action_just_pressed("defocus")):
 		defocus()
+	
+	if(Input.is_action_just_pressed("quit")):
+		$Quit.visible = !$Quit.visible
+		if $Quit.visible:
+			get_tree().paused = true
+		else:
+			get_tree().paused = false
 
 func _on_in_button_pressed():
 	select("in")
@@ -80,18 +88,18 @@ func _on_merger_button_pressed() -> void:
 	select("merger")
 
 func set_count_text(label: Label, id: String):
-	label.text = str($/root/Root.spawn_counts[id])
-	label.text += "/" + str($/root/Root.max_counts[id])
-	label.text += " (" + str(int(round($/root/Root.timers[id]))) + "s)"
+	label.text = str($/root/Root/GameScreen.spawn_counts[id])
+	label.text += "/" + str($/root/Root/GameScreen.max_counts[id])
+	label.text += " (" + str(int(round($/root/Root/GameScreen.timers[id]))) + "s)"
 	
 func update_text():
 	set_count_text($Counts/GetCount, "get")
 	set_count_text($Counts/BadCount, "bad")
 	set_count_text($Counts/DownloadCount, "download")
-	$Counts/RetCount.text = str($/root/Root.spawn_counts["return"])
+	$Counts/RetCount.text = str($/root/Root/GameScreen.spawn_counts["return"])
 
-	if $/root/Root.tile_costs.has(selected):
-		$Cost.text = "Cost: $" + str($/root/Root.tile_costs[selected])
+	if $/root/Root/GameScreen.tile_costs.has(selected):
+		$Cost.text = "Cost: $" + str($/root/Root/GameScreen.tile_costs[selected])
 	else:
 		$Cost.text = ""
 	
@@ -99,3 +107,11 @@ func update_text():
 		$Paused.text = "Paused"
 	else:
 		$Paused.text = ""
+
+func _on_return_to_menu_pressed() -> void:
+	get_parent().queue_free()
+	$/root/Root/MainMenu.show()
+
+func _on_no_pressed() -> void:
+	$Quit.hide()
+	get_tree().paused = false

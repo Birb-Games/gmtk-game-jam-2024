@@ -1,7 +1,7 @@
 extends Node2D
 
-@onready var top_tile_map: TileMapLayer = $/root/Root/TopTileMapLayer
-@onready var bottom_tile_map: TileMapLayer = $/root/Root/BottomTileMapLayer
+@onready var top_tile_map: TileMapLayer = $/root/Root/GameScreen/TopTileMapLayer
+@onready var bottom_tile_map: TileMapLayer = $/root/Root/GameScreen/BottomTileMapLayer
 var current_top_tile_data: TileData
 var current_bottom_tile_data: TileData
 var current_tile: Vector2i
