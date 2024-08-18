@@ -44,7 +44,7 @@ text = "Your Instructions:
 
 Eventually users will want to download some files
 and you will need to send those requests to
-a file storage device and retrive their data and sent
+a file storage device and retrive their data and send
 it to an output pipe.
 
 

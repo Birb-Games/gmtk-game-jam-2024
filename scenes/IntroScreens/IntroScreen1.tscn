@@ -27,8 +27,8 @@ startup \"Super Scalable Servers Inc.\"
 You have one purpose:
 Design and build a web server
 that can scale to handle
-as much traffic as possible and make as
-much money as possible doing so."
+as much traffic as possible and also
+maximize profit doing so."
 horizontal_alignment = 1
 
 [node name="Button" type="Button" parent="."]
