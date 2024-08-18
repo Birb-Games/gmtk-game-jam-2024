@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://dx8x2wygdl6xn"]
+
+[ext_resource type="Texture2D" uid="uid://oryin8ekfal5" path="res://assets/sprites/bad.png" id="1_6sl80"]
+[ext_resource type="Script" path="res://scripts/bad.gd" id="1_jnkid"]
+[ext_resource type="PackedScene" uid="uid://bvqawkcoycf3e" path="res://scenes/MoveableItem.tscn" id="2_0fu33"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2a78c"]
+radius = 18.0
+
+[node name="Bad" type="Area2D"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_jnkid")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_6sl80")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_2a78c")
+
+[node name="MoveableItem" parent="." groups=["bad"] instance=ExtResource("2_0fu33")]
+process_mode = 1
+
+[connection signal="deleter" from="MoveableItem" to="." method="_on_moveable_item_deleter"]
+[connection signal="empty" from="MoveableItem" to="." method="_on_moveable_item_empty"]
+[connection signal="output" from="MoveableItem" to="." method="_on_moveable_item_output"]
+[connection signal="server" from="MoveableItem" to="." method="_on_moveable_item_server"]

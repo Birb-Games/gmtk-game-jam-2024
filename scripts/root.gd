@@ -1,8 +1,10 @@
 extends Node2D
 
 @export var get_request: PackedScene
+@export var bad_request: PackedScene
+@export var download_request: PackedScene
 
-var coins: int = 0
+var coins: int = 0 
 var current_tile = Vector2i.ZERO
 
 var alternative: int = 0
@@ -11,21 +13,28 @@ var alternative: int = 0
 # exceed a certain threshold then you lose the game
 var spawn_counts = {
 	"get": 0,
-	"return": 0
+	"return": 0,
+	"bad": 0,
+	"download": 0,
 }
 
 var max_counts = {
-	"get": 20,
-	"return": 20
+	"get": 1024,
+	"bad": 128,
+	"download": 512,
 }
 
 # once a timer runs out, reset it to these times
 var reset_times = {
-	"get": 5.0
+	"get": 3.0,
+	"bad": 10.0,
+	"download": 15.0,
 }
 
 var timers = {
-	"get": 5.0
+	"get": 3.0,
+	"bad": 180.0,
+	"download": 300.0,
 }
 
 var input_pipes = []
@@ -45,13 +54,13 @@ const tile_atlas_positions = {
 
 const tile_costs = {
 	"in": 500,
-	"out": 50,
-	"splitter": 120,
-	"filter": 100,
-	"server": 75,
+	"out": 100,
+	"splitter": 30,
+	"filter": 60,
+	"server": 40,
 	"deleter": 20,
-	"storage":100,
-	"merger": 100,
+	"storage": 80,
+	"merger": 60,
 	"conveyor": 1,
 	"conveyor_corner": 1,
 }
@@ -61,6 +70,12 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 	if id == "delete":
 		if tiledata and len(input_pipes) == 1 and tiledata.get_custom_data("Type") == "input":
 			return
+		tiledata = $BottomTileMapLayer.get_cell_tile_data(Vector2i(x, y))
+		if tiledata and tile_costs.has(tiledata.get_custom_data("Type")):
+			var refund = int(tile_costs[tiledata.get_custom_data("Type")] / 2)
+			if tile_costs[tiledata.get_custom_data("Type")] > 0:
+				refund = max(refund, 1)
+			add_coins(refund)
 		$TopTileMapLayer.erase_cell(Vector2i(x, y))
 		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
 		input_pipes.erase(Vector2i(x, y))
@@ -114,10 +129,16 @@ func spawn() -> void:
 			var instance
 			if id == "get":
 				instance = get_request.instantiate()
+			elif id == "bad":
+				instance = bad_request.instantiate()
+			elif id == "download":
+				instance = download_request.instantiate()
+				
 			# Place the request in the world
 			instance.position = $TopTileMapLayer.map_to_local(rand_pipe)
 			$Requests.add_child(instance)
 			timers[id] = reset_times[id]
+			reset_times[id] = max(reset_times[id] - 0.07, 0.15)  
 			spawn_counts[id] += 1
 
 func _unhandled_input(event):
@@ -151,7 +172,7 @@ func display_preview():
 
 func check_game_over():
 	for item in spawn_counts:
-		if max_counts[item]:
+		if max_counts.has(item) and max_counts[item]:
 			if spawn_counts[item] > max_counts[item]:
 				game_over()
 	if coins < 0:
