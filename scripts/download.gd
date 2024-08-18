@@ -11,9 +11,8 @@ func _process(delta):
 	timer -= timer_enabled * delta
 
 func _on_moveable_item_empty() -> void:
-	$/root/Root.spawn_counts["download"] -= 1
-	$/root/Root.add_coins(-10)
-	queue_free()
+	var i = randi() % len($/root/Root.input_pipes)
+	position = $/root/Root/TopTileMapLayer.map_to_local($/root/Root.input_pipes[i])
 
 func _on_moveable_item_deleter() -> void:
 	$/root/Root.spawn_counts["download"] -= 1

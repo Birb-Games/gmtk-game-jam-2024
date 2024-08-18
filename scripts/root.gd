@@ -27,8 +27,8 @@ var max_counts = {
 # once a timer runs out, reset it to these times
 var reset_times = {
 	"get": 3.0,
-	"bad": 10.0,
-	"download": 15.0,
+	"bad": 7.0,
+	"download": 10.0,
 }
 
 var timers = {

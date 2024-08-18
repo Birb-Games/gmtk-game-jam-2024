@@ -10,6 +10,8 @@ func _unhandled_input(event):
 		zoom *= 1 + zoom_speed
 	if(event.is_action_pressed("zoom_out")):
 		zoom *= 1 / (1 + zoom_speed)
+	zoom.x = clamp(zoom.x, 0.2, 16.0)
+	zoom.y = clamp(zoom.y, 0.2, 16.0)
 
 func _process(delta: float) -> void:
 	var input_direction = Input.get_vector("left", "right", "up", "down")
