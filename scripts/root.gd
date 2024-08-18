@@ -86,18 +86,29 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 		input_pipes.erase(Vector2i(x, y))
 		return
 	if tiledata != null:
-		return
+		if tiledata.get_custom_data("Type")!=id:
+			return
 	tiledata = $BottomTileMapLayer.get_cell_tile_data(Vector2i(x, y))
 	if tiledata != null:
-		return
+		if tiledata.get_custom_data("Type")!=id:
+			return
 	if spend_coins(tile_costs[id]):
+		if tiledata != null:
+			if tiledata.get_custom_data("Type")==id:
+				add_coins(tile_costs[id])
 		if id == "in":
 			input_pipes.push_back(Vector2i(x, y))
 		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
 		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
 		$TopTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
 	else:
-		print("insufficent funds")
+		if tiledata != null:
+			if tiledata.get_custom_data("Type")==id:
+				if id == "in":
+					input_pipes.push_back(Vector2i(x, y))
+				$BottomTileMapLayer.erase_cell(Vector2i(x, y))
+				$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
+				$TopTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
 
 func add_bottom_tile(id: String, x: int, y: int) -> void:
 	var tiledata = $TopTileMapLayer.get_cell_tile_data(Vector2i(x, y))
