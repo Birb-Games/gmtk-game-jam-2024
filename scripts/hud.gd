@@ -29,6 +29,7 @@ func _ready():
 	pass
 
 func select(option):
+	$/root/Root/Audio/Click.play()
 	get_parent().alternative = 0
 	if(selected==option):
 		defocus()

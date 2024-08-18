@@ -7,6 +7,7 @@ extends Node2D
 var coins: int = 0 
 const SALE_PERCENT_RECOVERED: float = 0.25 #the amount of value recouped when you sell something
 var current_tile = Vector2i.ZERO
+var is_game_over: bool = false
 
 var alternative: int = 0
 
@@ -97,6 +98,8 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 		# Check if we erased a pipe
 		if len(input_pipes) < input_pipes_len:
 			tile_costs["in"] /= COST_MULTIPLIER
+		if tiledata:
+			$Audio/Destroy.play()
 		return
 	if tiledata != null:
 		return
@@ -107,6 +110,7 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 	if tiledata and (tiledata.get_custom_data("Type") == "conveyor" or tiledata.get_custom_data("Type") == "conveyor_corner"):
 		coins += 1
 	if spend_coins(tile_costs[id]):
+		$Audio/Place.play()
 		if id == "in":
 			tile_costs[id] *= COST_MULTIPLIER
 			input_pipes.push_back(Vector2i(x, y))
@@ -124,6 +128,7 @@ func add_bottom_tile(id: String, x: int, y: int) -> void:
 	if tiledata != null:
 		return
 	if(coins >= tile_costs[id]):
+		$Audio/Place.play()
 		add_coins(-tile_costs[id])
 		$TopTileMapLayer.erase_cell(Vector2i(x, y))
 		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
@@ -164,6 +169,9 @@ func spawn() -> void:
 			spawn_counts[id] += 1
 
 func _unhandled_input(event):
+	if is_game_over:
+		return
+	
 	if (event.is_action_pressed("left_click")):
 		var pos=$TopTileMapLayer.local_to_map(get_global_mouse_position())
 		if ($HUD.get_selected() == "conveyor" or $HUD.get_selected() == "conveyor_corner"):
@@ -211,6 +219,9 @@ func check_game_over():
 		game_over("YOU WENT BANKRUPT!")
 
 func game_over(msg: String):
+	if !is_game_over:
+		$Audio/Gameover.play()
+	is_game_over = true
 	get_tree().paused = true
 	$HUD/GameOver.text = msg
 

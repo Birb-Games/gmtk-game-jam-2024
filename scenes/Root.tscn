@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b37dd5cu6d7et"]
+[gd_scene load_steps=14 format=3 uid="uid://b37dd5cu6d7et"]
 
 [ext_resource type="Script" path="res://scripts/camera_movement.gd" id="1_00dww"]
 [ext_resource type="Script" path="res://scripts/root.gd" id="1_3r0vi"]
@@ -8,6 +8,10 @@
 [ext_resource type="Shader" path="res://scripts/preview.gdshader" id="3_kt4p4"]
 [ext_resource type="PackedScene" uid="uid://dx8x2wygdl6xn" path="res://scenes/Bad.tscn" id="3_tdf60"]
 [ext_resource type="PackedScene" uid="uid://bc80js0lqq2c" path="res://scenes/Download.tscn" id="4_40qpo"]
+[ext_resource type="AudioStream" uid="uid://11wp6tq48aq" path="res://assets/sfx/click.wav" id="9_n1k25"]
+[ext_resource type="AudioStream" uid="uid://b88oeixjtjecs" path="res://assets/sfx/gameover.wav" id="10_dxmsh"]
+[ext_resource type="AudioStream" uid="uid://dyoi6tjy1aht0" path="res://assets/sfx/place.wav" id="11_wgrs3"]
+[ext_resource type="AudioStream" uid="uid://bjqy4vtaw15r6" path="res://assets/sfx/destroy.wav" id="12_isak2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nasgy"]
 shader = ExtResource("3_kt4p4")
@@ -43,3 +47,19 @@ zoom = Vector2(2, 2)
 script = ExtResource("1_00dww")
 
 [node name="HUD" parent="." instance=ExtResource("3_kqhvd")]
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="Click" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("9_n1k25")
+
+[node name="Gameover" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("10_dxmsh")
+
+[node name="Place" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("11_wgrs3")
+volume_db = -8.0
+
+[node name="Destroy" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("12_isak2")
+volume_db = -8.0
