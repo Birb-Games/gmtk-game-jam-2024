@@ -9,6 +9,20 @@ var timer_enabled = 0.0
 
 func _process(delta: float):
 	timer -= delta * timer_enabled
+	
+	if $MoveableItem.stop:
+		var current_tile = $MoveableItem.current_tile
+		var tiledata = $MoveableItem.bottom_tile_map.get_cell_tile_data(current_tile)
+		if tiledata == null:
+			$MoveableItem.stop = false
+			$MoveableItem.new_tile = true
+			timer_enabled = 0.0
+			timer = 1.0
+		elif tiledata.get_custom_data("Type") != "server":
+			$MoveableItem.stop = false
+			$MoveableItem.new_tile = true 
+			timer_enabled = 0.0
+			timer = 1.0
 
 func _on_moveable_item_output() -> void:
 	# NO YOU ARE NOT SUPPOSED TO PUT THIS IN AN OUTPUT

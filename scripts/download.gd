@@ -9,6 +9,20 @@ var timer_enabled: float = 0.0
 
 func _process(delta):
 	timer -= timer_enabled * delta
+	
+	if $MoveableItem.stop:
+		var current_tile = $MoveableItem.current_tile
+		var tiledata = $MoveableItem.bottom_tile_map.get_cell_tile_data(current_tile)
+		if tiledata == null:
+			$MoveableItem.stop = false
+			$MoveableItem.new_tile = true
+			timer_enabled = 0.0
+			timer = 1.0
+		elif tiledata.get_custom_data("Type") != "storage":
+			$MoveableItem.stop = false
+			$MoveableItem.new_tile = true 
+			timer_enabled = 0.0
+			timer = 1.0
 
 func _on_moveable_item_empty() -> void:
 	var i = randi() % len($/root/Root/GameScreen.input_pipes)

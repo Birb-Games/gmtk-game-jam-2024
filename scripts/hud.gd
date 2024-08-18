@@ -42,8 +42,11 @@ func _process(delta):
 		defocus()
 	
 	if(Input.is_action_just_pressed("quit")):
-		get_tree().paused = !get_tree().paused
 		$Quit.visible = !$Quit.visible
+		if $Quit.visible:
+			get_tree().paused = true
+		else:
+			get_tree().paused = false
 
 func _on_in_button_pressed():
 	select("in")
