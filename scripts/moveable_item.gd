@@ -219,6 +219,13 @@ func move_on_filter(type: FilterType):
 					direction = filter_direction[1]
 				else:
 					direction = filter_direction[2]
+			"download":
+				if type == FilterType.BLUE:
+					direction = filter_direction[1]
+				else:
+					direction = filter_direction[2]
+			"bad":
+				direction = filter_direction[2]
 	
 	if !((possible[0] and direction == Vector2i.UP) or (possible[1] and direction == Vector2i.DOWN) or (possible[2] and direction == Vector2i.LEFT) or (possible[3] and direction == Vector2i.RIGHT)):
 		direction = Vector2i.ZERO
