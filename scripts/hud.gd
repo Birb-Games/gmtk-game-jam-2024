@@ -56,8 +56,14 @@ func _on_storage_button_pressed():
 func _on_server_button_pressed():
 	select("server")
 
-func _on_filter_button_pressed():
-	select("filter")
+func _on_green_filter_button_pressed():
+	select("green_filter")
+
+func _on_white_filter_button_pressed():
+	select("white_filter")
+
+func _on_blue_filter_button_pressed():
+	select("blue_filter")
 
 func _on_splitter_button_pressed():
 	select("splitter")

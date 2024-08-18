@@ -31,10 +31,22 @@ horizontal_alignment = 2
 z_index = 3
 position = Vector2(0, 8)
 scale = Vector2(1.5, 1.5)
-tile_map_data = PackedByteArray("AAAJAAoAAAADAAEAAAAKAAoAAAAAAAIAAAALAAoAAAACAAEAAAAMAAoAAAABAAEAAAANAAoAAAAAAAEAAAAGAAoAAAABAAAAAAAHAAoAAAAAAAMAAAAFAAoAAAAAAAAAAAAIAAoAAAACAAMAAAAOAAoAAAADAAIAAAAPAAoAAAACAAAAAAA=")
+tile_map_data = PackedByteArray("AAAJAAoAAAAAAAIAAAAKAAoAAAACAAEAAAALAAoAAAABAAEAAAAMAAoAAAABAAIAAAANAAoAAAACAAIAAAAGAAoAAAAAAAMAAAAHAAoAAAACAAMAAAAFAAoAAAABAAAAAAAIAAoAAAADAAEAAAAOAAoAAAAAAAEAAAAPAAoAAAADAAIAAAAEAAoAAAAAAAAAAAAQAAoAAAACAAAAAAA=")
 tile_set = ExtResource("1_5sfmw")
 
 [node name="InButton" type="Button" parent="Inventory"]
+z_as_relative = false
+anchors_preset = -1
+anchor_left = 0.317
+anchor_top = 0.586
+anchor_right = 0.317
+anchor_bottom = 0.586
+offset_left = 128.0
+offset_top = 320.0
+offset_right = 160.0
+offset_bottom = 352.0
+
+[node name="OutButton" type="Button" parent="Inventory"]
 z_as_relative = false
 anchors_preset = -1
 anchor_left = 0.317
@@ -46,7 +58,7 @@ offset_top = 320.0
 offset_right = 192.0
 offset_bottom = 352.0
 
-[node name="OutButton" type="Button" parent="Inventory"]
+[node name="BeltButton" type="Button" parent="Inventory"]
 z_as_relative = false
 anchors_preset = -1
 anchor_left = 0.317
@@ -65,24 +77,24 @@ anchor_left = 0.317
 anchor_top = 0.586
 anchor_right = 0.317
 anchor_bottom = 0.586
-offset_left = 256.0
+offset_left = 224.0
 offset_top = 320.0
-offset_right = 288.0
+offset_right = 256.0
 offset_bottom = 352.0
 
-[node name="BeltButton" type="Button" parent="Inventory"]
+[node name="TrashButton" type="Button" parent="Inventory"]
 z_as_relative = false
 anchors_preset = -1
 anchor_left = 0.317
 anchor_top = 0.586
 anchor_right = 0.317
 anchor_bottom = 0.586
-offset_left = 224.0
+offset_left = 256.0
 offset_top = 320.0
-offset_right = 256.0
+offset_right = 288.0
 offset_bottom = 352.0
 
-[node name="CompressorButton" type="Button" parent="Inventory"]
+[node name="StorageButton" type="Button" parent="Inventory"]
 z_as_relative = false
 anchors_preset = -1
 anchor_left = 0.317
@@ -94,7 +106,7 @@ offset_top = 320.0
 offset_right = 320.0
 offset_bottom = 352.0
 
-[node name="StorageButton" type="Button" parent="Inventory"]
+[node name="ServerButton" type="Button" parent="Inventory"]
 z_as_relative = false
 anchors_preset = -1
 anchor_left = 0.317
@@ -106,7 +118,7 @@ offset_top = 320.0
 offset_right = 352.0
 offset_bottom = 352.0
 
-[node name="ServerButton" type="Button" parent="Inventory"]
+[node name="GreenFilterButton" type="Button" parent="Inventory"]
 z_as_relative = false
 anchors_preset = -1
 anchor_left = 0.317
@@ -118,7 +130,7 @@ offset_top = 320.0
 offset_right = 384.0
 offset_bottom = 352.0
 
-[node name="FilterButton" type="Button" parent="Inventory"]
+[node name="WhiteFilterButton" type="Button" parent="Inventory"]
 z_as_relative = false
 anchors_preset = -1
 anchor_left = 0.317
@@ -130,7 +142,7 @@ offset_top = 320.0
 offset_right = 416.0
 offset_bottom = 352.0
 
-[node name="SplitterButton" type="Button" parent="Inventory"]
+[node name="BlueFilterButton" type="Button" parent="Inventory"]
 z_as_relative = false
 anchors_preset = -1
 anchor_left = 0.317
@@ -142,7 +154,7 @@ offset_top = 320.0
 offset_right = 448.0
 offset_bottom = 352.0
 
-[node name="MergerButton" type="Button" parent="Inventory"]
+[node name="SplitterButton" type="Button" parent="Inventory"]
 z_as_relative = false
 anchors_preset = -1
 anchor_left = 0.317
@@ -154,7 +166,7 @@ offset_top = 320.0
 offset_right = 480.0
 offset_bottom = 352.0
 
-[node name="Delete" type="Button" parent="Inventory"]
+[node name="MergerButton" type="Button" parent="Inventory"]
 z_as_relative = false
 anchors_preset = -1
 anchor_left = 0.317
@@ -164,6 +176,18 @@ anchor_bottom = 0.586
 offset_left = 480.0
 offset_top = 320.0
 offset_right = 512.0
+offset_bottom = 352.0
+
+[node name="Delete" type="Button" parent="Inventory"]
+z_as_relative = false
+anchors_preset = -1
+anchor_left = 0.317
+anchor_top = 0.586
+anchor_right = 0.317
+anchor_bottom = 0.586
+offset_left = 512.0
+offset_top = 320.0
+offset_right = 544.0
 offset_bottom = 352.0
 
 [node name="Counts" type="Control" parent="."]
@@ -248,12 +272,14 @@ horizontal_alignment = 1
 
 [connection signal="pressed" from="Inventory/InButton" to="." method="_on_in_button_pressed"]
 [connection signal="pressed" from="Inventory/OutButton" to="." method="_on_out_button_pressed"]
-[connection signal="pressed" from="Inventory/CornerBeltButton" to="." method="_on_corner_belt_button_pressed"]
 [connection signal="pressed" from="Inventory/BeltButton" to="." method="_on_belt_button_pressed"]
-[connection signal="pressed" from="Inventory/CompressorButton" to="." method="_on_compressor_button_pressed"]
+[connection signal="pressed" from="Inventory/CornerBeltButton" to="." method="_on_corner_belt_button_pressed"]
+[connection signal="pressed" from="Inventory/TrashButton" to="." method="_on_compressor_button_pressed"]
 [connection signal="pressed" from="Inventory/StorageButton" to="." method="_on_storage_button_pressed"]
 [connection signal="pressed" from="Inventory/ServerButton" to="." method="_on_server_button_pressed"]
-[connection signal="pressed" from="Inventory/FilterButton" to="." method="_on_filter_button_pressed"]
+[connection signal="pressed" from="Inventory/GreenFilterButton" to="." method="_on_green_filter_button_pressed"]
+[connection signal="pressed" from="Inventory/WhiteFilterButton" to="." method="_on_white_filter_button_pressed"]
+[connection signal="pressed" from="Inventory/BlueFilterButton" to="." method="_on_blue_filter_button_pressed"]
 [connection signal="pressed" from="Inventory/SplitterButton" to="." method="_on_splitter_button_pressed"]
 [connection signal="pressed" from="Inventory/MergerButton" to="." method="_on_merger_button_pressed"]
 [connection signal="pressed" from="Inventory/Delete" to="." method="_on_delete_pressed"]
