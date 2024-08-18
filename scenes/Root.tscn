@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://b37dd5cu6d7et"]
+[gd_scene load_steps=7 format=3 uid="uid://b37dd5cu6d7et"]
 
-[ext_resource type="PackedScene" uid="uid://i3fpfh2rdxd1" path="res://scenes/MainMenu.tscn" id="5_po14x"]
+[ext_resource type="PackedScene" uid="uid://dkasr7mfbo72s" path="res://scenes/IntroScreens/IntroScreen1.tscn" id="6_4q661"]
 [ext_resource type="PackedScene" uid="uid://bm2i0q4piijdd" path="res://scenes/CreditsScreen.tscn" id="7_r04gw"]
 [ext_resource type="AudioStream" uid="uid://11wp6tq48aq" path="res://assets/sfx/click.wav" id="9_n1k25"]
-[ext_resource type="PackedScene" uid="uid://cgxc2wyyt5lj0" path="res://scenes/GameScreen.tscn" id="9_qkjmm"]
 [ext_resource type="AudioStream" uid="uid://b88oeixjtjecs" path="res://assets/sfx/gameover.wav" id="10_dxmsh"]
 [ext_resource type="AudioStream" uid="uid://dyoi6tjy1aht0" path="res://assets/sfx/place.wav" id="11_wgrs3"]
 [ext_resource type="AudioStream" uid="uid://bjqy4vtaw15r6" path="res://assets/sfx/destroy.wav" id="12_isak2"]
@@ -27,8 +26,7 @@ volume_db = -8.0
 stream = ExtResource("12_isak2")
 volume_db = -8.0
 
-[node name="MainMenu" parent="." instance=ExtResource("5_po14x")]
-game_screen = ExtResource("9_qkjmm")
-
 [node name="CreditsScreen" parent="." instance=ExtResource("7_r04gw")]
 visible = false
+
+[node name="IntroScreen1" parent="." instance=ExtResource("6_4q661")]

@@ -134,6 +134,7 @@ func add_bottom_tile(id: String, x: int, y: int) -> void:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	get_tree().paused = false
 	add_coins(100) # Makes sure the user starts with 100 coins
 	for t in $TopTileMapLayer.get_used_cells_by_id(-1, tile_atlas_positions["in"]):
 		input_pipes.push_back(t)

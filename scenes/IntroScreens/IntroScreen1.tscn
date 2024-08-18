@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=3 uid="uid://dkasr7mfbo72s"]
+
+[ext_resource type="FontFile" uid="uid://b83lr4reqbm0y" path="res://assets/fonts/8BitOperator/8bitOperatorPlus8-Regular.ttf" id="1_ncbco"]
+[ext_resource type="Script" path="res://scripts/intro_screen.gd" id="1_uw8a6"]
+[ext_resource type="PackedScene" uid="uid://drkktasu83fko" path="res://scenes/IntroScreens/IntroScreen2.tscn" id="2_g0ija"]
+[ext_resource type="FontFile" uid="uid://b3j21gnxq1jn1" path="res://assets/fonts/8BitOperator/8bitOperatorPlus8-Bold.ttf" id="2_mlhut"]
+
+[node name="IntroScreen1" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 960.0
+offset_bottom = 540.0
+script = ExtResource("1_uw8a6")
+next_screen = ExtResource("2_g0ija")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_top = 96.0
+offset_right = 960.0
+offset_bottom = 327.0
+theme_override_fonts/font = ExtResource("1_ncbco")
+theme_override_font_sizes/font_size = 32
+text = "
+You are a superintelligent AI created by the
+startup \"Super Scalable Servers Inc.\"
+
+You have one purpose:
+Design and build a web server
+that can scale to handle
+as much traffic as possible and make as
+much money as possible doing so."
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 430.0
+offset_top = 464.0
+offset_right = 530.0
+offset_bottom = 495.0
+theme_override_fonts/font = ExtResource("2_mlhut")
+theme_override_font_sizes/font_size = 32
+text = "OK"
+flat = true
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
