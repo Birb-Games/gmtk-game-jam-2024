@@ -19,20 +19,20 @@ var spawn_counts = {
 }
 
 var max_counts = {
-	"spawn_get": 200,
-	"spawn_bad": 100,
-	"spawn_download": 200,
+	"spawn_get": 1024,
+	"spawn_bad": 128,
+	"spawn_download": 512,
 }
 
 # once a timer runs out, reset it to these times
 var reset_times = {
-	"spawn_get": 5.0,
+	"spawn_get": 3.0,
 	"spawn_bad": 10.0,
 	"spawn_download": 15.0,
 }
 
 var timers = {
-	"spawn_get": 5.0,
+	"spawn_get": 3.0,
 	"spawn_bad": 180.0,
 	"spawn_download": 300.0,
 }
@@ -54,13 +54,13 @@ const tile_atlas_positions = {
 
 const tile_costs = {
 	"in": 500,
-	"out": 50,
-	"splitter": 120,
-	"filter": 100,
-	"server": 75,
+	"out": 100,
+	"splitter": 30,
+	"filter": 60,
+	"server": 40,
 	"deleter": 20,
 	"storage": 80,
-	"merger": 100,
+	"merger": 60,
 	"conveyor": 1,
 	"conveyor_corner": 1,
 }
@@ -138,7 +138,7 @@ func spawn() -> void:
 			instance.position = $TopTileMapLayer.map_to_local(rand_pipe)
 			$Requests.add_child(instance)
 			timers[id] = reset_times[id]
-			reset_times[id] = max(reset_times[id] - 0.1, 0.15)  
+			reset_times[id] = max(reset_times[id] - 0.07, 0.15)  
 			spawn_counts[id] += 1
 
 func _unhandled_input(event):
