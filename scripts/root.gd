@@ -179,13 +179,13 @@ func check_game_over():
 	for item in spawn_counts:
 		if max_counts.has(item) and max_counts[item]:
 			if spawn_counts[item] > max_counts[item]:
-				game_over()
+				game_over("THE SERVER CRASHED!")
 	if coins < 0:
-		game_over()
+		game_over("YOU WENT BANKRUPT!")
 
-func game_over():
+func game_over(msg: String):
 	get_tree().paused = true
-	$HUD/Paused.text = "Game Over"
+	$HUD/GameOver.text = msg
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

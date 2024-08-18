@@ -270,6 +270,15 @@ theme_override_font_sizes/font_size = 32
 text = "Paused"
 horizontal_alignment = 1
 
+[node name="GameOver" type="Label" parent="."]
+offset_top = 200.0
+offset_right = 960.0
+offset_bottom = 300.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_1mr0q")
+theme_override_font_sizes/font_size = 72
+horizontal_alignment = 1
+
 [connection signal="pressed" from="Inventory/InButton" to="." method="_on_in_button_pressed"]
 [connection signal="pressed" from="Inventory/OutButton" to="." method="_on_out_button_pressed"]
 [connection signal="pressed" from="Inventory/BeltButton" to="." method="_on_belt_button_pressed"]
