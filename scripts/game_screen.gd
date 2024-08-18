@@ -64,7 +64,7 @@ const tile_atlas_positions = {
 }
 
 var tile_costs = {
-	"in": 2000,
+	"in": 4000,
 	"out": 100,
 	"green_filter": 60,
 	"white_filter": 60,
@@ -95,11 +95,8 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
 		var input_pipes_len = len(input_pipes)
 		input_pipes.erase(Vector2i(x, y))
-		# Check if we erased a pipe
-		if len(input_pipes) < input_pipes_len:
-			tile_costs["in"] /= COST_MULTIPLIER
 		if tiledata:
-			$Audio/Destroy.play()
+			$/root/Root/Audio/Destroy.play()
 		return
 	if tiledata != null:
 		return
@@ -110,7 +107,7 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 	if tiledata and (tiledata.get_custom_data("Type") == "conveyor" or tiledata.get_custom_data("Type") == "conveyor_corner"):
 		coins += 1
 	if spend_coins(tile_costs[id]):
-		$Audio/Place.play()
+		$/root/Root/Audio/Place.play()
 		if id == "in":
 			tile_costs[id] *= COST_MULTIPLIER
 			input_pipes.push_back(Vector2i(x, y))
@@ -128,7 +125,7 @@ func add_bottom_tile(id: String, x: int, y: int) -> void:
 	if tiledata != null:
 		return
 	if(coins >= tile_costs[id]):
-		$Audio/Place.play()
+		$/root/Root/Audio/Place.play()
 		add_coins(-tile_costs[id])
 		$TopTileMapLayer.erase_cell(Vector2i(x, y))
 		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
@@ -190,7 +187,6 @@ func _unhandled_input(event):
 		if $HUD.get_selected() != "" and $HUD.get_selected() != "delete":
 			alternative -= 1
 			$PreviewTileMapLayer.set_cell(current_tile, 0, tile_atlas_positions[$HUD.get_selected()], alternative)
-			$PreviewTileMapLayer.fix_invalid_tiles()
 			if $PreviewTileMapLayer.get_cell_alternative_tile(current_tile) == -1:
 				var atlas_pos = tile_atlas_positions[$HUD.get_selected()]
 				var source = $PreviewTileMapLayer.tile_set.get_source(0)
@@ -220,10 +216,11 @@ func check_game_over():
 
 func game_over(msg: String):
 	if !is_game_over:
-		$Audio/Gameover.play()
+		$HUD/GameOver.show()
+		$/root/Root/Audio/Gameover.play()
+		$HUD/GameOver/GameOverText.text = msg
 	is_game_over = true
 	get_tree().paused = true
-	$HUD/GameOver.text = msg
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

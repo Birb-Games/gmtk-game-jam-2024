@@ -11,24 +11,24 @@ func _process(delta):
 	timer -= timer_enabled * delta
 
 func _on_moveable_item_empty() -> void:
-	var i = randi() % len($/root/Root.input_pipes)
-	position = $/root/Root/TopTileMapLayer.map_to_local($/root/Root.input_pipes[i])
+	var i = randi() % len($/root/Root/GameScreen.input_pipes)
+	position = $/root/Root/GameScreen/TopTileMapLayer.map_to_local($/root/Root/GameScreen.input_pipes[i])
 	timer = 5.0
 	$MoveableItem.stop = false
 
 func _on_moveable_item_deleter() -> void:
-	$/root/Root.spawn_counts["download"] -= 1
-	$/root/Root.add_coins(-40)
+	$/root/Root/GameScreen.spawn_counts["download"] -= 1
+	$/root/Root/GameScreen.add_coins(-40)
 	queue_free()
 
 func _on_moveable_item_output() -> void:
-	$/root/Root.spawn_counts["download"] -= 1
-	$/root/Root.add_coins(-40)
+	$/root/Root/GameScreen.spawn_counts["download"] -= 1
+	$/root/Root/GameScreen.add_coins(-40)
 	queue_free()
 
 func _on_moveable_item_server() -> void:
-	$/root/Root.spawn_counts["download"] -= 1
-	$/root/Root.add_coins(-40)
+	$/root/Root/GameScreen.spawn_counts["download"] -= 1
+	$/root/Root/GameScreen.add_coins(-40)
 	queue_free()
 
 func _on_moveable_item_storage() -> void:
@@ -42,7 +42,7 @@ func _on_moveable_item_storage() -> void:
 	if timer > 0.0:
 		return
 	
-	$/root/Root.spawn_counts["download"] -= 1
+	$/root/Root/GameScreen.spawn_counts["download"] -= 1
 	
 	var randval = randi() % 4
 	var instance
@@ -50,12 +50,12 @@ func _on_moveable_item_storage() -> void:
 		instance = good_file.instantiate()
 		instance.modulate = Color(0.8, 0.8, 0.8)
 		instance.value = 40
-		$/root/Root.spawn_counts["return"] += 1
+		$/root/Root/GameScreen.spawn_counts["return"] += 1
 	else:
 		instance = bad_file.instantiate()
-		$/root/Root.spawn_counts["bad"] += 1
+		$/root/Root/GameScreen.spawn_counts["bad"] += 1
 	instance.position = position
-	$/root/Root/Requests.add_child(instance)
+	$/root/Root/GameScreen/Requests.add_child(instance)
 	
 	queue_free()
 
