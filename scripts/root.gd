@@ -33,8 +33,8 @@ var reset_times = {
 
 var timers = {
 	"spawn_get": 5.0,
-	"spawn_bad": 120.0,
-	"spawn_download": 240.0,
+	"spawn_bad": 180.0,
+	"spawn_download": 300.0,
 }
 
 var input_pipes = []
@@ -138,6 +138,7 @@ func spawn() -> void:
 			instance.position = $TopTileMapLayer.map_to_local(rand_pipe)
 			$Requests.add_child(instance)
 			timers[id] = reset_times[id]
+			reset_times[id] = max(reset_times[id] - 0.1, 0.15)  
 			spawn_counts[id] += 1
 
 func _unhandled_input(event):
