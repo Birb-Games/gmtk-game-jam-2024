@@ -11,22 +11,22 @@ func _process(delta):
 	timer -= timer_enabled * delta
 
 func _on_moveable_item_empty() -> void:
-	$/root/Root.spawn_counts["spawn_download"] -= 1
+	$/root/Root.spawn_counts["download"] -= 1
 	$/root/Root.add_coins(-10)
 	queue_free()
 
 func _on_moveable_item_deleter() -> void:
-	$/root/Root.spawn_counts["spawn_download"] -= 1
+	$/root/Root.spawn_counts["download"] -= 1
 	$/root/Root.add_coins(-5)
 	queue_free()
 
 func _on_moveable_item_output() -> void:
-	$/root/Root.spawn_counts["spawn_download"] -= 1
+	$/root/Root.spawn_counts["download"] -= 1
 	$/root/Root.add_coins(-5)
 	queue_free()
 
 func _on_moveable_item_server() -> void:
-	$/root/Root.spawn_counts["spawn_download"] -= 1
+	$/root/Root.spawn_counts["download"] -= 1
 	$/root/Root.add_coins(-5)
 	queue_free()
 
@@ -41,7 +41,7 @@ func _on_moveable_item_storage() -> void:
 	if timer > 0.0:
 		return
 	
-	$/root/Root.spawn_counts["spawn_download"] -= 1
+	$/root/Root.spawn_counts["download"] -= 1
 	
 	var randval = randi() % 2
 	var instance
@@ -50,7 +50,7 @@ func _on_moveable_item_storage() -> void:
 		$/root/Root.spawn_counts["return"] += 1
 	else:
 		instance = bad_file.instantiate()
-		$/root/Root.spawn_counts["spawn_bad"] += 1
+		$/root/Root.spawn_counts["bad"] += 1
 	instance.position = position
 	$/root/Root/Requests.add_child(instance)
 	

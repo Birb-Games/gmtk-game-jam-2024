@@ -77,11 +77,11 @@ func set_count_text(label: Label, id: String):
 	label.text += " (" + str(int(round($/root/Root.timers[id]))) + "s)"
 	
 func update_text():
-	set_count_text($Counts/GetCount, "spawn_get")
-	set_count_text($Counts/BadCount, "spawn_bad")
-	set_count_text($Counts/DownloadCount, "spawn_download")
-	
+	set_count_text($Counts/GetCount, "get")
+	set_count_text($Counts/BadCount, "bad")
+	set_count_text($Counts/DownloadCount, "download")
 	$Counts/RetCount.text = str($/root/Root.spawn_counts["return"])
+
 	if $/root/Root.tile_costs.has(selected):
 		$Cost.text = "Cost: $" + str($/root/Root.tile_costs[selected])
 	else:

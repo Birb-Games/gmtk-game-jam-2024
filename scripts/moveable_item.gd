@@ -7,6 +7,7 @@ var current_bottom_tile_data: TileData
 var current_tile: Vector2i
 @onready var item: Node2D = get_parent()
 var stop: bool = false
+var filter_direction: Array
 
 signal output
 signal server
@@ -117,7 +118,10 @@ func move_on_conveyor():
 			blocked = corner_lookup[current_id][id] == 0
 		
 		if !blocked and tiledata.get_custom_data("Type") == "splitter":
-			var id = tiledata.get_custom_data("alternate_id")
+			# var id = tiledata.get_custom_data("alternate_id")
+			blocked = tiledata.get_custom_data("alternate_id") != current_id
+
+		if !blocked and (tiledata.get_custom_data("Type") == "green_filter" or tiledata.get_custom_data("Type") == "white_filter" or tiledata.get_custom_data("Type") == "blue_filter"):
 			blocked = tiledata.get_custom_data("alternate_id") != current_id
 	
 	if !blocked:
@@ -157,6 +161,66 @@ func move_on_conveyor_corner():
 	if !blocked:
 		direction = get_conveyor_direction(current_bottom_tile_data)
 	else:
+		direction = Vector2i.ZERO
+
+enum FilterType {
+	GREEN = 0,
+	WHITE = 1,
+	BLUE = 2,
+}
+
+#returns an array of unit `vector2i`s to indicate the direction of the input, colored output, and red output respectively
+func get_filter_direction(tileData: TileData) -> Array:
+	var data = [tileData.flip_h, tileData.flip_v, tileData.transpose]
+	match data:
+		[false, false, false]: return [Vector2i.LEFT, Vector2i.UP, Vector2i.DOWN]
+		[false, true, false]: return [Vector2i.LEFT, Vector2i.DOWN, Vector2i.UP]
+		[true, false, false]: return [Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]
+		[true, true, false]: return [Vector2i.RIGHT, Vector2i.DOWN, Vector2i.UP]
+		[false, false, true]: return [Vector2i.UP, Vector2i.LEFT, Vector2i.RIGHT]
+		[true, false, true]: return [Vector2i.UP, Vector2i.RIGHT, Vector2i.LEFT]
+		[false, true, true]: return [Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
+		[true, true, true]: return [Vector2i.DOWN, Vector2i.RIGHT, Vector2i.LEFT]
+	return [Vector2i.ZERO, Vector2i.ZERO, Vector2i.ZERO]
+	
+func move_on_filter(type: FilterType):
+	#check which directions are valid
+	var id = current_top_tile_data.get_custom_data("alternate_id")
+	var possible: Array = splitter_directions[id].duplicate()
+	for i in range(len(possible)):
+		if possible[i]:
+			var dir = directions[i]
+			var tile = bottom_tile_map.get_neighbor_cell(current_tile, dir)
+			var tiledata = bottom_tile_map.get_cell_tile_data(tile)
+			if tiledata == null:
+				possible[i] = false
+				continue
+			if tiledata.get_custom_data("Type") == "conveyor":
+				var neighbor_dir = get_conveyor_direction(tiledata)
+				possible[i] = neighbor_dir == should_match[i]
+			elif tiledata.get_custom_data("Type") == "conveyor_corner":
+				var neighbor_id = tiledata.get_custom_data("alternate_id")
+				var dir_id = direction_ids[should_match[i]]
+				possible[i] = corner_lookup[dir_id][neighbor_id] == 1         
+			else:
+				possible[i] = false
+
+	#find which direction is requested based on filter
+	filter_direction = get_filter_direction(current_top_tile_data)
+	for g in item.get_groups():
+		match g:
+			"get": 
+				if type == FilterType.GREEN:
+					direction = filter_direction[1]
+				else:
+					direction = filter_direction[2]
+			"return":
+				if type == FilterType.WHITE:
+					direction = filter_direction[1]
+				else:
+					direction = filter_direction[2]
+	
+	if !((possible[0] and direction == Vector2i.UP) or (possible[1] and direction == Vector2i.DOWN) or (possible[2] and direction == Vector2i.LEFT) or (possible[3] and direction == Vector2i.RIGHT)):
 		direction = Vector2i.ZERO
 
 func push_in_random_dir():
@@ -231,6 +295,12 @@ func update_based_on_tile():
 			"storage":
 				push_in_random_dir()
 				storage.emit()
+			"green_filter":
+				move_on_filter(FilterType.GREEN)
+			"white_filter":
+				move_on_filter(FilterType.WHITE)
+			"blue_filter":
+				move_on_filter(FilterType.BLUE)
 			_:
 				empty.emit()
 				direction = Vector2i.ZERO

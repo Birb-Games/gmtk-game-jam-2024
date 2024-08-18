@@ -8,7 +8,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_ev6j6"]
 radius = 18.0
 
-[node name="Get" type="Area2D" groups=["requests"]]
+[node name="Get" type="Area2D" groups=["get", "requests"]]
 process_mode = 1
 scale = Vector2(0.5, 0.5)
 script = ExtResource("1_f0h48")
