@@ -1,6 +1,7 @@
 extends Area2D
 
 var timer: float
+var value: int = 10
 
 func _ready():
 	timer = 3.0
@@ -13,10 +14,9 @@ func _process(delta: float) -> void:
 		$MoveableItem.stop = false
 
 func _on_moveable_item_output() -> void:
-	$/root/Root.add_coins(10)
+	$/root/Root.add_coins(value)
 	$/root/Root.spawn_counts["return"] -= 1
 	queue_free()
-
 
 func _on_moveable_item_empty() -> void:
 	$/root/Root.spawn_counts["return"] -= 1

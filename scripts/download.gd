@@ -18,17 +18,17 @@ func _on_moveable_item_empty() -> void:
 
 func _on_moveable_item_deleter() -> void:
 	$/root/Root.spawn_counts["download"] -= 1
-	$/root/Root.add_coins(-5)
+	$/root/Root.add_coins(-40)
 	queue_free()
 
 func _on_moveable_item_output() -> void:
 	$/root/Root.spawn_counts["download"] -= 1
-	$/root/Root.add_coins(-5)
+	$/root/Root.add_coins(-40)
 	queue_free()
 
 func _on_moveable_item_server() -> void:
 	$/root/Root.spawn_counts["download"] -= 1
-	$/root/Root.add_coins(-5)
+	$/root/Root.add_coins(-40)
 	queue_free()
 
 func _on_moveable_item_storage() -> void:
@@ -44,10 +44,12 @@ func _on_moveable_item_storage() -> void:
 	
 	$/root/Root.spawn_counts["download"] -= 1
 	
-	var randval = randi() % 2
+	var randval = randi() % 4
 	var instance
-	if randval == 0:
+	if randval != 0:
 		instance = good_file.instantiate()
+		instance.modulate = Color(0.8, 0.8, 0.8)
+		instance.value = 40
 		$/root/Root.spawn_counts["return"] += 1
 	else:
 		instance = bad_file.instantiate()

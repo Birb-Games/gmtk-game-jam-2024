@@ -13,7 +13,7 @@ func _process(delta: float):
 func _on_moveable_item_output() -> void:
 	# NO YOU ARE NOT SUPPOSED TO PUT THIS IN AN OUTPUT
 	# Lose a coin
-	$/root/Root.add_coins(-5)
+	$/root/Root.add_coins(-40)
 	$/root/Root.spawn_counts["get"] -= 1
 	queue_free()
 
@@ -46,5 +46,5 @@ func _on_moveable_item_empty() -> void:
 
 func _on_moveable_item_deleter() -> void:
 	$/root/Root.spawn_counts["get"] -= 1
-	$/root/Root.add_coins(-5)
+	$/root/Root.add_coins(-40)
 	queue_free()
