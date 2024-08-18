@@ -314,7 +314,9 @@ func update_based_on_tile():
 
 func _process(delta: float) -> void:
 	current_tile = top_tile_map.local_to_map(top_tile_map.to_local(item.position))
-	new_tile = item.position.round() == top_tile_map.to_global(top_tile_map.map_to_local(current_tile))
+	var tile_map_pos = top_tile_map.to_global(top_tile_map.map_to_local(current_tile))
+	var diff = item.position.round() - tile_map_pos
+	new_tile = diff.length() <= 1.0
 	
 	current_top_tile_data = top_tile_map.get_cell_tile_data(current_tile)
 	current_bottom_tile_data = bottom_tile_map.get_cell_tile_data(current_tile)
@@ -322,7 +324,11 @@ func _process(delta: float) -> void:
 	update_based_on_tile()
 	
 	if !stop:
-		item.position += direction * speed * delta
+		var d = direction * speed * delta * 10.0 
+		var travel_len = d.length()
+		if travel_len > 0.8:
+			d *= 0.8 / travel_len
+		item.position += d
 	if (new_tile):
 		new_tile = false
 

@@ -5,16 +5,15 @@ func _on_moveable_item_deleter() -> void:
 	queue_free()
 
 func _on_moveable_item_output() -> void:
-	$/root/Root.spawn_counts["spawn_bad"] -= 1
+	$/root/Root.spawn_counts["bad"] -= 1
 	$/root/Root.add_coins(-20)
 	queue_free()
 
 func _on_moveable_item_server() -> void:
-	$/root/Root.spawn_counts["spawn_bad"] -= 1
+	$/root/Root.spawn_counts["bad"] -= 1
 	$/root/Root.add_coins(-40)
 	queue_free()
 
 func _on_moveable_item_empty() -> void:
-	$/root/Root.spawn_counts["spawn_bad"] -= 1
-	$/root/Root.add_coins(-20)
-	queue_free()
+	var i = randi() % len($/root/Root.input_pipes)
+	position = $/root/Root/TopTileMapLayer.map_to_local($/root/Root.input_pipes[i])

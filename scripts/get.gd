@@ -39,9 +39,8 @@ func _on_area_exited(area: Area2D) -> void:
 		collision_counts -= 1
 
 func _on_moveable_item_empty() -> void:
-	$/root/Root.spawn_counts["get"] -= 1
-	$/root/Root.add_coins(-5)
-	queue_free()
+	var i = randi() % len($/root/Root.input_pipes)
+	position = $/root/Root/TopTileMapLayer.map_to_local($/root/Root.input_pipes[i])
 
 func _on_moveable_item_deleter() -> void:
 	$/root/Root.spawn_counts["get"] -= 1
