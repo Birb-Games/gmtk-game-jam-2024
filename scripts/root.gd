@@ -10,21 +10,22 @@ var alternative: int = 0
 # keeps track of the number of backed up requests, if any of these
 # exceed a certain threshold then you lose the game
 var spawn_counts = {
-	"spawn_get": 0,
+	"get": 0,
 	"return": 0
 }
 
 var max_counts = {
-	"spawn_get": 200,
+	"get": 20,
+	"return": 20
 }
 
 # once a timer runs out, reset it to these times
 var reset_times = {
-	"spawn_get": 5.0
+	"get": 5.0
 }
 
 var timers = {
-	"spawn_get": 5.0
+	"get": 5.0
 }
 
 var input_pipes = []
@@ -111,7 +112,7 @@ func spawn() -> void:
 			# Chose a random input pipe
 			var rand_pipe = input_pipes[randi() % len(input_pipes)]
 			var instance
-			if id == "spawn_get":
+			if id == "get":
 				instance = get_request.instantiate()
 			# Place the request in the world
 			instance.position = $TopTileMapLayer.map_to_local(rand_pipe)
@@ -148,6 +149,18 @@ func display_preview():
 			$PreviewTileMapLayer.material.set_shader_parameter("remove", false)
 			$PreviewTileMapLayer.set_cell(current_tile, 0, tile_atlas_positions[$HUD.get_selected()], alternative)
 
+func check_game_over():
+	for item in spawn_counts:
+		if max_counts[item]:
+			if spawn_counts[item] > max_counts[item]:
+				game_over()
+	if coins < 0:
+		game_over()
+
+func game_over():
+	get_tree().paused = true
+	$HUD/Paused.text = "Game Over"
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if !get_tree().paused:
@@ -155,8 +168,8 @@ func _process(delta: float) -> void:
 	display_preview()
 	spawn()
 	$HUD.update_text()
+	check_game_over()
 	
-
 	if Input.is_action_just_pressed("pause"):
 		get_tree().paused = !get_tree().paused
 
