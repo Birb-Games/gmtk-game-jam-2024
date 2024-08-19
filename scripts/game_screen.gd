@@ -65,6 +65,7 @@ const COST_MULTIPLIER: int = 16
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	get_tree().paused = false
+	$HUD.update_paused()
 	add_coins(100) # Makes sure the user starts with 100 coins
 	for t in $TopTileMapLayer.get_used_cells_by_id(-1, tile_atlas_positions["in"]):
 		input_pipes.push_back(t)
@@ -189,6 +190,7 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("pause"):
 		get_tree().paused = !get_tree().paused
+		$HUD.update_paused()
 
 func spend_coins(coinAmt):
 	if(coins>=coinAmt):
