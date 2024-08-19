@@ -16,6 +16,7 @@ func defocus():
 	$Inventory/BlueFilterButton.release_focus()
 	$Inventory/SplitterButton.release_focus()
 	$Inventory/MergerButton.release_focus()
+	$Inventory/BridgeButton.release_focus()
 	$Inventory/Delete.release_focus()
 
 func get_selected():
@@ -86,6 +87,9 @@ func _on_delete_pressed() -> void:
 
 func _on_merger_button_pressed() -> void:
 	select("merger")
+
+func _on_bridge_button_pressed() -> void:
+	select("bridge")
 
 func set_count_text(label: Label, id: String):
 	label.text = str($/root/Root/GameScreen.spawn_counts[id])
