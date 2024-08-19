@@ -21,9 +21,17 @@ func defocus():
 
 func get_selected():
 	return selected
+	
+func color_selected():
+	if $/root/Root/GameScreen.tile_costs.has(selected):
+		if $/root/Root/GameScreen.coins>=$/root/Root/GameScreen.tile_costs[selected]:
+			$Cost.add_theme_color_override("font_color",Color(1.0,1.0,1.0))
+		else:
+			$Cost.add_theme_color_override("font_color",Color(1.0,0.0,0.0))
   
 func publish_coins(coins: int):
 	$CoinLabel.text = "$" + str(coins)
+	color_selected()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -36,6 +44,7 @@ func select(option):
 		defocus()
 	else:
 		selected=option
+		color_selected()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
