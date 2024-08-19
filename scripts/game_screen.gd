@@ -44,7 +44,7 @@ const tile_atlas_positions = {
 }
 
 var tile_costs = {
-	"in": 4000,
+	"in": 10000,
 	"out": 100,
 	"green_filter": 60,
 	"white_filter": 60,
@@ -58,7 +58,7 @@ var tile_costs = {
 	"conveyor_corner": 1,
 }
 
-const COST_MULTIPLIER: int = 8
+const COST_MULTIPLIER: int = 16
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

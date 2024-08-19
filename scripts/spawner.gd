@@ -22,6 +22,9 @@ var timers = {
 	"download": 300.0,
 }
 
+const GET_POOL_SIZE = 1200
+const BAD_POOL_SIZE = 160
+const DOWNLOAD_POOL_SIZE = 600
 var get_pool = []
 var bad_pool = []
 var download_pool = []
@@ -37,11 +40,11 @@ func add(pool: Array, position: Vector2):
 
 func _ready():
 	var instance
-	for i in range(2048):
+	for i in range(GET_POOL_SIZE):
 		get_pool.append( game_screen.get_request.instantiate())
-	for i in range(256):
+	for i in range(BAD_POOL_SIZE):
 		bad_pool.append(game_screen.bad_request.instantiate())
-	for i in range(1024):
+	for i in range(DOWNLOAD_POOL_SIZE):
 		download_pool.append(game_screen.download_request.instantiate())
 
 func update_timers(dt: float) -> void:
@@ -72,3 +75,6 @@ func _process(delta: float):
 	if !get_tree().paused:
 		update_timers(delta)
 	spawn()
+	assert(game_screen.spawn_counts["get"] + len(get_pool) == GET_POOL_SIZE)
+	assert(game_screen.spawn_counts["bad"] + len(bad_pool) == BAD_POOL_SIZE)
+	assert(game_screen.spawn_counts["download"] + len(download_pool) == DOWNLOAD_POOL_SIZE)

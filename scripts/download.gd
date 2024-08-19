@@ -7,7 +7,7 @@ var timer: float = 5.0
 var timer_enabled: float = 0.0
 
 func reset():
-	timer = 1.0
+	timer = 5.0
 	timer_enabled = 0.0
 	collision_count = 0
 	$MoveableItem.stop = false
@@ -19,7 +19,7 @@ func reset():
 func remove():
 	hide()
 	set_process(false)
-	get_tree().get_root().get_node("Root/GameScreen/Spawner").get_pool.append(self)
+	get_tree().get_root().get_node("Root/GameScreen/Spawner").download_pool.append(self)
 	get_tree().get_root().get_node("Root/GameScreen/Requests").remove_child(self)
 
 func _process(delta):
