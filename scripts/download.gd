@@ -6,22 +6,6 @@ var collision_count: int = 0
 var timer: float = 5.0
 var timer_enabled: float = 0.0
 
-func reset():
-	timer = 5.0
-	timer_enabled = 0.0
-	collision_count = 0
-	$MoveableItem.stop = false
-	$MoveableItem.direction = Vector2i.ZERO
-	$MoveableItem.new_tile = true
-	set_process(true)
-	show()
-
-func remove():
-	hide()
-	set_process(false)
-	get_tree().get_root().get_node("Root/GameScreen/Spawner").download_pool.append(self)
-	get_tree().get_root().get_node("Root/GameScreen/Requests").remove_child(self)
-
 func _process(delta):
 	timer -= timer_enabled * delta
 	
@@ -48,17 +32,17 @@ func _on_moveable_item_empty() -> void:
 func _on_moveable_item_deleter() -> void:
 	$/root/Root/GameScreen.spawn_counts["download"] -= 1
 	$/root/Root/GameScreen.add_coins(-40)
-	remove()
+	queue_free()
 
 func _on_moveable_item_output() -> void:
 	$/root/Root/GameScreen.spawn_counts["download"] -= 1
 	$/root/Root/GameScreen.add_coins(-40)
-	remove()
+	queue_free()
 
 func _on_moveable_item_server() -> void:
 	$/root/Root/GameScreen.spawn_counts["download"] -= 1
 	$/root/Root/GameScreen.add_coins(-40)
-	remove()
+	queue_free()
 
 func _on_moveable_item_storage() -> void:
 	$MoveableItem.stop = true
@@ -83,10 +67,10 @@ func _on_moveable_item_storage() -> void:
 		$/root/Root/GameScreen/Requests.add_child(instance)
 	else:
 		var spawner = $/root/Root/GameScreen/Spawner
-		spawner.add(spawner.bad_pool, position)
+		spawner.add($/root/Root/GameScreen.bad_request, position)
 		$/root/Root/GameScreen.spawn_counts["bad"] += 1
 	
-	remove()
+	queue_free()
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("bad") or area.is_in_group("return"):

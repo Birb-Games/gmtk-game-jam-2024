@@ -7,22 +7,6 @@ var collision_counts: int = 0
 var timer = 1.0
 var timer_enabled = 0.0
 
-func reset():
-	timer = 1.0
-	timer_enabled = 0.0
-	collision_counts = 0
-	$MoveableItem.stop = false
-	$MoveableItem.direction = Vector2i.ZERO
-	$MoveableItem.new_tile = true
-	set_process(true)
-	show()
-
-func remove():
-	hide()
-	set_process(false)
-	get_tree().get_root().get_node("Root/GameScreen/Spawner").get_pool.append(self)
-	get_tree().get_root().get_node("Root/GameScreen/Requests").remove_child(self)
-
 func _process(delta: float):
 	timer -= delta * timer_enabled
 	
@@ -45,7 +29,7 @@ func _on_moveable_item_output() -> void:
 	# Lose a coin
 	$/root/Root/GameScreen.add_coins(-40)
 	$/root/Root/GameScreen.spawn_counts["get"] -= 1
-	remove()
+	queue_free()
 
 func _on_moveable_item_server() -> void:
 	$MoveableItem.stop = true
@@ -58,7 +42,7 @@ func _on_moveable_item_server() -> void:
 	instance.position = position
 	$/root/Root/GameScreen/Requests.add_child(instance)
 	$/root/Root/GameScreen.spawn_counts["get"] -= 1
-	remove()
+	queue_free()
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("return"):
@@ -77,9 +61,9 @@ func _on_moveable_item_empty() -> void:
 func _on_moveable_item_deleter() -> void:
 	$/root/Root/GameScreen.spawn_counts["get"] -= 1
 	$/root/Root/GameScreen.add_coins(-40)
-	remove()
+	queue_free()
 
 func _on_moveable_item_storage() -> void:
 	$/root/Root/GameScreen.spawn_counts["get"] -= 1
 	$/root/Root/GameScreen.add_coins(-40)
-	remove()
+	queue_free()
