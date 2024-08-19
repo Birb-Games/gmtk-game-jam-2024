@@ -80,6 +80,13 @@ var tile_costs = {
 
 const COST_MULTIPLIER: int = 8
 
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	get_tree().paused = false
+	add_coins(100) # Makes sure the user starts with 100 coins
+	for t in $TopTileMapLayer.get_used_cells_by_id(-1, tile_atlas_positions["in"]):
+		input_pipes.push_back(t)
+
 func add_top_tile(id: String, x: int, y: int) -> void:
 	var tiledata = $TopTileMapLayer.get_cell_tile_data(Vector2i(x, y))
 	if id == "delete":
@@ -131,13 +138,6 @@ func add_bottom_tile(id: String, x: int, y: int) -> void:
 		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
 	else:
 		print("insufficent funds")
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	get_tree().paused = false
-	add_coins(100) # Makes sure the user starts with 100 coins
-	for t in $TopTileMapLayer.get_used_cells_by_id(-1, tile_atlas_positions["in"]):
-		input_pipes.push_back(t)
 	
 func update_timers(dt: float) -> void:
 	# iterate through timers to update them
@@ -220,6 +220,7 @@ func game_over(msg: String):
 		$HUD/GameOver.show()
 		$/root/Root/Audio/Gameover.play()
 		$HUD/GameOver/GameOverText.text = msg
+		$HUD/GameOver/FinalScore.text = "Final Score: $" + str(coins)
 	is_game_over = true
 	get_tree().paused = true
 

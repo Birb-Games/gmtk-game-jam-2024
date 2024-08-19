@@ -344,21 +344,35 @@ offset_bottom = 40.0
 
 [node name="Background" type="ColorRect" parent="GameOver"]
 z_index = 3
+layout_mode = 0
 offset_right = 960.0
 offset_bottom = 540.0
 color = Color(1, 0, 0, 0.752941)
 
 [node name="GameOverText" type="Label" parent="GameOver"]
 z_index = 3
-offset_top = 200.0
+layout_mode = 0
+offset_top = 144.0
 offset_right = 960.0
-offset_bottom = 300.0
+offset_bottom = 244.0
 theme_override_fonts/font = ExtResource("2_1mr0q")
 theme_override_font_sizes/font_size = 72
+text = "Game Over!"
+horizontal_alignment = 1
+
+[node name="FinalScore" type="Label" parent="GameOver"]
+z_index = 3
+offset_top = 273.0
+offset_right = 960.0
+offset_bottom = 324.0
+theme_override_fonts/font = ExtResource("2_1mr0q")
+theme_override_font_sizes/font_size = 32
+text = "Final Score:"
 horizontal_alignment = 1
 
 [node name="ReturnToMenu" type="Button" parent="GameOver"]
 z_index = 3
+layout_mode = 0
 offset_left = 270.0
 offset_top = 320.0
 offset_right = 670.0
