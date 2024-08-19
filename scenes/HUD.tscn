@@ -30,9 +30,9 @@ horizontal_alignment = 2
 
 [node name="Inventory" type="TileMapLayer" parent="."]
 z_index = 3
-position = Vector2(0, 8)
+position = Vector2(-16, 8)
 scale = Vector2(1.5, 1.5)
-tile_map_data = PackedByteArray("AAAJAAoAAAAAAAIAAAAKAAoAAAACAAEAAAALAAoAAAABAAEAAAAMAAoAAAABAAIAAAANAAoAAAACAAIAAAAGAAoAAAAAAAMAAAAHAAoAAAACAAMAAAAFAAoAAAABAAAAAAAIAAoAAAADAAEAAAAOAAoAAAAAAAEAAAAPAAoAAAADAAIAAAAEAAoAAAAAAAAAAAAQAAoAAAACAAAAAAA=")
+tile_map_data = PackedByteArray("AAAJAAoAAAAAAAIAAAAKAAoAAAACAAEAAAALAAoAAAABAAEAAAAMAAoAAAABAAIAAAANAAoAAAACAAIAAAAGAAoAAAAAAAMAAAAHAAoAAAACAAMAAAAFAAoAAAABAAAAAAAIAAoAAAADAAEAAAAOAAoAAAAAAAEAAAAPAAoAAAADAAIAAAAEAAoAAAAAAAAAAAARAAoAAAACAAAAAAAQAAoAAAADAAAAAAA=")
 tile_set = ExtResource("1_5sfmw")
 
 [node name="InButton" type="Button" parent="Inventory"]
@@ -191,7 +191,7 @@ offset_right = 512.0
 offset_bottom = 352.0
 tooltip_text = "Merger"
 
-[node name="Delete" type="Button" parent="Inventory"]
+[node name="BridgeButton" type="Button" parent="Inventory"]
 z_as_relative = false
 anchors_preset = -1
 anchor_left = 0.317
@@ -201,6 +201,19 @@ anchor_bottom = 0.586
 offset_left = 512.0
 offset_top = 320.0
 offset_right = 544.0
+offset_bottom = 352.0
+tooltip_text = "Bridge"
+
+[node name="Delete" type="Button" parent="Inventory"]
+z_as_relative = false
+anchors_preset = -1
+anchor_left = 0.317
+anchor_top = 0.586
+anchor_right = 0.317
+anchor_bottom = 0.586
+offset_left = 544.0
+offset_top = 320.0
+offset_right = 576.0
 offset_bottom = 352.0
 tooltip_text = "Delete Tile"
 
@@ -395,6 +408,7 @@ flat = true
 [connection signal="pressed" from="Inventory/BlueFilterButton" to="." method="_on_blue_filter_button_pressed"]
 [connection signal="pressed" from="Inventory/SplitterButton" to="." method="_on_splitter_button_pressed"]
 [connection signal="pressed" from="Inventory/MergerButton" to="." method="_on_merger_button_pressed"]
+[connection signal="pressed" from="Inventory/BridgeButton" to="." method="_on_bridge_button_pressed"]
 [connection signal="pressed" from="Inventory/Delete" to="." method="_on_delete_pressed"]
 [connection signal="pressed" from="Quit/HBoxContainer/No" to="." method="_on_no_pressed"]
 [connection signal="pressed" from="Quit/HBoxContainer/Yes" to="." method="_on_return_to_menu_pressed"]

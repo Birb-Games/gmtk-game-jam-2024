@@ -8,6 +8,7 @@ var current_tile: Vector2i
 @onready var item: Node2D = get_parent()
 var stop: bool = false
 var filter_direction: Array
+var bridge_direction: Vector2i
 
 signal output
 signal server
@@ -163,6 +164,56 @@ func move_on_conveyor_corner():
 	else:
 		direction = Vector2i.ZERO
 
+func move_on_bridge(): #reuses conveyor code, but with bridge_direction rather than checking for conveyor direction
+	if direction != Vector2i.ZERO:
+		bridge_direction = direction
+	
+	var blocked = false
+	var neighbor = get_neighbor(bridge_direction) #use the way it's currently going
+	if neighbor == null and bridge_direction != Vector2i.ZERO:
+		blocked = true
+	elif bridge_direction != Vector2i.ZERO:
+		var tile = bottom_tile_map.get_neighbor_cell(current_tile, neighbor)
+		var tiledata = bottom_tile_map.get_cell_tile_data(tile)
+	if neighbor != null:
+		var tile = bottom_tile_map.get_neighbor_cell(current_tile, neighbor)
+		var tiledata = bottom_tile_map.get_cell_tile_data(tile)
+		var conveyor_dir = get_conveyor_direction(tiledata)
+		
+		if !tiledata: #check bottom, then top
+			tile = top_tile_map.get_neighbor_cell(current_tile, neighbor)
+			tiledata = top_tile_map.get_cell_tile_data(tile)
+			conveyor_dir = get_conveyor_direction(tiledata)
+			if !tiledata:
+				blocked = true
+		
+		if !blocked and tiledata.get_custom_data("Type") == "input":
+			blocked = true
+		
+		if !blocked and tiledata.get_custom_data("Type") == "conveyor" and conveyor_dir != bridge_direction:
+			blocked = true
+		
+		#if it's the complete opposite direction
+		if !blocked and tiledata.get_custom_data("Type") == "merger" and conveyor_dir + bridge_direction == Vector2i.ZERO:
+			blocked = true
+		
+		var current_id = direction_ids[bridge_direction]
+		if !blocked and tiledata.get_custom_data("Type") == "conveyor_corner":
+			var id = tiledata.get_custom_data("alternate_id")
+			blocked = corner_lookup[current_id][id] == 0
+		
+		if !blocked and tiledata.get_custom_data("Type") == "splitter":
+			# var id = tiledata.get_custom_data("alternate_id")
+			blocked = tiledata.get_custom_data("alternate_id") != current_id
+
+		if !blocked and (tiledata.get_custom_data("Type") == "green_filter" or tiledata.get_custom_data("Type") == "white_filter" or tiledata.get_custom_data("Type") == "blue_filter"):
+			blocked = tiledata.get_custom_data("alternate_id") != current_id
+	
+	if !blocked:
+		direction = bridge_direction
+	else:
+		direction = Vector2i.ZERO
+
 enum FilterType {
 	GREEN = 0,
 	WHITE = 1,
@@ -308,6 +359,8 @@ func update_based_on_tile():
 				move_on_filter(FilterType.WHITE)
 			"blue_filter":
 				move_on_filter(FilterType.BLUE)
+			"bridge":
+				move_on_bridge()
 			_:
 				empty.emit()
 				direction = Vector2i.ZERO

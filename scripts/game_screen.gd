@@ -39,6 +39,7 @@ const tile_atlas_positions = {
 	"deleter": Vector2i(3,1),
 	"storage": Vector2i(0,2),
 	"merger": Vector2i(3, 2),
+	"bridge": Vector2i(3,0),
 	"conveyor": Vector2i(0,3),
 	"conveyor_corner": Vector2i(2, 3),
 }
@@ -54,6 +55,7 @@ var tile_costs = {
 	"deleter": 20,
 	"storage": 80,
 	"merger": 60,
+	"bridge": 30,
 	"conveyor": 1,
 	"conveyor_corner": 1,
 }
