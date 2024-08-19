@@ -11,6 +11,12 @@ var is_game_over: bool = false
 
 var alternative: int = 0
 
+#used for increasing max num of files allowed onscreen
+var max_servers_placed: int = 0
+var current_servers_placed: int = 0
+var max_storages_placed: int = 0
+var current_storages_placed: int = 0
+
 # keeps track of the number of backed up requests, if any of these
 # exceed a certain threshold then you lose the game
 var spawn_counts = {
@@ -21,9 +27,9 @@ var spawn_counts = {
 }
 
 var max_counts = {
-	"get": 1024,
+	"get": 256,
 	"bad": 128,
-	"download": 512,
+	"download": 128,
 }
 
 var input_pipes = []
@@ -72,8 +78,13 @@ func _ready() -> void:
 func add_top_tile(id: String, x: int, y: int) -> void:
 	var tiledata = $TopTileMapLayer.get_cell_tile_data(Vector2i(x, y))
 	if id == "delete":
-		if tiledata and len(input_pipes) == 1 and tiledata.get_custom_data("Type") == "input":
-			return
+		if tiledata:
+			if len(input_pipes) == 1 and tiledata.get_custom_data("Type") == "input":
+				return
+			if tiledata.get_custom_data("Type") == "server":
+				current_servers_placed -= 1
+			if tiledata.get_custom_data("Type") == "storage":
+				current_storages_placed -= 1
 		tiledata = $BottomTileMapLayer.get_cell_tile_data(Vector2i(x, y))
 		if tiledata and tile_costs.has(tiledata.get_custom_data("Type")):
 			var refund = int(tile_costs[tiledata.get_custom_data("Type")] * SALE_PERCENT_RECOVERED)
@@ -100,6 +111,18 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 		if id == "in":
 			tile_costs[id] *= COST_MULTIPLIER
 			input_pipes.push_back(Vector2i(x, y))
+		elif id == "server":
+			if current_servers_placed == max_servers_placed:
+				max_servers_placed += 1
+				$Spawner.add_to_pool("get", 64)
+				max_counts["get"] += 64
+			current_servers_placed += 1
+		elif id == "storage":
+			if current_storages_placed == max_storages_placed:
+				max_storages_placed += 1
+				$Spawner.add_to_pool("get", 16)
+				max_counts["download"] += 16
+			current_storages_placed += 1
 		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
 		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
 		$TopTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
@@ -131,6 +154,7 @@ func _unhandled_input(event):
 			add_bottom_tile($HUD.get_selected(), pos[0], pos[1])
 		elif ($HUD.get_selected() != ""):
 			add_top_tile($HUD.get_selected(), pos[0], pos[1])
+	
 	if (event.is_action_pressed("right_click") and !Input.is_action_pressed("reverse_rotation")):
 		if $HUD.get_selected() != "" and $HUD.get_selected() != "delete":
 			alternative += 1

@@ -29,12 +29,27 @@ var timers = {
 	"download": 300.0,
 }
 
-const GET_POOL_SIZE = 1200
-const BAD_POOL_SIZE = 160
-const DOWNLOAD_POOL_SIZE = 600
+var pools = {
+	"get": 275,
+	"bad": 150,
+	"download": 150
+}
 var get_pool = []
 var bad_pool = []
 var download_pool = []
+
+func add_to_pool(id: String, amount: int):
+	pools[id] += amount
+	match id:
+		"get":
+			for i in range(amount):
+				get_pool.append(game_screen.get_request.instantiate())
+		"bad":
+			for i in range(amount):
+				bad_pool.append(game_screen.bad_request.instantiate())
+		"download":
+			for i in range(amount):
+				download_pool.append(game_screen.download_request.instantiate())
 
 func add(pool: Array, position: Vector2):
 	if len(pool) == 0:
@@ -47,11 +62,11 @@ func add(pool: Array, position: Vector2):
 
 func _ready():
 	var instance
-	for i in range(GET_POOL_SIZE):
-		get_pool.append( game_screen.get_request.instantiate())
-	for i in range(BAD_POOL_SIZE):
+	for i in range(pools["get"]):
+		get_pool.append(game_screen.get_request.instantiate())
+	for i in range(pools["bad"]):
 		bad_pool.append(game_screen.bad_request.instantiate())
-	for i in range(DOWNLOAD_POOL_SIZE):
+	for i in range(pools["download"]):
 		download_pool.append(game_screen.download_request.instantiate())
 
 func update_timers(dt: float) -> void:
@@ -87,6 +102,6 @@ func _process(delta: float):
 		update_timers(delta)
 		update_reset_times()
 	spawn()
-	assert(game_screen.spawn_counts["get"] + len(get_pool) == GET_POOL_SIZE)
-	assert(game_screen.spawn_counts["bad"] + len(bad_pool) == BAD_POOL_SIZE)
-	assert(game_screen.spawn_counts["download"] + len(download_pool) == DOWNLOAD_POOL_SIZE)
+	assert(game_screen.spawn_counts["get"] + len(get_pool) == pools["get"])
+	assert(game_screen.spawn_counts["bad"] + len(bad_pool) == pools["bad"])
+	assert(game_screen.spawn_counts["download"] + len(download_pool) == pools["download"])
