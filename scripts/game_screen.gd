@@ -99,13 +99,16 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 			$/root/Root/Audio/Destroy.play()
 		return
 	if tiledata != null:
-		return
+		if tiledata.get_custom_data("Type")!=id:
+			return
 	tiledata = $BottomTileMapLayer.get_cell_tile_data(Vector2i(x, y))
-	if tiledata and tiledata.get_custom_data("Type") != "conveyor" and tiledata.get_custom_data("Type") != "conveyor_corner":
+	if tiledata and tiledata.get_custom_data("Type")!=id:
 		return
 	# replace conveyor belt
 	if tiledata and (tiledata.get_custom_data("Type") == "conveyor" or tiledata.get_custom_data("Type") == "conveyor_corner"):
 		coins += 1
+	if tiledata and (tiledata.get_custom_data("Type")==id):
+		add_coins(tile_costs[id])
 	if spend_coins(tile_costs[id]):
 		$/root/Root/Audio/Place.play()
 		if id == "in":
@@ -126,8 +129,6 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
 		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
 		$TopTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
-	else:
-		print("insufficent funds")
 
 func add_bottom_tile(id: String, x: int, y: int) -> void:
 	var tiledata = $TopTileMapLayer.get_cell_tile_data(Vector2i(x, y))
