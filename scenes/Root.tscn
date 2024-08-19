@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://b37dd5cu6d7et"]
+[gd_scene load_steps=8 format=3 uid="uid://b37dd5cu6d7et"]
 
+[ext_resource type="AudioStream" uid="uid://d4nalw56vx8gn" path="res://assets/sfx/fail.wav" id="5_l5tbe"]
 [ext_resource type="PackedScene" uid="uid://dkasr7mfbo72s" path="res://scenes/IntroScreens/IntroScreen1.tscn" id="6_4q661"]
 [ext_resource type="PackedScene" uid="uid://bm2i0q4piijdd" path="res://scenes/CreditsScreen.tscn" id="7_r04gw"]
 [ext_resource type="AudioStream" uid="uid://11wp6tq48aq" path="res://assets/sfx/click.wav" id="9_n1k25"]
@@ -25,6 +26,9 @@ volume_db = -8.0
 [node name="Destroy" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("12_isak2")
 volume_db = -8.0
+
+[node name="Fail" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("5_l5tbe")
 
 [node name="CreditsScreen" parent="." instance=ExtResource("7_r04gw")]
 visible = false
