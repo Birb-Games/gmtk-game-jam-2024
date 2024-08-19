@@ -32,7 +32,7 @@ horizontal_alignment = 2
 z_index = 3
 position = Vector2(-16, 8)
 scale = Vector2(1.5, 1.5)
-tile_map_data = PackedByteArray("AAAJAAoAAAAAAAIAAAAKAAoAAAACAAEAAAALAAoAAAABAAEAAAAMAAoAAAABAAIAAAANAAoAAAACAAIAAAAGAAoAAAAAAAMAAAAHAAoAAAACAAMAAAAFAAoAAAABAAAAAAAIAAoAAAADAAEAAAAOAAoAAAAAAAEAAAAPAAoAAAADAAIAAAAEAAoAAAAAAAAAAAARAAoAAAACAAAAAAAQAAoAAAADAAAAAAA=")
+tile_map_data = PackedByteArray("AAAEAAoAAAABAAAAAAAFAAoAAAAAAAMAAAAGAAoAAAACAAMAAAAHAAoAAAADAAEAAAAIAAoAAAAAAAIAAAAJAAoAAAACAAEAAAAKAAoAAAABAAEAAAALAAoAAAABAAIAAAAMAAoAAAACAAIAAAANAAoAAAAAAAEAAAAOAAoAAAADAAIAAAAPAAoAAAADAAAAAAAQAAoAAAACAAAAAAADAAoAAAAAAAAAAAA=")
 tile_set = ExtResource("1_5sfmw")
 
 [node name="InButton" type="Button" parent="Inventory"]
@@ -42,9 +42,9 @@ anchor_left = 0.317
 anchor_top = 0.586
 anchor_right = 0.317
 anchor_bottom = 0.586
-offset_left = 128.0
+offset_left = 96.0
 offset_top = 320.0
-offset_right = 160.0
+offset_right = 128.0
 offset_bottom = 352.0
 tooltip_text = "Input Pipe"
 
@@ -55,9 +55,9 @@ anchor_left = 0.317
 anchor_top = 0.586
 anchor_right = 0.317
 anchor_bottom = 0.586
-offset_left = 160.0
+offset_left = 128.0
 offset_top = 320.0
-offset_right = 192.0
+offset_right = 160.0
 offset_bottom = 352.0
 tooltip_text = "Output Pipe - only output files (gray and white colored) are allowed in, if anything else enters then you will lose money"
 
@@ -68,9 +68,9 @@ anchor_left = 0.317
 anchor_top = 0.586
 anchor_right = 0.317
 anchor_bottom = 0.586
-offset_left = 192.0
+offset_left = 160.0
 offset_top = 320.0
-offset_right = 224.0
+offset_right = 192.0
 offset_bottom = 352.0
 tooltip_text = "Conveyor Belt"
 
@@ -81,9 +81,9 @@ anchor_left = 0.317
 anchor_top = 0.586
 anchor_right = 0.317
 anchor_bottom = 0.586
-offset_left = 224.0
+offset_left = 192.0
 offset_top = 320.0
-offset_right = 256.0
+offset_right = 224.0
 offset_bottom = 352.0
 tooltip_text = "Corner Conveyor Belt"
 
@@ -94,9 +94,9 @@ anchor_left = 0.317
 anchor_top = 0.586
 anchor_right = 0.317
 anchor_bottom = 0.586
-offset_left = 256.0
+offset_left = 224.0
 offset_top = 320.0
-offset_right = 288.0
+offset_right = 256.0
 offset_bottom = 352.0
 tooltip_text = "Deleter - deletes anything that goes in, note that if you delete anything other than a malware file you will lose money"
 
@@ -107,9 +107,9 @@ anchor_left = 0.317
 anchor_top = 0.586
 anchor_right = 0.317
 anchor_bottom = 0.586
-offset_left = 288.0
+offset_left = 256.0
 offset_top = 320.0
-offset_right = 320.0
+offset_right = 288.0
 offset_bottom = 352.0
 tooltip_text = "File Storage - converts blue input (\"downloads\") into either an output file or a malware file"
 
@@ -120,9 +120,9 @@ anchor_left = 0.317
 anchor_top = 0.586
 anchor_right = 0.317
 anchor_bottom = 0.586
-offset_left = 320.0
+offset_left = 288.0
 offset_top = 320.0
-offset_right = 352.0
+offset_right = 320.0
 offset_bottom = 352.0
 tooltip_text = "Server - converts green input files into output files"
 
@@ -133,9 +133,9 @@ anchor_left = 0.317
 anchor_top = 0.586
 anchor_right = 0.317
 anchor_bottom = 0.586
-offset_left = 352.0
+offset_left = 320.0
 offset_top = 320.0
-offset_right = 384.0
+offset_right = 352.0
 offset_bottom = 352.0
 tooltip_text = "Green Filter - sorts out green input files"
 
@@ -146,9 +146,9 @@ anchor_left = 0.317
 anchor_top = 0.586
 anchor_right = 0.317
 anchor_bottom = 0.586
-offset_left = 384.0
+offset_left = 352.0
 offset_top = 320.0
-offset_right = 416.0
+offset_right = 384.0
 offset_bottom = 352.0
 tooltip_text = "White Filter - sorts out output files"
 
@@ -159,9 +159,9 @@ anchor_left = 0.317
 anchor_top = 0.586
 anchor_right = 0.317
 anchor_bottom = 0.586
-offset_left = 416.0
+offset_left = 384.0
 offset_top = 320.0
-offset_right = 448.0
+offset_right = 416.0
 offset_bottom = 352.0
 tooltip_text = "Blue Filter - sorts out blue input files (\"downloads\")"
 
@@ -172,9 +172,9 @@ anchor_left = 0.317
 anchor_top = 0.586
 anchor_right = 0.317
 anchor_bottom = 0.586
-offset_left = 448.0
+offset_left = 416.0
 offset_top = 320.0
-offset_right = 480.0
+offset_right = 448.0
 offset_bottom = 352.0
 tooltip_text = "Splitter"
 
@@ -185,9 +185,9 @@ anchor_left = 0.317
 anchor_top = 0.586
 anchor_right = 0.317
 anchor_bottom = 0.586
-offset_left = 480.0
+offset_left = 448.0
 offset_top = 320.0
-offset_right = 512.0
+offset_right = 480.0
 offset_bottom = 352.0
 tooltip_text = "Merger"
 
@@ -198,9 +198,9 @@ anchor_left = 0.317
 anchor_top = 0.586
 anchor_right = 0.317
 anchor_bottom = 0.586
-offset_left = 512.0
+offset_left = 480.0
 offset_top = 320.0
-offset_right = 544.0
+offset_right = 512.0
 offset_bottom = 352.0
 tooltip_text = "Bridge"
 
@@ -211,73 +211,100 @@ anchor_left = 0.317
 anchor_top = 0.586
 anchor_right = 0.317
 anchor_bottom = 0.586
-offset_left = 544.0
+offset_left = 512.0
 offset_top = 320.0
-offset_right = 576.0
+offset_right = 544.0
 offset_bottom = 352.0
 tooltip_text = "Delete Tile"
 
 [node name="Counts" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 361.0
+offset_bottom = 138.0
 
-[node name="Get" type="Sprite2D" parent="Counts"]
-position = Vector2(20, 19)
+[node name="Get" type="HBoxContainer" parent="Counts"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 3.0
+offset_right = 252.0
+offset_bottom = 35.0
+
+[node name="UpgradeGet" type="Button" parent="Counts/Get"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_4pesv")
+theme_override_font_sizes/font_size = 14
+text = "Upgrade: $0"
+
+[node name="TextureRect" type="TextureRect" parent="Counts/Get"]
+layout_mode = 2
 texture = ExtResource("4_nciv1")
 
-[node name="GetCount" type="Label" parent="Counts"]
+[node name="GetCount" type="Label" parent="Counts/Get"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_4pesv")
+theme_override_font_sizes/font_size = 24
+text = "0/0 (0s)"
+
+[node name="Bad" type="HBoxContainer" parent="Counts"]
 layout_mode = 0
-offset_left = 36.0
-offset_top = 8.0
-offset_right = 96.0
-offset_bottom = 31.0
+offset_left = 6.0
+offset_top = 36.0
+offset_right = 252.0
+offset_bottom = 68.0
+
+[node name="UpgradeBad" type="Button" parent="Counts/Bad"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_4pesv")
+theme_override_font_sizes/font_size = 14
+text = "Upgrade: $0"
+
+[node name="TextureRect" type="TextureRect" parent="Counts/Bad"]
+layout_mode = 2
+texture = ExtResource("7_1x5e4")
+
+[node name="BadCount" type="Label" parent="Counts/Bad"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_4pesv")
+theme_override_font_sizes/font_size = 24
+text = "0/0 (0s)"
+
+[node name="Download" type="HBoxContainer" parent="Counts"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 69.0
+offset_right = 252.0
+offset_bottom = 101.0
+
+[node name="UpgradeDownload" type="Button" parent="Counts/Download"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_4pesv")
+theme_override_font_sizes/font_size = 14
+text = "Upgrade: $0"
+
+[node name="TextureRect" type="TextureRect" parent="Counts/Download"]
+layout_mode = 2
+texture = ExtResource("8_i70hw")
+
+[node name="DownloadCount" type="Label" parent="Counts/Download"]
+layout_mode = 2
 theme_override_fonts/font = ExtResource("5_4pesv")
 theme_override_font_sizes/font_size = 24
 text = "0/0 (0s)"
 
 [node name="Ret" type="Sprite2D" parent="Counts"]
-position = Vector2(20, 51)
+position = Vector2(21, 119)
 texture = ExtResource("5_gti8e")
 
 [node name="RetCount" type="Label" parent="Counts"]
 layout_mode = 0
-offset_left = 36.0
-offset_top = 40.0
-offset_right = 96.0
-offset_bottom = 63.0
+offset_left = 37.0
+offset_top = 108.0
+offset_right = 97.0
+offset_bottom = 131.0
 theme_override_fonts/font = ExtResource("5_4pesv")
 theme_override_font_sizes/font_size = 24
 text = "0"
-
-[node name="Bad" type="Sprite2D" parent="Counts"]
-position = Vector2(20, 83)
-texture = ExtResource("7_1x5e4")
-
-[node name="BadCount" type="Label" parent="Counts"]
-layout_mode = 0
-offset_left = 36.0
-offset_top = 72.0
-offset_right = 96.0
-offset_bottom = 95.0
-theme_override_fonts/font = ExtResource("5_4pesv")
-theme_override_font_sizes/font_size = 24
-text = "0/0 (0s)"
-
-[node name="Download" type="Sprite2D" parent="Counts"]
-position = Vector2(20, 115)
-texture = ExtResource("8_i70hw")
-
-[node name="DownloadCount" type="Label" parent="Counts"]
-layout_mode = 0
-offset_left = 36.0
-offset_top = 104.0
-offset_right = 136.0
-offset_bottom = 127.0
-theme_override_fonts/font = ExtResource("5_4pesv")
-theme_override_font_sizes/font_size = 24
-text = "0/0 (0s)"
 
 [node name="Cost" type="Label" parent="."]
 offset_top = 463.0
@@ -289,9 +316,9 @@ text = "Cost: $0"
 horizontal_alignment = 1
 
 [node name="Paused" type="Label" parent="."]
-offset_top = 5.0
+offset_top = 429.0
 offset_right = 960.0
-offset_bottom = 30.0
+offset_bottom = 454.0
 theme_override_fonts/font = ExtResource("2_1mr0q")
 theme_override_font_sizes/font_size = 32
 text = "Paused"
@@ -376,21 +403,33 @@ horizontal_alignment = 1
 [node name="FinalScore" type="Label" parent="GameOver"]
 z_index = 3
 layout_mode = 0
-offset_top = 273.0
+offset_top = 249.0
 offset_right = 960.0
-offset_bottom = 324.0
+offset_bottom = 300.0
 theme_override_fonts/font = ExtResource("2_1mr0q")
 theme_override_font_sizes/font_size = 32
 text = "Final Score:"
 horizontal_alignment = 1
 
+[node name="ViewFactory" type="Button" parent="GameOver"]
+z_index = 3
+layout_mode = 0
+offset_left = 270.0
+offset_top = 295.0
+offset_right = 670.0
+offset_bottom = 360.0
+theme_override_fonts/font = ExtResource("2_1mr0q")
+theme_override_font_sizes/font_size = 32
+text = "View Factory"
+flat = true
+
 [node name="ReturnToMenu" type="Button" parent="GameOver"]
 z_index = 3
 layout_mode = 0
 offset_left = 270.0
-offset_top = 320.0
+offset_top = 368.0
 offset_right = 670.0
-offset_bottom = 385.0
+offset_bottom = 433.0
 theme_override_fonts/font = ExtResource("2_1mr0q")
 theme_override_font_sizes/font_size = 32
 text = "Return to Main Menu"
@@ -410,6 +449,10 @@ flat = true
 [connection signal="pressed" from="Inventory/MergerButton" to="." method="_on_merger_button_pressed"]
 [connection signal="pressed" from="Inventory/BridgeButton" to="." method="_on_bridge_button_pressed"]
 [connection signal="pressed" from="Inventory/Delete" to="." method="_on_delete_pressed"]
+[connection signal="pressed" from="Counts/Get/UpgradeGet" to="." method="_on_upgrade_get_pressed"]
+[connection signal="pressed" from="Counts/Bad/UpgradeBad" to="." method="_on_upgrade_bad_pressed"]
+[connection signal="pressed" from="Counts/Download/UpgradeDownload" to="." method="_on_upgrade_download_pressed"]
 [connection signal="pressed" from="Quit/HBoxContainer/No" to="." method="_on_no_pressed"]
 [connection signal="pressed" from="Quit/HBoxContainer/Yes" to="." method="_on_return_to_menu_pressed"]
+[connection signal="pressed" from="GameOver/ViewFactory" to="." method="_on_view_factory_pressed"]
 [connection signal="pressed" from="GameOver/ReturnToMenu" to="." method="_on_return_to_menu_pressed"]
