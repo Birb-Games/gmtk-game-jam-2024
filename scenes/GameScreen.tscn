@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cgxc2wyyt5lj0"]
+[gd_scene load_steps=11 format=3 uid="uid://cgxc2wyyt5lj0"]
 
 [ext_resource type="Shader" path="res://scripts/preview.gdshader" id="1_q5wc0"]
 [ext_resource type="Script" path="res://scripts/game_screen.gd" id="1_qwcpn"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/camera_movement.gd" id="3_tbnn5"]
 [ext_resource type="PackedScene" uid="uid://bc80js0lqq2c" path="res://scenes/Download.tscn" id="4_nfwlx"]
 [ext_resource type="PackedScene" uid="uid://xs0ne0a078ye" path="res://scenes/HUD.tscn" id="4_ucbyk"]
+[ext_resource type="Script" path="res://scripts/spawner.gd" id="9_lqnjk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yruxq"]
 shader = ExtResource("1_q5wc0")
@@ -42,3 +43,6 @@ zoom = Vector2(2, 2)
 script = ExtResource("3_tbnn5")
 
 [node name="HUD" parent="." instance=ExtResource("4_ucbyk")]
+
+[node name="Spawner" type="Node" parent="."]
+script = ExtResource("9_lqnjk")

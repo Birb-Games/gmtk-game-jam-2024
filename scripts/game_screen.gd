@@ -26,26 +26,6 @@ var max_counts = {
 	"download": 512,
 }
 
-# once a timer runs out, reset it to these times
-var reset_times = {
-	"get": 3.0,
-	"bad": 7.0,
-	"download": 7.0,
-}
-
-# How fast each timer should speed up
-var speed_up = {
-	"get": 0.05,
-	"bad": 0.07,
-	"download": 0.2
-}
-
-var timers = {
-	"get": 3.0,
-	"bad": 180.0,
-	"download": 300.0,
-}
-
 var input_pipes = []
 
 const tile_atlas_positions = {
@@ -138,33 +118,6 @@ func add_bottom_tile(id: String, x: int, y: int) -> void:
 		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
 	else:
 		print("insufficent funds")
-	
-func update_timers(dt: float) -> void:
-	# iterate through timers to update them
-	for id in timers:
-		timers[id] -= dt
-
-func spawn() -> void:
-	for id in timers:
-		if timers[id] <= 0.0:
-			if len(input_pipes) == 0:
-				continue
-			# Chose a random input pipe
-			var rand_pipe = input_pipes[randi() % len(input_pipes)]
-			var instance
-			if id == "get":
-				instance = get_request.instantiate()
-			elif id == "bad":
-				instance = bad_request.instantiate()
-			elif id == "download":
-				instance = download_request.instantiate()
-				
-			# Place the request in the world
-			instance.position = $TopTileMapLayer.map_to_local(rand_pipe)
-			$Requests.add_child(instance)
-			timers[id] = reset_times[id]
-			reset_times[id] = max(reset_times[id] - speed_up[id], 0.18)  
-			spawn_counts[id] += 1
 
 func _unhandled_input(event):
 	if is_game_over:
@@ -226,10 +179,7 @@ func game_over(msg: String):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if !get_tree().paused:
-		update_timers(delta)
 	display_preview()
-	spawn()
 	$HUD.update_text()
 	check_game_over()
 	
