@@ -65,7 +65,7 @@ func spawn() -> void:
 				add(download_pool, pos)
 			
 			timers[id] = reset_times[id]
-			reset_times[id] = max(reset_times[id] - speed_up[id], 0.1)  
+			reset_times[id] = max(reset_times[id] - speed_up[id], 0.2)  
 			game_screen.spawn_counts[id] += 1
 
 func _process(delta: float):
