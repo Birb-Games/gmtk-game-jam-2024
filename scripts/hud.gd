@@ -90,7 +90,7 @@ func _on_merger_button_pressed() -> void:
 func set_count_text(label: Label, id: String):
 	label.text = str($/root/Root/GameScreen.spawn_counts[id])
 	label.text += "/" + str($/root/Root/GameScreen.max_counts[id])
-	label.text += " (" + str(int(round($/root/Root/GameScreen.timers[id]))) + "s)"
+	label.text += " (" + str(int(round($/root/Root/GameScreen/Spawner.timers[id]))) + "s)"
 	
 func update_text():
 	set_count_text($Counts/GetCount, "get")

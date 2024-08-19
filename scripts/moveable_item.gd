@@ -20,14 +20,14 @@ var new_tile: bool = true
 const speed = 40
 var direction: Vector2i
 
-var directions = [
+const directions = [
 	TileSet.CELL_NEIGHBOR_TOP_SIDE,
 	TileSet.CELL_NEIGHBOR_BOTTOM_SIDE,
 	TileSet.CELL_NEIGHBOR_LEFT_SIDE,
 	TileSet.CELL_NEIGHBOR_RIGHT_SIDE
 ]
 # The conveyor belt for each corresponding 
-var should_match = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
+const should_match = [Vector2i.UP, Vector2i.DOWN, Vector2i.LEFT, Vector2i.RIGHT]
 
 const direction_ids = {
 	Vector2i.RIGHT: 0,
