@@ -298,7 +298,7 @@ func push_in_random_dir():
 			var id = tiledata.get_custom_data("alternate_id")
 			possible_directions[i] = corner_lookup[direction_id][id] == 1
 			continue
-	direction = get_random_direction(possible_directions)
+	direction = get_random_direction(possible_directions,str(position.x)+" "+str(position.y))
 
 func move_on_splitter():
 	var id = current_top_tile_data.get_custom_data("alternate_id")
@@ -320,7 +320,7 @@ func move_on_splitter():
 				possible[i] = corner_lookup[dir_id][neighbor_id] == 1         
 			else:
 				possible[i] = false
-	direction = get_random_direction(possible)
+	direction = get_random_direction(possible, str(position.x)+" "+str(position.y))
 
 func update_based_on_tile():
 	if !current_bottom_tile_data and !current_top_tile_data:
@@ -385,10 +385,17 @@ func _process(delta: float) -> void:
 	if (new_tile):
 		new_tile = false
 
+
+static var rand_increments= {
+	
+}
+
 #return a direction based on an array containing which directions are valid
 #the array should have 4 booleans: up, down, left, and right availability
-func get_random_direction(options: Array) -> Vector2i:
+func get_random_direction(options: Array, name:String) -> Vector2i:
 	var true_indices = []
+	if name not in rand_increments:
+		rand_increments[name]=0
 
 	# Collect indices where the value is true
 	for i in range(options.size()):
@@ -398,9 +405,9 @@ func get_random_direction(options: Array) -> Vector2i:
 	# Check if there are any true values
 	if true_indices.size() == 0:
 		return Vector2i.ZERO
-
+	rand_increments[name]+=1
 	# Select a random direction from the true indices
-	match true_indices[randi() % true_indices.size()]:
+	match true_indices[rand_increments[name] % true_indices.size()]:
 		0: return Vector2i.UP
 		1: return Vector2i.DOWN
 		2: return Vector2i.LEFT
