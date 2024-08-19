@@ -70,6 +70,7 @@ func _process(delta):
 	
 	if(Input.is_action_just_pressed("quit") and !$GameOver.visible):
 		$Quit.visible = !$Quit.visible
+		$Paused.text = ""
 		if $Quit.visible:
 			get_tree().paused = true
 		else:
