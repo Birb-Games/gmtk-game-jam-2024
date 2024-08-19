@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://xs0ne0a078ye"]
+[gd_scene load_steps=10 format=4 uid="uid://xs0ne0a078ye"]
 
 [ext_resource type="TileSet" uid="uid://bfkboupnfd6k6" path="res://assets/tiles/tiles.tres" id="1_5sfmw"]
 [ext_resource type="Script" path="res://scripts/hud.gd" id="1_o63eh"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://40u8nw0veh31" path="res://assets/sprites/return.png" id="5_gti8e"]
 [ext_resource type="Texture2D" uid="uid://oryin8ekfal5" path="res://assets/sprites/bad.png" id="7_1x5e4"]
 [ext_resource type="Texture2D" uid="uid://bft8p2ejikb81" path="res://assets/sprites/download.png" id="8_i70hw"]
+[ext_resource type="FontFile" uid="uid://rshi05d6a6ra" path="res://assets/fonts/8BitOperator/8bitOperatorPlus-Bold.ttf" id="9_1bwcs"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource("1_o63eh")
@@ -29,9 +30,9 @@ horizontal_alignment = 2
 
 [node name="Inventory" type="TileMapLayer" parent="."]
 z_index = 3
-position = Vector2(0, 8)
+position = Vector2(-16, 8)
 scale = Vector2(1.5, 1.5)
-tile_map_data = PackedByteArray("AAAJAAoAAAAAAAIAAAAKAAoAAAACAAEAAAALAAoAAAABAAEAAAAMAAoAAAABAAIAAAANAAoAAAACAAIAAAAGAAoAAAAAAAMAAAAHAAoAAAACAAMAAAAFAAoAAAABAAAAAAAIAAoAAAADAAEAAAAOAAoAAAAAAAEAAAAPAAoAAAADAAIAAAAEAAoAAAAAAAAAAAAQAAoAAAACAAAAAAA=")
+tile_map_data = PackedByteArray("AAAJAAoAAAAAAAIAAAAKAAoAAAACAAEAAAALAAoAAAABAAEAAAAMAAoAAAABAAIAAAANAAoAAAACAAIAAAAGAAoAAAAAAAMAAAAHAAoAAAACAAMAAAAFAAoAAAABAAAAAAAIAAoAAAADAAEAAAAOAAoAAAAAAAEAAAAPAAoAAAADAAIAAAAEAAoAAAAAAAAAAAARAAoAAAACAAAAAAAQAAoAAAADAAAAAAA=")
 tile_set = ExtResource("1_5sfmw")
 
 [node name="InButton" type="Button" parent="Inventory"]
@@ -45,6 +46,7 @@ offset_left = 128.0
 offset_top = 320.0
 offset_right = 160.0
 offset_bottom = 352.0
+tooltip_text = "Input Pipe"
 
 [node name="OutButton" type="Button" parent="Inventory"]
 z_as_relative = false
@@ -57,6 +59,7 @@ offset_left = 160.0
 offset_top = 320.0
 offset_right = 192.0
 offset_bottom = 352.0
+tooltip_text = "Output Pipe - only output files (gray and white colored) are allowed in, if anything else enters then you will lose money"
 
 [node name="BeltButton" type="Button" parent="Inventory"]
 z_as_relative = false
@@ -69,6 +72,7 @@ offset_left = 192.0
 offset_top = 320.0
 offset_right = 224.0
 offset_bottom = 352.0
+tooltip_text = "Conveyor Belt"
 
 [node name="CornerBeltButton" type="Button" parent="Inventory"]
 z_as_relative = false
@@ -81,6 +85,7 @@ offset_left = 224.0
 offset_top = 320.0
 offset_right = 256.0
 offset_bottom = 352.0
+tooltip_text = "Corner Conveyor Belt"
 
 [node name="TrashButton" type="Button" parent="Inventory"]
 z_as_relative = false
@@ -93,6 +98,7 @@ offset_left = 256.0
 offset_top = 320.0
 offset_right = 288.0
 offset_bottom = 352.0
+tooltip_text = "Deleter - deletes anything that goes in, note that if you delete anything other than a malware file you will lose money"
 
 [node name="StorageButton" type="Button" parent="Inventory"]
 z_as_relative = false
@@ -105,6 +111,7 @@ offset_left = 288.0
 offset_top = 320.0
 offset_right = 320.0
 offset_bottom = 352.0
+tooltip_text = "File Storage - converts blue input (\"downloads\") into either an output file or a malware file"
 
 [node name="ServerButton" type="Button" parent="Inventory"]
 z_as_relative = false
@@ -117,6 +124,7 @@ offset_left = 320.0
 offset_top = 320.0
 offset_right = 352.0
 offset_bottom = 352.0
+tooltip_text = "Server - converts green input files into output files"
 
 [node name="GreenFilterButton" type="Button" parent="Inventory"]
 z_as_relative = false
@@ -129,6 +137,7 @@ offset_left = 352.0
 offset_top = 320.0
 offset_right = 384.0
 offset_bottom = 352.0
+tooltip_text = "Green Filter - sorts out green input files"
 
 [node name="WhiteFilterButton" type="Button" parent="Inventory"]
 z_as_relative = false
@@ -141,6 +150,7 @@ offset_left = 384.0
 offset_top = 320.0
 offset_right = 416.0
 offset_bottom = 352.0
+tooltip_text = "White Filter - sorts out output files"
 
 [node name="BlueFilterButton" type="Button" parent="Inventory"]
 z_as_relative = false
@@ -153,6 +163,7 @@ offset_left = 416.0
 offset_top = 320.0
 offset_right = 448.0
 offset_bottom = 352.0
+tooltip_text = "Blue Filter - sorts out blue input files (\"downloads\")"
 
 [node name="SplitterButton" type="Button" parent="Inventory"]
 z_as_relative = false
@@ -165,6 +176,7 @@ offset_left = 448.0
 offset_top = 320.0
 offset_right = 480.0
 offset_bottom = 352.0
+tooltip_text = "Splitter"
 
 [node name="MergerButton" type="Button" parent="Inventory"]
 z_as_relative = false
@@ -177,8 +189,9 @@ offset_left = 480.0
 offset_top = 320.0
 offset_right = 512.0
 offset_bottom = 352.0
+tooltip_text = "Merger"
 
-[node name="Delete" type="Button" parent="Inventory"]
+[node name="BridgeButton" type="Button" parent="Inventory"]
 z_as_relative = false
 anchors_preset = -1
 anchor_left = 0.317
@@ -189,6 +202,20 @@ offset_left = 512.0
 offset_top = 320.0
 offset_right = 544.0
 offset_bottom = 352.0
+tooltip_text = "Bridge"
+
+[node name="Delete" type="Button" parent="Inventory"]
+z_as_relative = false
+anchors_preset = -1
+anchor_left = 0.317
+anchor_top = 0.586
+anchor_right = 0.317
+anchor_bottom = 0.586
+offset_left = 544.0
+offset_top = 320.0
+offset_right = 576.0
+offset_bottom = 352.0
+tooltip_text = "Delete Tile"
 
 [node name="Counts" type="Control" parent="."]
 layout_mode = 3
@@ -270,6 +297,105 @@ theme_override_font_sizes/font_size = 32
 text = "Paused"
 horizontal_alignment = 1
 
+[node name="Quit" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 960.0
+offset_bottom = 540.0
+
+[node name="ColorRect" type="ColorRect" parent="Quit"]
+z_index = 3
+layout_mode = 0
+offset_right = 960.0
+offset_bottom = 540.0
+color = Color(0.137255, 0.137255, 0.137255, 0.752941)
+
+[node name="QuitPrompt" type="Label" parent="Quit"]
+z_index = 3
+layout_mode = 0
+offset_top = 157.0
+offset_right = 960.0
+offset_bottom = 209.0
+theme_override_fonts/font = ExtResource("9_1bwcs")
+theme_override_font_sizes/font_size = 32
+text = "Are you sure you want to quit?"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Quit"]
+z_index = 3
+layout_mode = 0
+offset_left = 240.0
+offset_top = 240.0
+offset_right = 720.0
+offset_bottom = 320.0
+theme_override_constants/separation = 128
+alignment = 1
+
+[node name="No" type="Button" parent="Quit/HBoxContainer"]
+z_index = 3
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_1mr0q")
+theme_override_font_sizes/font_size = 32
+text = "No"
+flat = true
+
+[node name="Yes" type="Button" parent="Quit/HBoxContainer"]
+z_index = 3
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_1mr0q")
+theme_override_font_sizes/font_size = 32
+text = "Yes"
+flat = true
+
+[node name="GameOver" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Background" type="ColorRect" parent="GameOver"]
+z_index = 3
+layout_mode = 0
+offset_right = 960.0
+offset_bottom = 540.0
+color = Color(1, 0, 0, 0.752941)
+
+[node name="GameOverText" type="Label" parent="GameOver"]
+z_index = 3
+layout_mode = 0
+offset_top = 144.0
+offset_right = 960.0
+offset_bottom = 244.0
+theme_override_fonts/font = ExtResource("2_1mr0q")
+theme_override_font_sizes/font_size = 72
+text = "Game Over!"
+horizontal_alignment = 1
+
+[node name="FinalScore" type="Label" parent="GameOver"]
+z_index = 3
+layout_mode = 0
+offset_top = 273.0
+offset_right = 960.0
+offset_bottom = 324.0
+theme_override_fonts/font = ExtResource("2_1mr0q")
+theme_override_font_sizes/font_size = 32
+text = "Final Score:"
+horizontal_alignment = 1
+
+[node name="ReturnToMenu" type="Button" parent="GameOver"]
+z_index = 3
+layout_mode = 0
+offset_left = 270.0
+offset_top = 320.0
+offset_right = 670.0
+offset_bottom = 385.0
+theme_override_fonts/font = ExtResource("2_1mr0q")
+theme_override_font_sizes/font_size = 32
+text = "Return to Main Menu"
+flat = true
+
 [connection signal="pressed" from="Inventory/InButton" to="." method="_on_in_button_pressed"]
 [connection signal="pressed" from="Inventory/OutButton" to="." method="_on_out_button_pressed"]
 [connection signal="pressed" from="Inventory/BeltButton" to="." method="_on_belt_button_pressed"]
@@ -282,4 +408,8 @@ horizontal_alignment = 1
 [connection signal="pressed" from="Inventory/BlueFilterButton" to="." method="_on_blue_filter_button_pressed"]
 [connection signal="pressed" from="Inventory/SplitterButton" to="." method="_on_splitter_button_pressed"]
 [connection signal="pressed" from="Inventory/MergerButton" to="." method="_on_merger_button_pressed"]
+[connection signal="pressed" from="Inventory/BridgeButton" to="." method="_on_bridge_button_pressed"]
 [connection signal="pressed" from="Inventory/Delete" to="." method="_on_delete_pressed"]
+[connection signal="pressed" from="Quit/HBoxContainer/No" to="." method="_on_no_pressed"]
+[connection signal="pressed" from="Quit/HBoxContainer/Yes" to="." method="_on_return_to_menu_pressed"]
+[connection signal="pressed" from="GameOver/ReturnToMenu" to="." method="_on_return_to_menu_pressed"]

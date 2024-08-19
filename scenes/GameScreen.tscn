@@ -1,0 +1,48 @@
+[gd_scene load_steps=11 format=4 uid="uid://cgxc2wyyt5lj0"]
+
+[ext_resource type="Shader" path="res://scripts/preview.gdshader" id="1_q5wc0"]
+[ext_resource type="Script" path="res://scripts/game_screen.gd" id="1_qwcpn"]
+[ext_resource type="PackedScene" uid="uid://bhmgf6n8ywrvq" path="res://scenes/Get.tscn" id="2_4b4ci"]
+[ext_resource type="TileSet" uid="uid://bfkboupnfd6k6" path="res://assets/tiles/tiles.tres" id="2_7wli6"]
+[ext_resource type="PackedScene" uid="uid://dx8x2wygdl6xn" path="res://scenes/Bad.tscn" id="3_n5qh6"]
+[ext_resource type="Script" path="res://scripts/camera_movement.gd" id="3_tbnn5"]
+[ext_resource type="PackedScene" uid="uid://bc80js0lqq2c" path="res://scenes/Download.tscn" id="4_nfwlx"]
+[ext_resource type="PackedScene" uid="uid://xs0ne0a078ye" path="res://scenes/HUD.tscn" id="4_ucbyk"]
+[ext_resource type="Script" path="res://scripts/spawner.gd" id="9_lqnjk"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yruxq"]
+shader = ExtResource("1_q5wc0")
+shader_parameter/transparency = 0.7
+shader_parameter/remove = false
+
+[node name="GameScreen" type="Node2D"]
+script = ExtResource("1_qwcpn")
+get_request = ExtResource("2_4b4ci")
+bad_request = ExtResource("3_n5qh6")
+download_request = ExtResource("4_nfwlx")
+
+[node name="PreviewTileMapLayer" type="TileMapLayer" parent="."]
+z_index = 2
+material = SubResource("ShaderMaterial_yruxq")
+tile_set = ExtResource("2_7wli6")
+
+[node name="TopTileMapLayer" type="TileMapLayer" parent="."]
+z_index = 1
+tile_map_data = PackedByteArray("AAAEAAEAAAACAAEAAAAAAAEAAAAAAAAAAAAIAAEAAAABAAAAAAA=")
+tile_set = ExtResource("2_7wli6")
+
+[node name="BottomTileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAACAAEAAAAAAAMAAAADAAEAAAAAAAMAAAAEAAEAAAACAAEAAAABAAEAAAAAAAMAAAAAAAEAAAAAAAAAAAAIAAEAAAABAAAAAAA=")
+tile_set = ExtResource("2_7wli6")
+
+[node name="Requests" type="Node2D" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(144, 48)
+zoom = Vector2(2, 2)
+script = ExtResource("3_tbnn5")
+
+[node name="HUD" parent="." instance=ExtResource("4_ucbyk")]
+
+[node name="Spawner" type="Node" parent="."]
+script = ExtResource("9_lqnjk")

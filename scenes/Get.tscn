@@ -11,6 +11,8 @@ radius = 18.0
 [node name="Get" type="Area2D" groups=["get", "requests"]]
 process_mode = 1
 scale = Vector2(0.5, 0.5)
+collision_layer = 0
+monitorable = false
 script = ExtResource("1_f0h48")
 ret = ExtResource("2_l1ylg")
 
@@ -28,3 +30,4 @@ shape = SubResource("CircleShape2D_ev6j6")
 [connection signal="empty" from="MoveableItem" to="." method="_on_moveable_item_empty"]
 [connection signal="output" from="MoveableItem" to="." method="_on_moveable_item_output"]
 [connection signal="server" from="MoveableItem" to="." method="_on_moveable_item_server"]
+[connection signal="storage" from="MoveableItem" to="." method="_on_moveable_item_storage"]
