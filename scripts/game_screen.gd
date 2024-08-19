@@ -115,13 +115,10 @@ func add_bottom_tile(id: String, x: int, y: int) -> void:
 	tiledata = $BottomTileMapLayer.get_cell_tile_data(Vector2i(x, y))
 	if tiledata != null:
 		return
-	if(coins >= tile_costs[id]):
+	if(spend_coins(tile_costs[id])):
 		$/root/Root/Audio/Place.play()
-		add_coins(-tile_costs[id])
 		$TopTileMapLayer.erase_cell(Vector2i(x, y))
 		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
-	else:
-		print("insufficent funds")
 
 func _unhandled_input(event):
 	if is_game_over:
@@ -199,7 +196,7 @@ func spend_coins(coinAmt):
 		$HUD.publish_coins(coins)
 		return true
 	else:
-		print("insufficent funds")
+		# TODO: add some sound to go here
 		return false
 
 func add_coins(coinAmt):
