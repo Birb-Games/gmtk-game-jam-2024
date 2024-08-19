@@ -198,7 +198,7 @@ func spend_coins(coinAmt):
 		$HUD.publish_coins(coins)
 		return true
 	else:
-		# TODO: add some sound to go here
+		$/root/Root/Audio/Fail.play()
 		return false
 
 func add_coins(coinAmt):
