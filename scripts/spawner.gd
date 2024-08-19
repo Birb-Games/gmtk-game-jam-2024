@@ -2,18 +2,25 @@ extends Node
 
 @onready var game_screen = get_parent()
 
+var time = 0
+
+const starting_reset_times = {
+	"get": 4.0,
+	"bad": 7.0,
+	"download": 7.0,
+}
+
+const timer_shrink_rates = {
+	"get": 4,
+	"bad": 6,
+	"download": 8 
+}
+
 # once a timer runs out, reset it to these times
 var reset_times = {
 	"get": 3.0,
 	"bad": 7.0,
 	"download": 7.0,
-}
-
-# How fast each timer should speed up
-var speed_up = {
-	"get": 0.05,
-	"bad": 0.07,
-	"download": 0.2
 }
 
 var timers = {
@@ -52,6 +59,11 @@ func update_timers(dt: float) -> void:
 	for id in timers:
 		timers[id] -= dt
 
+func update_reset_times(): #difficulty scaling
+	time += 1
+	for id in timers:
+		reset_times[id] = starting_reset_times[id] * pow(1 - pow(10, -timer_shrink_rates[id]), time) #https://www.desmos.com/calculator/efsgwweud1
+
 func spawn() -> void:
 	for id in timers:
 		if len(game_screen.input_pipes) == 0:
@@ -68,12 +80,12 @@ func spawn() -> void:
 				add(download_pool, pos)
 			
 			timers[id] = reset_times[id]
-			reset_times[id] = max(reset_times[id] - speed_up[id], 0.2)  
 			game_screen.spawn_counts[id] += 1
 
 func _process(delta: float):
 	if !get_tree().paused:
 		update_timers(delta)
+		update_reset_times()
 	spawn()
 	assert(game_screen.spawn_counts["get"] + len(get_pool) == GET_POOL_SIZE)
 	assert(game_screen.spawn_counts["bad"] + len(bad_pool) == BAD_POOL_SIZE)

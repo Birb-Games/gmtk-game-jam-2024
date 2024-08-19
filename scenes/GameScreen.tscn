@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cgxc2wyyt5lj0"]
+[gd_scene load_steps=11 format=4 uid="uid://cgxc2wyyt5lj0"]
 
 [ext_resource type="Shader" path="res://scripts/preview.gdshader" id="1_q5wc0"]
 [ext_resource type="Script" path="res://scripts/game_screen.gd" id="1_qwcpn"]
@@ -28,17 +28,17 @@ tile_set = ExtResource("2_7wli6")
 
 [node name="TopTileMapLayer" type="TileMapLayer" parent="."]
 z_index = 1
-tile_map_data = PackedByteArray(0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 1, 0, 0, 0, 2, 0, 1, 0, 0, 0, 7, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0)
+tile_map_data = PackedByteArray("AAAEAAEAAAACAAEAAAAAAAEAAAAAAAAAAAAIAAEAAAABAAAAAAA=")
 tile_set = ExtResource("2_7wli6")
 
 [node name="BottomTileMapLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray(0, 0, 2, 0, 1, 0, 0, 0, 0, 0, 3, 0, 0, 0, 3, 0, 1, 0, 0, 0, 0, 0, 3, 0, 0, 0, 4, 0, 1, 0, 0, 0, 2, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0)
+tile_map_data = PackedByteArray("AAACAAEAAAAAAAMAAAADAAEAAAAAAAMAAAAEAAEAAAACAAEAAAABAAEAAAAAAAMAAAAAAAEAAAAAAAAAAAAIAAEAAAABAAAAAAA=")
 tile_set = ExtResource("2_7wli6")
 
 [node name="Requests" type="Node2D" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(48, 48)
+position = Vector2(144, 48)
 zoom = Vector2(2, 2)
 script = ExtResource("3_tbnn5")
 
