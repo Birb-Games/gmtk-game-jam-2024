@@ -22,6 +22,9 @@ func defocus():
 	$Inventory/MergerButton.release_focus()
 	$Inventory/BridgeButton.release_focus()
 	$Inventory/Delete.release_focus()
+	$Counts/Get/UpgradeGet.release_focus()
+	$Counts/Bad/UpgradeBad.release_focus()
+	$Counts/Download/UpgradeDownload.release_focus()
 
 func get_selected():
 	return selected
