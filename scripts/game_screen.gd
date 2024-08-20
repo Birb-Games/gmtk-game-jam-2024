@@ -98,10 +98,14 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 	# replace conveyor belt
 	if tiledata and (tiledata.get_custom_data("Type") == "conveyor" or tiledata.get_custom_data("Type") == "conveyor_corner"):
 		coins += 1
+	var play_place_sound = true
 	if tiledata and (tiledata.get_custom_data("Type")==id):
 		add_coins(tile_costs[id])
+		if $BottomTileMapLayer.get_cell_alternative_tile(Vector2i(x, y)) == alternative:
+			play_place_sound = false
 	if spend_coins(tile_costs[id]):
-		$/root/Root/Audio/Place.play()
+		if play_place_sound:
+			$/root/Root/Audio/Place.play()
 		if id == "in":
 			tile_costs[id] *= COST_MULTIPLIER
 			input_pipes.push_back(Vector2i(x, y))
