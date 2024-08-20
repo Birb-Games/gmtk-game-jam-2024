@@ -8,6 +8,7 @@ var upgrade_download_cost = 200
 
 func defocus():
 	selected=""
+	$Cost.text = ""
 	$Inventory/InButton.release_focus()
 	$Inventory/OutButton.release_focus()
 	$Inventory/CornerBeltButton.release_focus()
@@ -28,13 +29,29 @@ func defocus():
 
 func get_selected():
 	return selected
+	
+func color_selected():
+	if $/root/Root/GameScreen.tile_costs.has(selected):
+		if $/root/Root/GameScreen.coins>=$/root/Root/GameScreen.tile_costs[selected]:
+			$Cost.add_theme_color_override("font_color",Color(1.0,1.0,1.0))
+		else:
+			$Cost.add_theme_color_override("font_color",Color(1.0,0.0,0.0))
   
 func publish_coins(coins: int):
 	$CoinLabel.text = "$" + str(coins)
+	color_selected()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	set_count_text($Counts/Get/GetCount, "get")
+	set_count_text($Counts/Bad/BadCount, "bad")
+	set_count_text($Counts/Download/DownloadCount, "download")
+	$Counts/RetCount.text = str($/root/Root/GameScreen.spawn_counts["return"])
+	
+	set_upgrade_text($Counts/Get/UpgradeGet, upgrade_get_cost)
+	set_upgrade_text($Counts/Bad/UpgradeBad, upgrade_bad_cost)
+	set_upgrade_text($Counts/Download/UpgradeDownload, upgrade_download_cost)
+	
 
 func select(option):
 	$/root/Root/Audio/Click.play()
@@ -43,6 +60,11 @@ func select(option):
 		defocus()
 	else:
 		selected=option
+		if $/root/Root/GameScreen.tile_costs.has(selected):
+			$Cost.text = "Cost: $" + str($/root/Root/GameScreen.tile_costs[selected])
+		else:
+			$Cost.text = ""
+		color_selected()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -51,6 +73,7 @@ func _process(delta):
 	
 	if(Input.is_action_just_pressed("quit") and !$GameOver.visible):
 		$Quit.visible = !$Quit.visible
+		$Paused.text = ""
 		if $Quit.visible:
 			get_tree().paused = true
 		else:
@@ -116,16 +139,8 @@ func update_text():
 	set_count_text($Counts/Bad/BadCount, "bad")
 	set_count_text($Counts/Download/DownloadCount, "download")
 	$Counts/RetCount.text = str($/root/Root/GameScreen.spawn_counts["return"])
-	
-	set_upgrade_text($Counts/Get/UpgradeGet, upgrade_get_cost)
-	set_upgrade_text($Counts/Bad/UpgradeBad, upgrade_bad_cost)
-	set_upgrade_text($Counts/Download/UpgradeDownload, upgrade_download_cost)
 
-	if $/root/Root/GameScreen.tile_costs.has(selected):
-		$Cost.text = "Cost: $" + str($/root/Root/GameScreen.tile_costs[selected])
-	else:
-		$Cost.text = ""
-	
+func update_paused():
 	if get_tree().paused:
 		$Paused.text = "Paused"
 	else:
@@ -150,13 +165,16 @@ func _on_upgrade_get_pressed() -> void:
 	if $/root/Root/GameScreen.spend_coins(upgrade_get_cost):
 		upgrade_get_cost *= 4
 		$/root/Root/GameScreen.max_counts["get"] *= 2
+		set_upgrade_text($Counts/Get/UpgradeGet, upgrade_get_cost)
 
 func _on_upgrade_bad_pressed() -> void:
 	if $/root/Root/GameScreen.spend_coins(upgrade_bad_cost):
 		upgrade_bad_cost *= 4
 		$/root/Root/GameScreen.max_counts["bad"] *= 2
+		set_upgrade_text($Counts/Bad/UpgradeBad, upgrade_bad_cost)
 
 func _on_upgrade_download_pressed() -> void:
 	if $/root/Root/GameScreen.spend_coins(upgrade_download_cost):
 		upgrade_download_cost *= 4
 		$/root/Root/GameScreen.max_counts["download"] *= 2
+		set_upgrade_text($Counts/Download/UpgradeDownload, upgrade_download_cost)

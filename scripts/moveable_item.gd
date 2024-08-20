@@ -16,6 +16,7 @@ signal empty
 signal deleter
 signal storage
 
+var prev_new_tile: bool = false
 var new_tile: bool = true
 
 const speed = 40
@@ -300,6 +301,25 @@ func push_in_random_dir():
 			continue
 	direction = get_random_direction(possible_directions)
 
+func push_in_random_dir_deterministic():
+	var possible_directions = [false, false, false, false] #up down left right
+	for i in range(len(directions)):
+		var dir = directions[i]
+		var tile = bottom_tile_map.get_neighbor_cell(current_tile, dir)
+		var tiledata = bottom_tile_map.get_cell_tile_data(tile)
+		if !tiledata:
+			continue
+		var conveyor_dir = get_conveyor_direction(tiledata)
+		if tiledata.get_custom_data("Type") == "conveyor":
+			possible_directions[i] = conveyor_dir == should_match[i]
+			continue
+		if tiledata.get_custom_data("Type") == "conveyor_corner":
+			var direction_id = direction_ids[should_match[i]]
+			var id = tiledata.get_custom_data("alternate_id")
+			possible_directions[i] = corner_lookup[direction_id][id] == 1
+			continue
+	direction = get_random_direction_deterministic(possible_directions, current_tile)
+
 func move_on_splitter():
 	var id = current_top_tile_data.get_custom_data("alternate_id")
 	var possible = splitter_directions[id].duplicate()
@@ -320,7 +340,7 @@ func move_on_splitter():
 				possible[i] = corner_lookup[dir_id][neighbor_id] == 1         
 			else:
 				possible[i] = false
-	direction = get_random_direction(possible)
+	direction = get_random_direction_deterministic(possible, current_tile)
 
 func update_based_on_tile():
 	if !current_bottom_tile_data and !current_top_tile_data:
@@ -338,7 +358,7 @@ func update_based_on_tile():
 			"conveyor_corner":
 				move_on_conveyor_corner()
 			"input":
-				push_in_random_dir()
+				push_in_random_dir_deterministic()
 			"output":
 				output.emit()
 			"server":
@@ -375,6 +395,8 @@ func _process(delta: float) -> void:
 	current_bottom_tile_data = bottom_tile_map.get_cell_tile_data(current_tile)
 	
 	update_based_on_tile()
+
+	prev_new_tile = new_tile
 	
 	if !stop:
 		var d = direction * speed * delta * 10.0 
@@ -398,9 +420,34 @@ func get_random_direction(options: Array) -> Vector2i:
 	# Check if there are any true values
 	if true_indices.size() == 0:
 		return Vector2i.ZERO
-
 	# Select a random direction from the true indices
 	match true_indices[randi() % true_indices.size()]:
+		0: return Vector2i.UP
+		1: return Vector2i.DOWN
+		2: return Vector2i.LEFT
+		3: return Vector2i.RIGHT
+		_: return Vector2i.ZERO
+
+static var rand_vals = {}
+func get_random_direction_deterministic(options: Array, pos: Vector2i) -> Vector2i:
+	var true_indices = []
+	
+	if !rand_vals.has(pos):
+		rand_vals[pos] = 0
+
+	# Collect indices where the value is true
+	for i in range(options.size()):
+		if options[i]:
+			true_indices.append(i)
+
+	# Check if there are any true values
+	if true_indices.size() == 0:
+		return Vector2i.ZERO
+	if !prev_new_tile and new_tile:
+		rand_vals[pos] += 1
+		rand_vals[pos] %= 4
+	# Select a random direction from the true indices
+	match true_indices[(rand_vals[pos] - 1 + 4) % true_indices.size()]:
 		0: return Vector2i.UP
 		1: return Vector2i.DOWN
 		2: return Vector2i.LEFT

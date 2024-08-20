@@ -52,8 +52,11 @@ func _on_area_exited(area: Area2D) -> void:
 	if area.is_in_group("return"):
 		collision_counts -= 1
 
+static var pipe_index=0;
+
 func _on_moveable_item_empty() -> void:
-	var i = randi() % len($/root/Root/GameScreen.input_pipes)
+	var i = pipe_index % len($/root/Root/GameScreen.input_pipes)
+	pipe_index+=1;
 	position = $/root/Root/GameScreen/TopTileMapLayer.map_to_local($/root/Root/GameScreen.input_pipes[i])
 	timer = 1.0
 	$MoveableItem.stop = false

@@ -232,6 +232,7 @@ offset_bottom = 35.0
 
 [node name="UpgradeGet" type="Button" parent="Counts/Get"]
 layout_mode = 2
+focus_mode = 0
 theme_override_fonts/font = ExtResource("5_4pesv")
 theme_override_font_sizes/font_size = 14
 text = "Upgrade: $0"
@@ -255,6 +256,7 @@ offset_bottom = 68.0
 
 [node name="UpgradeBad" type="Button" parent="Counts/Bad"]
 layout_mode = 2
+focus_mode = 0
 theme_override_fonts/font = ExtResource("5_4pesv")
 theme_override_font_sizes/font_size = 14
 text = "Upgrade: $0"
@@ -278,6 +280,7 @@ offset_bottom = 101.0
 
 [node name="UpgradeDownload" type="Button" parent="Counts/Download"]
 layout_mode = 2
+focus_mode = 0
 theme_override_fonts/font = ExtResource("5_4pesv")
 theme_override_font_sizes/font_size = 14
 text = "Upgrade: $0"
@@ -299,9 +302,9 @@ texture = ExtResource("5_gti8e")
 [node name="RetCount" type="Label" parent="Counts"]
 layout_mode = 0
 offset_left = 37.0
-offset_top = 108.0
+offset_top = 111.0
 offset_right = 97.0
-offset_bottom = 131.0
+offset_bottom = 134.0
 theme_override_fonts/font = ExtResource("5_4pesv")
 theme_override_font_sizes/font_size = 24
 text = "0"

@@ -65,6 +65,7 @@ const COST_MULTIPLIER: int = 16
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	get_tree().paused = false
+	$HUD.update_paused()
 	add_coins(100) # Makes sure the user starts with 100 coins
 	for t in $TopTileMapLayer.get_used_cells_by_id(-1, tile_atlas_positions["in"]):
 		input_pipes.push_back(t)
@@ -89,13 +90,16 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 			$/root/Root/Audio/Destroy.play()
 		return
 	if tiledata != null:
-		return
+		if tiledata.get_custom_data("Type")!=id:
+			return
 	tiledata = $BottomTileMapLayer.get_cell_tile_data(Vector2i(x, y))
-	if tiledata and tiledata.get_custom_data("Type") != "conveyor" and tiledata.get_custom_data("Type") != "conveyor_corner":
+	if tiledata and tiledata.get_custom_data("Type")!=id:
 		return
 	# replace conveyor belt
 	if tiledata and (tiledata.get_custom_data("Type") == "conveyor" or tiledata.get_custom_data("Type") == "conveyor_corner"):
 		coins += 1
+	if tiledata and (tiledata.get_custom_data("Type")==id):
+		add_coins(tile_costs[id])
 	if spend_coins(tile_costs[id]):
 		$/root/Root/Audio/Place.play()
 		if id == "in":
@@ -104,8 +108,6 @@ func add_top_tile(id: String, x: int, y: int) -> void:
 		$BottomTileMapLayer.erase_cell(Vector2i(x, y))
 		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
 		$TopTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
-	else:
-		print("insufficent funds")
 
 func add_bottom_tile(id: String, x: int, y: int) -> void:
 	var tiledata = $TopTileMapLayer.get_cell_tile_data(Vector2i(x, y))
@@ -114,13 +116,10 @@ func add_bottom_tile(id: String, x: int, y: int) -> void:
 	tiledata = $BottomTileMapLayer.get_cell_tile_data(Vector2i(x, y))
 	if tiledata != null:
 		return
-	if(coins >= tile_costs[id]):
+	if(spend_coins(tile_costs[id])):
 		$/root/Root/Audio/Place.play()
-		add_coins(-tile_costs[id])
 		$TopTileMapLayer.erase_cell(Vector2i(x, y))
 		$BottomTileMapLayer.set_cell(Vector2i(x, y), 0, tile_atlas_positions[id], alternative)
-	else:
-		print("insufficent funds")
 
 func _unhandled_input(event):
 	if is_game_over:
@@ -191,6 +190,7 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("pause"):
 		get_tree().paused = !get_tree().paused
+		$HUD.update_paused()
 
 func spend_coins(coinAmt):
 	if(coins>=coinAmt):
@@ -198,7 +198,7 @@ func spend_coins(coinAmt):
 		$HUD.publish_coins(coins)
 		return true
 	else:
-		print("insufficent funds")
+		$/root/Root/Audio/Fail.play()
 		return false
 
 func add_coins(coinAmt):
