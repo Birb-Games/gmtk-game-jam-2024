@@ -12,9 +12,9 @@ const starting_reset_times = {
 
 # lower is faster spawning
 const timer_shrink_rates = {
-	"get": 3.75,
+	"get": 4,
 	"bad": 5,
-	"download": 5
+	"download": 4.5
 }
 
 # once a timer runs out, reset it to these times
