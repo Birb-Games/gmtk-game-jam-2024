@@ -4,7 +4,7 @@ extends Control
 
 func _ready():
 	if OS.get_name() == "Web":
-		$Quit.hide()
+		$VBoxContainer/Quit.hide()
 
 func _on_start_pressed() -> void:
 	hide()
