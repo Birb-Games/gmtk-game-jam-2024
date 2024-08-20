@@ -7,13 +7,14 @@ var time = 0
 const starting_reset_times = {
 	"get": 4.0,
 	"bad": 6.0,
-	"download": 7.0,
+	"download": 10.0,
 }
 
+# lower is faster spawning
 const timer_shrink_rates = {
-	"get": 5,
-	"bad": 6,
-	"download": 7 
+	"get": 4,
+	"bad": 5,
+	"download": 4.1
 }
 
 # once a timer runs out, reset it to these times
@@ -25,8 +26,8 @@ var reset_times = {
 
 var timers = {
 	"get": 3.0,
-	"bad": 180.0,
-	"download": 300.0,
+	"bad": 90.0,
+	"download": 180.0,
 }
 
 func add(scene: PackedScene, position: Vector2):
